@@ -99,8 +99,8 @@ the same things in that platform's format.
 
 - **One paid plan** (owner, 2026-09-06): Remit Cloud Enterprise, **US$200 per organisation per
   year**, unlimited people and machines (the cloud's `enterprise` plan has no ceilings). Trial:
-  14 days, 5 people, 10 machines, 30 days (`internal/plan/plan.go`). The `team` plan still exists
-  in the cloud's code but is not sold. The numbers live in `pricing.astro`, `trial.astro`,
+  14 days, 5 people, 10 machines, 30 days (`internal/plan/plan.go`). The cloud's `team` plan
+  was removed the same day (cloud commit "One paid plan"). The numbers live in `pricing.astro`, `trial.astro`,
   `cloud.astro`, `compare.astro`, `download.astro`, `DiagramWays.astro` and the home page.
 - The trial page sends people to `https://console.remit-ai.app/console/` to register; registration
   needs a verified address and makes the registrant owner on a fourteen-day trial

@@ -221,5 +221,5 @@ the organisation"; and a page to register for a trial.
       "paid only for governance" and the footer; the nav item is now "Enterprise".
 - [ ] Owner: the console signs people in through the development Auth0 tenant until the
       production tenant exists (readiness 0.2); the trial page is live-ready the moment that
-      is switched. The cloud's `team` plan remains in code, unsold; remove it in a release
-      when convenient.
+      is switched. The cloud's `team` plan was removed the same evening (cloud commit "One paid
+      plan") and deployed.
