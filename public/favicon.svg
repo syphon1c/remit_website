@@ -1,0 +1,12 @@
+<!-- The Remit mark. Source for every icon in this directory; see docs/interface.md.
+     24-unit grid, matching src/components/Icon.tsx so the in-app glyph and the app icon
+     are the same geometry. The letter is three strokes rather than an outline so the
+     counter - the gap between stem and bowl, 2.5 against a 3.2 stroke - is tunable, and
+     that gap is what decides whether the R survives 15px. The translate is measured, not
+     eyeballed: the ink box centres at x 12.89 and the alpha-weighted centroid at x 12.31,
+     because the leg is a thin diagonal that reads lighter than its extent. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.42 -0.42 24.84 24.84"><rect x="1.6" y="1.6" width="20.8" height="20.8" rx="5.6" fill="#4338ca"/><g transform="translate(-0.6 0.2)" fill="none" stroke="#ffffff"
+    stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9.5 6.3 V17.7"/>
+    <path d="M9.5 6.3 H12.9 a2.85 2.85 0 0 1 0 5.7 H9.5"/>
+    <path d="M12.5 12.0 L16.3 17.7"/></g></svg>

@@ -1,0 +1,23 @@
+---
+// Each coworker, its own model. The point is choice: several providers configured at once,
+// picked per coworker, switched any time, or all routed through a gateway when policy says so.
+const logos = import.meta.glob('../assets/logos/providers/*.svg', { eager: true, query: '?url', import: 'default' }) as Record<string, string>;
+const url = (id: string) => logos[`../assets/logos/providers/${id}.svg`];
+const rows: [string, string, string, string][] = [
+	['Security', 'anthropic', 'Claude Opus 4.8', 'Anthropic'],
+	['Data Analyst', 'openai', 'GPT-5.5', 'OpenAI'],
+	['Onboarding Guide', 'ollama', 'Llama, on this machine', 'Ollama'],
+	['Design Reviewer', 'gemini', 'Gemini', 'Google'],
+	['Incident Scribe', 'mistral', 'Mistral', 'through your gateway'],
+];
+---
+<div class="models-dgm" role="img" aria-label="Five coworkers, each configured with a different model provider: Anthropic, OpenAI, a local model through Ollama, Gemini, and Mistral through a gateway.">
+	{rows.map(([cw, id, model, vendor]) => (
+		<div class="models-row">
+			<div class="models-cw"><span class="cw-glyph" aria-hidden="true"></span><span>{cw}</span></div>
+			<div class="models-line" aria-hidden="true"></div>
+			<div class="models-prov"><img src={url(id)} alt="" width="20" height="20" loading="lazy" /><span><strong>{model}</strong><small>{vendor}</small></span></div>
+		</div>
+	))}
+	<p class="models-note">Configure as many providers as you like. Pick per coworker, change per session, or route everything through LiteLLM or your own gateway with one setting. Keys never leave your machine.</p>
+</div>

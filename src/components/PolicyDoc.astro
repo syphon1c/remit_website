@@ -1,0 +1,15 @@
+---
+// A policy document as an organisation issues it. Every key constrains; none grants.
+---
+<div class="proof" role="img" aria-label="A signed policy document with four constraints.">
+	<div class="proof-bar"><span class="dot"></span> policy · org acme · signed · key 307b…c6c6</div>
+<pre class="doc">{
+  <span class="k">"egress.allowed_domains.only"</span>: [<span class="s">"*.acme.internal"</span>, <span class="s">"api.github.com"</span>],
+  <span class="k">"permission.allowed_modes"</span>:    [<span class="s">"discuss"</span>, <span class="s">"plan"</span>, <span class="s">"interactive"</span>],
+  <span class="k">"limits.external_actions"</span>:     <span class="n">20</span>,
+  <span class="k">"overrides.lock"</span>:              <span class="n">true</span>
+}
+<span class="c">// composes with each machine's own settings by intersection:
+// the result is at least as tight as every document, and a
+// document that would loosen anything is refused by the runtime.</span></pre>
+</div>

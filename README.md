@@ -1,0 +1,122 @@
+# remit-website
+
+The public site and manual for Remit, at [remit-ai.app](https://remit-ai.app). One Astro
+project: the marketing pages under `src/pages`, the manual under `/docs/` with Starlight.
+Light only, by the owner's ruling. No third-party requests: fonts are self-hosted from npm,
+there is no analytics, and `public/_headers` sets a Content-Security-Policy that says so.
+
+## Run it
+
+```bash
+npm install
+npm run dev          # http://localhost:4321
+npm run check        # build, then verify every internal link and anchor in dist/
+```
+
+## The manual is generated
+
+`src/content/docs/docs/**` is written by `scripts/sync-docs.mjs` from the documentation in
+the three product repositories, which it expects beside this one:
+
+```
+../ai_openWork         syphon1c/ai_remit             Remit Coworker (runtime, desktop)
+../ai_enterprise       syphon1c/remitai-enterprise   Remit Cloud
+../ai_remit_broker     syphon1c/ai_remit_broker      the self-hosted broker
+```
+
+```bash
+npm run sync-docs    # rewrites src/content/docs/docs; commit the result
+```
+
+Edit a page in its repository, not here; the next sync overwrites it. The script adds front
+matter and a provenance line, turns links between mapped pages into site links and links to
+other repository files into GitHub links, and escapes `<placeholder>` tokens outside code so
+Markdown does not swallow them. The mapping table at the top of the script is the list of
+what is published; `docs/interface.md`, the release runbooks and the readiness list are left
+out on purpose. The output is committed so the site builds anywhere.
+
+## The captures are real
+
+`src/assets/app/*.webp` are screenshots of the actual interface, taken from the runtime's own
+hermetic end-to-end harness (`surfaces/gui/e2e`, a scripted fake agent: no model, no keys,
+deterministic). `scripts/shots/run.sh` re-shoots them: it copies the spec beside the harness,
+starts the interface's dev server, drives the approval cards and the settings screens, and
+converts the results to WebP. Re-run it when the product changes; never edit a capture.
+
+`src/data/coworkers.json` (the coworker cards) and `src/data/vendored-marks.json` (the four
+brand marks the app vendors by hand) are generated too: `npm run sync-coworkers`, and the
+extraction in the git history of `scripts/`.
+
+## Design
+
+Tokens in `src/styles/tokens.css` are the product's own light palette and type roles, so the
+site and the app are one thing. The accent (`--accent`, cobalt) means primary action or
+active state and nothing else: failure is `--danger`, attention is `--warn`. Display type is
+Bricolage Grotesque, body is IBM Plex Sans, machine text is IBM Plex Mono. The marketing
+pages show real artefacts of the product (an approval card, audit rows, a policy document)
+rather than illustrations of them; keep them truthful when the product changes.
+
+## Deploying to your own web server
+
+The site is static: `npm run build` writes `dist/`, and any web server can serve it.
+`deploy/nginx.conf` and `deploy/Caddyfile` are complete server blocks for `remit-ai.app`:
+clean URLs, the same security headers `public/_headers` declares, immutable caching for the
+hashed assets, `www` redirected to the apex, and the 404 page. Put `dist/` at
+`/var/www/remit-ai.app` (a symlink to the current release, see below), reload, done.
+
+`.github/workflows/deploy.yml` builds and link-checks on every push and pull request, and on
+`main` sends the built site over SSH to a key that can only run
+`deploy/site-deploy.sh`, which unpacks it beside the live directory, checks it, swaps the
+symlink atomically and keeps the previous five releases for a rollback. One-time setup on
+the server, as root:
+
+```bash
+install -m 0755 deploy/site-deploy.sh /usr/local/bin/site-deploy
+useradd -r -m -d /var/www -s /bin/sh deploy 2>/dev/null || true
+mkdir -p /var/www/remit-ai.app.releases && chown -R deploy:deploy /var/www
+# the deploy key: generate it where the private half will live only in GitHub, never on a laptop
+ssh-keygen -t ed25519 -N '' -C site-deploy -f site-deploy-key
+printf 'command="/usr/local/bin/site-deploy",no-pty,no-port-forwarding,no-agent-forwarding,no-X11-forwarding %s\n' "$(cat site-deploy-key.pub)" >> ~deploy/.ssh/authorized_keys
+```
+
+Then, from your own terminal: the secret `SITE_DEPLOY_KEY` (the private half) in the
+repository's `production` environment, and the variables `SITE_DEPLOY_HOST`,
+`SITE_DEPLOY_PORT`, `SITE_DEPLOY_USER` (`deploy`) and `SITE_DEPLOY_HOST_KEY` (the line
+`ssh-keyscan -p <port> <host>` prints). Setting `SITE_DEPLOY_HOST` is the switch: until then a
+push only builds and link-checks. Delete the local `site-deploy-key` once the secret is set.
+
+To try the built site locally with the production headers applied (the CSP included):
+`npm run build && node scripts/serve.mjs`, then open http://localhost:4321. If the site ever
+moves to Cloudflare Pages instead, `public/_headers` and `public/_redirects` already say
+the same things in that platform's format.
+
+## Facts the copy depends on
+
+- **Remit is free, not open source** (owner, 2026-09-06). No "open source", "MIT" or repository
+  links anywhere on the site or in the manual; `scripts/sync-docs.mjs` drops links to repository
+  files and rewrites bare repository mentions, leaves out `development.md`, and replaces the
+  build-from-source section of getting started with an install section. The FAQ says so plainly.
+
+- **One paid plan** (owner, 2026-09-06): Remit Cloud Enterprise, **US$200 per organisation per
+  year**, unlimited people and machines (the cloud's `enterprise` plan has no ceilings). Trial:
+  14 days, 5 people, 10 machines, 30 days (`internal/plan/plan.go`). The `team` plan still exists
+  in the cloud's code but is not sold. The numbers live in `pricing.astro`, `trial.astro`,
+  `cloud.astro`, `compare.astro`, `download.astro`, `DiagramWays.astro` and the home page.
+- The trial page sends people to `https://console.remit-ai.app/console/` to register; registration
+  needs a verified address and makes the registrant owner on a fourteen-day trial
+  (cloud `docs/organisations.md`). Sign-in there is through the identity provider Remit Cloud is
+  configured with — the development tenant until the production one exists (readiness 0.2).
+- Every protection works signed out, offline and unlicensed (owner ruling 2026-09-02).
+- The hero roster (`src/components/Fleet.astro`) is an HTML illustration, captioned as such; its
+  approval card uses the app's own wording. The diagrams (`src/components/Diagram*.astro`) draw
+  the product's real classes, ladder stages and floors; keep them in step with `docs/security.md`.
+- Telemetry: signed-in only, one event per session start, opt-out in Settings; signed out
+  sends nothing (`internal/cloud/telemetry.go` in the runtime).
+- Connector count: the catalogue in the runtime's `docs/connector-catalogue.json` — 43 entries,
+  38 `available`; the site says thirty-eight and names the five marked "soon".
+- Coworkers: built-ins with `ships: false` are absent from release builds, so the cards show
+  the three that ship plus the six in the Remit Cloud gallery (`personas/` in the cloud repo).
+- The download buttons read `GET https://api.remit-ai.app/download.json` (cloud commit
+  "GET /download.json"); without it, or without script, they open the download page.
+- The comparison names Claude Cowork on structural, public properties only, dated September
+  2026, with an invitation to correct it.

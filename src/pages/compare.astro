@@ -1,0 +1,76 @@
+---
+import Site from '../layouts/Site.astro';
+---
+<Site title="Compare" description="Remit compared with hosted agent products such as Claude Cowork, on the properties that are structural: where the work runs, whose models, where prompts go, what governs an action, what you can audit, source, self-hosting and price. Including where a hosted product is the better choice.">
+	<section class="hero">
+		<div class="wrap">
+			<div>
+				<p class="eyebrow">Compare</p>
+				<h1 class="display">Same idea, different answer to "whose".</h1>
+				<p class="lede">Hosted agent products and Remit both give you an AI coworker that acts on your behalf. The difference is where it runs, whose models it uses, where your work goes, and who holds the rules. Here is the comparison on those properties, with the case for the other side stated fairly.</p>
+			</div>
+			<div class="note" style="font-size:1rem">
+				<strong>How to read this.</strong> The Claude Cowork column describes the product as its vendor publicly documents it in September 2026, on structural properties only. It says nothing about the product's internals. If a line is wrong, <a href="mailto:hello@remit-ai.app">tell us</a> and it will be corrected.
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="table-wrap" style="margin-top:0">
+				<table class="tbl">
+					<thead><tr><th>&nbsp;</th><th>Remit Coworker</th><th>Remit Cloud</th><th>Claude Cowork</th></tr></thead>
+					<tbody>
+						<tr><td>Where the work runs</td><td>On your machine. One binary, no server of ours in the loop.</td><td>Still on each machine. The cloud holds policy and evidence, never work.</td><td>In the Claude desktop app; the work is done by Anthropic's service.</td></tr>
+						<tr><td>Which models</td><td>Anthropic, OpenAI, Gemini, Bedrock, Vertex, Codex, a dozen OpenAI-compatible vendors, or your own gateway.</td><td>The same, and a policy can narrow the list for a fleet.</td><td>Claude.</td></tr>
+						<tr><td>Where your prompts and files go</td><td>To the provider you chose, under its terms. Never to us.</td><td>The same. Remit Cloud has no column that could hold one.</td><td>To Anthropic, under the plan's terms.</td></tr>
+						<tr><td>What governs an action</td><td>Five risk classes, a permission ladder with hard floors, workspace trust, a closed shell allowlist, a reviewer that fails closed.</td><td>All of that, plus a signed organisation policy that composes by intersection and may only tighten.</td><td>Permission prompts in the app; organisation controls per the vendor's plan.</td></tr>
+						<tr><td>After reading outside content</td><td>Off-machine actions reach a person, in every mode.</td><td>The same; an organisation can set the always-allowed destinations.</td><td><span class="n">No equivalent documented as a control.</span></td></tr>
+						<tr><td>A bound on how many off-machine actions a turn takes</td><td>Yes, fifty by default, configurable, never off.</td><td>Yes, and a policy can cap it.</td><td><span class="n">No equivalent documented as a control.</span></td></tr>
+						<tr><td>The audit you hold</td><td>An append-only hash-chained journal on your machine, with the class and the decision on every row.</td><td>Plus a content-free evidence record for the organisation, anchored so a rewound journal shows as a fork; export to Splunk, Sentinel, S3.</td><td>Conversation history in the app; administrator logs per the plan. Not a journal you hold.</td></tr>
+						<tr><td>Connectors</td><td>Thirty-eight native, plus any MCP server with OAuth 2.1.</td><td>The same, with managed GitHub and Slack apps for the organisation.</td><td>The vendor's connectors and MCP.</td></tr>
+						<tr><td>Coworkers</td><td>Sixteen built in, security first; write your own as a manifest.</td><td>A private gallery with a human review queue and a scan beside every submission.</td><td>The vendor's plugins and skills.</td></tr>
+						<tr><td>Self-hosted</td><td>Always: it runs on your machines and nowhere else.</td><td>The free broker for a shared gallery on your network; Remit Cloud itself on your servers by arrangement.</td><td><span class="n">No.</span></td></tr>
+						<tr><td>What you can inspect</td><td>The security model, the threat model and every request it makes are documented; nothing is sent to us to inspect.</td><td>The evidence schema is published: it has nowhere to put content.</td><td>Per the vendor's documentation.</td></tr>
+						<tr><td>Price</td><td>Free, for people and for organisations.</td><td>US$200 a year per organisation, for the managed control plane.</td><td>A paid Claude plan per person.</td></tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+
+	<section class="section tint">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">In fairness</p>
+				<h2>Where a hosted product is the better choice.</h2>
+			</div>
+			<div class="grid three">
+				<div class="feature"><h3>You want no setup and one vendor</h3><p>A hosted product arrives inside an app you already have, with its model, its connectors and its billing in one place. Remit asks you to bring a provider key or a gateway, and rewards you with the choice.</p></div>
+				<div class="feature"><h3>You are content in that vendor's cloud</h3><p>If your organisation already trusts the vendor with its documents and its terms cover your obligations, the question of "where does the work go" is answered. Remit is for when it is not, or when the answer has to be "here".</p></div>
+				<div class="feature"><h3>You want the newest model the day it ships</h3><p>A vendor's own agent will always have first access to that vendor's newest model. Remit talks to the same APIs and typically follows within days, but it follows.</p></div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Where Remit is</p>
+				<h2>When the rules have to be yours, and provable.</h2>
+			</div>
+			<div class="grid three">
+				<div class="feature"><h3>Regulated or sensitive work</h3><p>Nothing leaves the machine but the calls you configure, and an organisation can prove what happened from a record that never held what was said.</p></div>
+				<div class="feature"><h3>Security teams</h3><p>Coworkers that review code for exploitable bugs, audit dependencies and check posture, under floors designed for the case where the thing being read is hostile.</p></div>
+				<div class="feature"><h3>Fleets</h3><p>One policy, signed, that every machine composes with its own settings and that no console, tier or compromised server can loosen.</p></div>
+			</div>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="wrap">
+			<div><h2>Try both. Remit costs nothing to find out.</h2></div>
+			<div class="actions" style="margin:0"><a class="btn primary lg" href="/download/">Download Remit</a><a class="btn ghost lg" href="/security/">The security model</a></div>
+		</div>
+	</section>
+</Site>

@@ -1,0 +1,169 @@
+---
+import Site from '../layouts/Site.astro';
+import Shot from '../components/Shot.astro';
+import Logos from '../components/Logos.astro';
+import Coworkers from '../components/Coworkers.astro';
+import DownloadButtons from '../components/DownloadButtons.astro';
+import shotStart from '../assets/app/start-focus.webp';
+import shotWrite from '../assets/app/approval-write-card.webp';
+import shotConnectors from '../assets/app/connectors-focus.webp';
+import shotModels from '../assets/app/settings-models-focus.webp';
+import shotAutomations from '../assets/app/automations-focus.webp';
+import shotCoworkers from '../assets/app/settings-coworkers-focus.webp';
+import DiagramModels from '../components/DiagramModels.astro';
+---
+<Site title="Product" description="What Remit does: coworkers that deliver finished work, approvals you can understand, forty-three connectors and MCP, any model provider, legible memory, skills, automations, a team board, and one binary that runs it all on your machine.">
+	<section class="hero art">
+		<div class="wrap">
+			<div>
+				<p class="eyebrow">Product</p>
+				<h1 class="display">Ask for an outcome, not a task list.</h1>
+				<p class="lede">"Review this pull request for security issues and open a fix" is a Remit request. The coworker reads, plans, acts inside the limits you set, asks when it must, and hands back the result with a journal of what it did.</p>
+				<div class="actions" style="margin-top:26px"><DownloadButtons compact /></div>
+				<p class="meta"><span><a href="/docs/coworker/using-remit/">Using Remit, in the manual</a></span></p>
+			</div>
+			<Shot src={shotStart} alt="A new Remit session: What should we produce? Pick a task to start, or type what you need." caption="A session starts from the outcome you want." priority sizes="(max-width: 900px) 100vw, 60vw" />
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Coworkers</p>
+				<h2>A coworker is a role you staff onto a job.</h2>
+				<p>Each is a plain manifest: a name, a prompt, the tools it may use, the connectors it may reach, its default mode, and sometimes skills. The security specialists ship in the app; the gallery adds more, reviewed by a person before publication; and you can write your own.</p>
+			</div>
+			<Coworkers variant="all" />
+			<div class="split art">
+				<div>
+					<h3>Leads and workers, over the board</h3>
+					<p>In the source today: leads that plan, staff and verify, and workers that claim items off a work-item board, act inside the remit granted, and answer for what they did in the same hash-chained journal.</p>
+					<p>Point a machine at your team's gallery and it says whose gallery it found and how many coworkers it holds before anything is saved. Install with a click; updates arrive with a hold your administrator controls.</p>
+					<a class="more" href="/docs/cloud/gallery-curating/">Writing and sharing a coworker</a>
+				</div>
+				<Shot src={shotCoworkers} alt="Settings, Coworkers: the coworkers on this machine with their groups and switches." caption="Settings ▸ Coworkers." sizes="(max-width: 900px) 100vw, 62vw" />
+			</div>
+		</div>
+	</section>
+
+	<section class="section tint">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Approvals</p>
+				<h2>The part worth understanding.</h2>
+				<p>The first time a coworker wants to do something consequential you get a card: what it wants to do, and why. Approve once, always allow, or reject. The mode sets how much gets asked. It never changes the floors.</p>
+			</div>
+			<div class="table-wrap">
+				<table class="tbl">
+					<thead><tr><th>Mode</th><th>Use it when</th></tr></thead>
+					<tbody>
+						<tr><td>Discuss</td><td>you want to talk, not change anything</td></tr>
+						<tr><td>Plan</td><td>you want a plan proposed before any work</td></tr>
+						<tr><td>Interactive</td><td>the default: consequential actions ask</td></tr>
+						<tr><td>Custom</td><td>you have a few tools you are happy to auto-allow</td></tr>
+						<tr><td>Auto-approve</td><td>you want a reviewer model to judge instead of you, with the outcome and its provenance on the audit row</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="split art">
+				<div>
+					<h3>Approval cards speak the transcript's language</h3>
+					<p>A routine write inside the workspace is a compact row: what file, a preview, allow or not. A command shows the command and says it stays on this computer. Anything that leaves the machine says where it is going. No raw argument dumps, no "PERMISSION REQUIRED" kicker.</p>
+					<p>"Always allow" is scoped to the session unless you make it a standing rule, and never clears the two floors.</p>
+				</div>
+				<Shot src={shotWrite} alt="A compact approval row: Write fetch_data.py, with an inline preview and Allow and Always allow buttons." caption="A routine workspace write is one row." sizes="(max-width: 900px) 100vw, 62vw" />
+			</div>
+			<p class="foot">Whatever the mode, Remit will not modify its own settings, will not write outside a writable root, will not grant itself authority that outlives the session, sends off-machine actions to a person after reading outside content, and bounds how many such actions a turn takes. <a href="/security/">The security model</a> has the whole ladder.</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Connected</p>
+				<h2>Thirty-eight native connectors, and any MCP server.</h2>
+				<p>Connect with your own keys or OAuth; each tool inside a connector has its own switch once connected. MCP servers speak stdio or streamable HTTP, with OAuth 2.1, PKCE and dynamic client registration, from a catalogue of vendor-published servers or an address you type.</p>
+			</div>
+			<div class="grid four">
+				<div class="feature"><span class="k">engineering</span><p class="names">GitHub · GitLab · Jira · Linear · Confluence · Snyk · Browser</p></div>
+				<div class="feature"><span class="k">security</span><p class="names">Wiz · CrowdStrike · Snyk · plus the Security coworkers' own tools</p></div>
+				<div class="feature"><span class="k">work and communication</span><p class="names">Slack · Discord · Telegram · WhatsApp · Gmail · Outlook · Email · Google Calendar · Google Drive · Dropbox · Box · Notion · Asana · ClickUp · Monday · Zendesk</p></div>
+				<div class="feature"><span class="k">business</span><p class="names">HubSpot · Attio · Close · Apollo · Hunter · Stripe · QuickBooks · DocuSign · Figma · Canva · Amplitude · Mixpanel · PostHog</p></div>
+			</div>
+			<p class="foot">Marked soon in the app, and next: Datadog, PagerDuty, Salesforce, Clay and Descript.</p>
+			<div class="split art rev">
+				<Shot src={shotConnectors} alt="Settings, Connectors: connected ones first with their status, a custom MCP server, and the available connectors with Connect buttons." caption="Connectors: connected ones first, an MCP server you added, and the rest a click away." sizes="(max-width: 900px) 100vw, 62vw" />
+				<div>
+					<h3>Your accounts, your switches</h3>
+					<p>Connect with your own keys or OAuth. Each tool inside a connector has its own switch, so a coworker that may read your calendar need not be able to create events. An MCP server you add is governed like any other tool: classified, laddered, journalled.</p>
+					<Logos kind="tools" />
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section tint" id="models">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Models</p>
+				<h2>Any provider. Or all of them, through your gateway.</h2>
+				<p>Anthropic, OpenAI (chat and responses), Gemini, Bedrock, Vertex, Codex, plus a dozen OpenAI-compatible vendors by name. Every client is hand-written HTTP, no vendor SDKs, so you can read exactly what leaves. Point everything through LiteLLM or any OpenAI-compatible gateway with one setting, or set a base URL per provider.</p>
+			</div>
+			<div class="grid three">
+				<div class="feature"><h3>Your keys, on your disk</h3><p>Keys live in the local secret store under your state directory. Remit never sees them, because Remit has no server in the loop.</p></div>
+				<div class="feature"><h3>A reviewer you choose</h3><p>Auto-approve mode asks a second model to judge each ask. Its verdict parses to "unsure" on doubt, and unsure reaches a person. Which model reviews is yours to set.</p></div>
+				<div class="feature"><h3>An organisation can constrain it</h3><p>Under Remit Cloud a policy can allowlist providers and models, or set a proxy for machines that have none. It can narrow the list. It cannot widen it.</p></div>
+			</div>
+			<div class="split art rev">
+				<Shot src={shotModels} alt="Settings, Models: provider cards for Anthropic, OpenAI, a ChatGPT subscription, Ollama, LiteLLM and others, and the models offered in the composer's picker." caption="Settings ▸ Models: providers, and which models the composer offers." sizes="(max-width: 900px) 100vw, 62vw" />
+				<div>
+					<h3>Bring what you already pay for</h3>
+					<Logos kind="providers" />
+					<div style="margin-top:20px"><DiagramModels /></div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Everything else that makes it a runtime</p>
+				<h2>Memory, skills, automations, the board, and one binary.</h2>
+			</div>
+			<div class="grid three">
+				<div class="feature"><h3>Memory that stays legible</h3><p>Scoped per person and per project, listed in plain language so you can read what a coworker remembers, with an injection ceiling so memory cannot quietly eat your context window.</p></div>
+				<div class="feature"><h3>Skills</h3><p>Loadable capabilities a coworker picks up mid-task. A finished skill can be proposed for saving; the proposal goes through the approval card like any other write.</p></div>
+				<div class="feature"><h3>Automations and the inbox</h3><p>Run a coworker on a schedule: a Monday digest, a nightly triage. Approvals from unattended runs can be routed to your inbox, unless your organisation's policy says they may not.</p></div>
+				<div class="feature"><h3>The board</h3><p>A work-item board with a hash-chained journal. Coworkers claim items off it and answer for them. It also runs as an MCP server, so a coworker can work the board as a tool.</p></div>
+				<div class="feature"><h3>Three surfaces, one runtime</h3><p>The desktop app for macOS, Windows and Linux; the same interface from a browser against the local server; and a terminal worker for people who live in one.</p></div>
+				<div class="feature"><h3>Updates you can verify</h3><p>Releases are signed with a key whose public half is compiled into the app. The app verifies before it installs. Your organisation can hold a release for its whole fleet with one switch.</p></div>
+			</div>
+			<div class="split art">
+				<div>
+					<h3>Work that starts on its own</h3>
+					<p>An automation runs a coworker on a schedule with the permission set you approved when you created it, target by target. Its approvals, when it needs one, go to your Inbox. A coworker can propose an automation; the proposal is an approval card that lists exactly what it would be allowed to do.</p>
+				</div>
+				<Shot src={shotAutomations} alt="Automations: a scheduled Daily AI News automation with its runs." caption="Automations, with their runs." sizes="(max-width: 900px) 100vw, 62vw" />
+			</div>
+		</div>
+	</section>
+
+	<section class="section tint">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Where your data lives</p>
+				<h2>In one directory, on your disk.</h2>
+				<p>Sessions, memory, connector tokens, model keys and the audit journal are in your state directory. Nothing leaves your machine except the model calls you configure and the connectors you connect. A session started without a project folder works in a temporary folder that is deleted with the conversation; one that holds files is never removed for you.</p>
+			</div>
+			<p class="foot"><a href="/privacy/">Exactly what Remit sends, and to whom</a> · <a href="/docs/coworker/configuration/">Configuration, including the state directory</a></p>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="wrap">
+			<div><h2>Free, no account, every protection on from the first run.</h2><p>Download the app, or build it from source with Go 1.25.</p></div>
+			<div class="actions" style="margin:0"><a class="btn primary lg" href="/download/">Download Remit</a><a class="btn ghost lg" href="/docs/coworker/getting-started/">Getting started</a></div>
+		</div>
+	</section>
+</Site>

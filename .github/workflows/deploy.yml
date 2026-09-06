@@ -1,0 +1,65 @@
+name: site
+
+# Every push and pull request builds the site and checks every internal link. A push to
+# main also deploys the built site to your own web server over SSH, to a key whose only
+# permitted command is deploy/site-deploy.sh. Repository variables SITE_DEPLOY_HOST,
+# SITE_DEPLOY_PORT, SITE_DEPLOY_USER and SITE_DEPLOY_HOST_KEY name the server; the secret
+# SITE_DEPLOY_KEY (in the `production` environment) is the private half of that key. Until
+# SITE_DEPLOY_HOST is set, a push builds and link-checks and stops.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run check-links
+      - run: tar -czf site.tgz -C dist .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: site.tgz
+          retention-days: 3
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.SITE_DEPLOY_HOST != ''
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://remit-ai.app
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: site
+      - name: Deploy over SSH to the restricted key
+        env:
+          HOST: ${{ vars.SITE_DEPLOY_HOST }}
+          PORT: ${{ vars.SITE_DEPLOY_PORT || '22' }}
+          USER: ${{ vars.SITE_DEPLOY_USER || 'deploy' }}
+          HOST_KEY: ${{ vars.SITE_DEPLOY_HOST_KEY }}
+          KEY: ${{ secrets.SITE_DEPLOY_KEY }}
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir -p ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/deploy_key
+          printf '%s\n' "$HOST_KEY" > ~/.ssh/known_hosts
+          ssh -i ~/.ssh/deploy_key -p "$PORT" -o StrictHostKeyChecking=yes "$USER@$HOST" < site.tgz
+      - name: Check from outside
+        run: |
+          curl -fsS -o /dev/null -w 'home %{http_code}\n' https://remit-ai.app/
+          curl -fsS -o /dev/null -w 'manual %{http_code}\n' https://remit-ai.app/docs/
+          curl -fsSI https://remit-ai.app/ | grep -i '^content-security-policy' >/dev/null && echo 'csp present'

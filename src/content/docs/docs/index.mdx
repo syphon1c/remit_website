@@ -1,0 +1,42 @@
+---
+title: The Remit manual
+description: How to run Remit on your own machine, what governs it, how to run it for a team with Remit Cloud or a self-hosted gallery, and how it is built.
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+Remit is a private runtime for governed AI coworkers. Everything runs on your machine; nothing leaves it except the model calls you configure and the connectors you connect. This manual is generated from the product's own documentation, so it is the same text the people building Remit read.
+
+<CardGrid>
+	<LinkCard title="Getting started" href="/docs/coworker/getting-started/" description="Install, connect a model, first run: where does this machine belong?" />
+	<LinkCard title="Using Remit" href="/docs/coworker/using-remit/" description="Coworkers, approvals and the two floors you will meet, connectors, memory, the board." />
+	<LinkCard title="Security model" href="/docs/coworker/security/" description="Five risk classes, the permission ladder, workspace trust, the reviewer, audit." />
+	<LinkCard title="Remit Cloud" href="/docs/cloud/overview/" description="One deployment, many organisations, each governing its own fleet. Policy that only tightens." />
+</CardGrid>
+
+## Which Remit are you running?
+
+| | Policy | Gallery | Cost |
+|---|---|---|---|
+| **Standalone** | none — the machine is its own authority | the coworkers built in | free |
+| **Standalone + a self-hosted broker** | none | a shared gallery your team runs | free |
+| **Remit Cloud** | your organisation's, signed and enforced | a private gallery plus ours | a subscription |
+
+Every protection is identical in all three. The permission ladder, the hard floors, the outside-content rule, the blast-radius bound, workspace trust and the audit journal all work signed out, offline and unlicensed. A subscription buys what one machine cannot do: policy shared across a fleet, an evidence record an organisation can prove things from, a gallery its people share, and a place to see it all.
+
+## The sections
+
+<CardGrid>
+	<Card title="Remit Coworker" icon="laptop">
+		The desktop app and the runtime behind it: [configuration](/docs/coworker/configuration/), the [security model](/docs/coworker/security/), [outside content](/docs/coworker/outside-content/), [Slack](/docs/coworker/connectors/slack/), and [how updates work](/docs/coworker/updates/).
+	</Card>
+	<Card title="Remit Cloud" icon="seti:config">
+		For administrators: [organisations](/docs/cloud/organisations/), [the console](/docs/cloud/console/), [policy](/docs/cloud/policy/), [what the server holds](/docs/cloud/evidence/), [the threat model](/docs/cloud/threat-model/), and [the gallery](/docs/cloud/gallery-curating/).
+	</Card>
+	<Card title="Self-hosting" icon="setting">
+		[The broker](/docs/self-hosting/broker/), a free on-premises gallery; and for running Remit Cloud yourself, [deployment](/docs/self-hosting/cloud-deployment/), [operations](/docs/self-hosting/cloud-operations/) and [key custody](/docs/self-hosting/key-custody/).
+	</Card>
+	<Card title="Reference" icon="open-book">
+		[Architecture](/docs/developers/architecture/), and the [runtime](/docs/developers/api/), [cloud](/docs/developers/cloud-api/) and [broker](/docs/developers/broker-api/) APIs.
+	</Card>
+</CardGrid>

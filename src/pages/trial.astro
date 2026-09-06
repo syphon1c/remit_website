@@ -1,0 +1,70 @@
+---
+import Site from '../layouts/Site.astro';
+import ConsolePolicy from '../components/console/Policy.astro';
+const CONSOLE = 'https://console.remit-ai.app/console/';
+---
+<Site title="Start a trial" description="Start a fourteen-day trial of Remit Cloud Enterprise: register your organisation, invite your people, point their machines at it, issue your first policy. No card. Nothing on any machine changes when it ends.">
+	<section class="hero art">
+		<div class="wrap">
+			<div>
+				<p class="eyebrow">Remit Cloud Enterprise · trial</p>
+				<h1 class="display">Fourteen days, no card, the whole console.</h1>
+				<p class="lede">Register your organisation, invite up to five people, point up to ten machines at it, and manage them for two weeks with every control on. When it ends, nothing on any machine changes; only the console's administrative writes wait for the plan.</p>
+				<div class="actions">
+					<a class="btn primary lg" href={CONSOLE}>Register your organisation</a>
+					<a class="btn ghost lg" href="/cloud/">What Remit Cloud Enterprise does</a>
+				</div>
+				<p class="meta"><span>Sign in with your work email through our identity provider</span><span>No Remit password</span><span>One organisation per address</span></p>
+			</div>
+			<ConsolePolicy />
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">How it goes</p>
+				<h2>Four steps, most of an afternoon.</h2>
+			</div>
+			<div class="steps">
+				<div class="step"><h3>Register your organisation</h3><p>Open the console, sign in with a work address the identity provider can verify, and name your organisation. You become its owner, on a fourteen-day trial. An organisation whose owner is an unverified address is one anybody could take, so verification is not optional.</p><a class="more" href={CONSOLE}>Open the console</a></div>
+				<div class="step"><h3>Invite your people</h3><p>The People screen. Invitations carry no token: an invited person signs in with their own address and is recognised. The console shows the invite link before, during and after, so you can hand it over yourself if you prefer. Admins run the console; members run coworkers under its policy.</p></div>
+				<div class="step"><h3>Point machines at it</h3><p>On first run Remit asks where the machine belongs; choose <strong>Remit Cloud Enterprise</strong> and sign in. A machine already in use switches under Settings ▸ Cloud. From then on it composes your policy with its own settings and reports content-free evidence back.</p><a class="more" href="/download/">Download Remit</a></div>
+				<div class="step"><h3>Issue your first policy</h3><p>The Policy screen has starting points: keep a person in the loop, approved connectors only, signed coworkers from known sources, every model call through one gateway. Pick one, review the difference, issue version one. Every machine picks it up at its next check-in.</p><a class="more" href="/docs/cloud/policy/">The policy reference</a></div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section tint">
+		<div class="wrap">
+			<div class="grid three" style="margin-top:0">
+				<div class="feature"><h3>What the trial includes</h3><p>Every control, every screen, evidence kept for thirty days, the gallery with review, the fleet view, SCIM and your identity provider. Ceilings: five people, ten machines.</p></div>
+				<div class="feature"><h3>What happens at the end</h3><p>Nothing on any machine. Policy already issued stays in force, evidence keeps arriving, documents stay served. The console refuses new administrative writes until you choose Remit Cloud Enterprise, US$200 per organisation per year, by card or invoice.</p></div>
+				<div class="feature"><h3>What we hold</h3><p>Your organisation's name, its people's addresses and identity-provider subjects, policy documents, content-free evidence, the fleet inventory. Never a prompt, a file, a result or a tool argument. <a href="/privacy/">The plain statement</a>.</p></div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Questions</p>
+				<h2>Before you register.</h2>
+			</div>
+			<div class="faq">
+				<details><summary>Do I need a card?</summary><p>No. The trial starts when you register and ends fourteen days later. Nothing is charged, and nothing on any machine changes at the end.</p></details>
+				<details><summary>Who can register?</summary><p>Anyone with a work address the identity provider can verify. One organisation per address: somebody who already belongs to an organisation cannot register a second, so that "whose policy is this request inside" always has one answer.</p></details>
+				<details><summary>Can we use our own identity provider during the trial?</summary><p>Sign-in during the trial is through our identity provider with your work email. Connecting your own provider for sign-in is arranged with us; SCIM provisioning is available to every organisation.</p></details>
+				<details><summary>Can we extend the trial?</summary><p>Ask. Write to <a href="mailto:hello@remit-ai.app?subject=Remit%20Cloud%20Enterprise%20trial">hello@remit-ai.app</a> with your organisation's name.</p></details>
+				<details><summary>What if we decide against it?</summary><p>Your machines keep running Remit Coworker, free, with every protection. The console keeps the record for the retention period and then sweeps it; an owner can delete the organisation.</p></details>
+			</div>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="wrap">
+			<div><h2>Register your organisation.</h2><p>Fourteen days, no card, the whole console.</p></div>
+			<div class="actions" style="margin:0"><a class="btn primary lg" href={CONSOLE}>Open the console</a><a class="btn ghost lg" href="/pricing/">Pricing</a></div>
+		</div>
+	</section>
+</Site>

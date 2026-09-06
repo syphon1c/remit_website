@@ -1,0 +1,21 @@
+---
+// What a policy can lock down: the product's own policy keys, grouped by the part of a
+// coworker they reach. From docs/policy.md in the cloud; every one may only tighten.
+const groups: [string, [string, string][]][] = [
+	['Models', [['Which models a coworker may use', 'model.allowed.only'], ['Where model traffic may go', 'model.proxy_urls.only'], ['A gateway for machines without one', 'model.proxy_url.default']]],
+	['Autonomy', [['Which modes people may use', 'permission.allowed_modes'], ['What custom mode may auto-allow', 'permission.auto_allow.only'], ['Whether approvals may wait in the Inbox', 'unattended.allowed'], ['Steps per turn', 'limits.max_iterations'], ['Off-machine actions per turn', 'limits.external_budget']]],
+	['Connectors and tools', [['What may be connected', 'connectors.allowed.only'], ['Tools switched off inside a connector', 'connectors.tools.disabled']]],
+	['MCP servers', [['Which servers, by catalogue, URL or command', 'mcp.servers.allowed.only'], ['MCP tools switched off', 'mcp.tools.disabled']]],
+	['Coworkers and skills', [['Where a coworker may come from', 'personas.sources.allowed'], ['Coworkers allowed, by content hash', 'personas.allowed.only'], ['Coworkers withdrawn from the fleet', 'personas.revoked'], ['Only signed coworkers install', 'personas.require_signature'], ['Where a skill may come from', 'skills.sources.allowed'], ['Skills allowed, by content', 'skills.allowed.only']]],
+	['Network and shell', [['Destinations reachable without asking', 'egress.allowed_domains.only'], ['The shell allowlist', 'commands.allowed.only'], ['A person may tighten a risk class, never relax one', 'overrides.lock']]],
+	['The machine', [['Where a workspace may be trusted', 'workspace.trust.roots.only'], ['The local server binds loopback only', 'server.loopback_only']]],
+];
+---
+<div class="controls">
+	{groups.map(([name, keys]) => (
+		<div class="ctl-group">
+			<h3>{name}</h3>
+			<ul>{keys.map(([label, key]) => <li><span>{label}</span><code>{key}</code></li>)}</ul>
+		</div>
+	))}
+</div>

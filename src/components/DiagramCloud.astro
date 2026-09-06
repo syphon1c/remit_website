@@ -1,0 +1,62 @@
+---
+// How Remit Cloud works: policy goes out signed, evidence comes back without content, and
+// the gallery is a supply chain with a person in it.
+---
+<svg class="dgm" viewBox="0 0 960 520" role="img" aria-labelledby="dgm-cloud-t">
+	<title id="dgm-cloud-t">Administrators issue a signed policy from the console; every machine composes it with its own settings by intersection; coworkers act within it; content-free evidence and a heartbeat come back to the record and the fleet view; the gallery publishes only what a person reviewed.</title>
+	<defs><marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--faint)"/></marker></defs>
+	<rect x="24" y="150" width="250" height="230" rx="18" fill="var(--panel)" stroke="var(--line-strong)" stroke-width="1.5"/>
+	<text x="48" y="184" class="t-label">REMIT CLOUD · CONSOLE</text>
+	<text x="48" y="212" class="t-title">Your administrators</text>
+	<text x="48" y="240" class="t-sub">sign in with your identity provider</text>
+	<text x="48" y="262" class="t-small">SCIM provisions and de-provisions</text>
+	<rect x="48" y="282" width="202" height="36" rx="10" fill="var(--accent-soft)" stroke="var(--accent-line)"/>
+	<text x="149" y="305" text-anchor="middle" class="t-sub" fill="var(--accent-ink)">Policy · signed · versioned</text>
+	<text x="48" y="344" class="t-small">organisation document + one per group</text>
+	<text x="48" y="364" class="t-small">break-glass: 8 hours, a reason, on the record</text>
+	<path d="M274 265 H386" stroke="var(--accent)" stroke-width="2" marker-end="url(#arr3)"/>
+	<text x="330" y="254" text-anchor="middle" class="t-small" fill="var(--accent-ink)">policy out</text>
+	<rect x="386" y="100" width="300" height="330" rx="18" fill="var(--paper)" stroke="var(--line-strong)" stroke-width="1.5"/>
+	<text x="410" y="134" class="t-label">EVERY MACHINE · REMIT COWORKER</text>
+	<rect x="410" y="150" width="252" height="70" rx="12" fill="var(--panel)" stroke="var(--line)"/>
+	<text x="426" y="176" class="t-sub">policy ∩ the machine's own settings</text>
+	<text x="426" y="196" class="t-small">the result is at least as tight as each</text>
+	<text x="426" y="212" class="t-small">a document that would loosen is refused whole</text>
+	<rect x="410" y="234" width="252" height="86" rx="12" fill="var(--panel)" stroke="var(--line)"/>
+	<text x="426" y="260" class="t-sub">coworkers act within it</text>
+	<text x="426" y="280" class="t-small">only allowed models, through the gateway</text>
+	<text x="426" y="296" class="t-small">only allowed connectors, MCP servers, coworkers</text>
+	<text x="426" y="312" class="t-small">the ladder and the floors, as always</text>
+	<rect x="410" y="334" width="252" height="76" rx="12" fill="var(--panel)" stroke="var(--line)"/>
+	<text x="426" y="360" class="t-sub">stays governed if the cloud is gone</text>
+	<text x="426" y="380" class="t-small">the last policy holds; the fleet is never less safe</text>
+	<text x="426" y="396" class="t-small">for a stale policy, the rules you set for that case</text>
+	<path d="M686 300 H798" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#arr3)"/>
+	<text x="742" y="289" text-anchor="middle" class="t-small">evidence out</text>
+	<text x="742" y="322" text-anchor="middle" class="t-small">heartbeat</text>
+	<rect x="798" y="150" width="140" height="230" rx="18" fill="var(--panel)" stroke="var(--line-strong)" stroke-width="1.5"/>
+	<text x="822" y="184" class="t-label">RECORD · FLEET</text>
+	<text x="822" y="212" class="t-sub">content-free</text>
+	<text x="822" y="232" class="t-small">kind · class · tool</text>
+	<text x="822" y="248" class="t-small">policy key · person</text>
+	<text x="822" y="264" class="t-small">session hash · time</text>
+	<text x="822" y="292" class="t-sub">never</text>
+	<text x="822" y="312" class="t-small">a prompt, a file,</text>
+	<text x="822" y="328" class="t-small">a result, an argument</text>
+	<text x="822" y="356" class="t-small">→ Splunk · Sentinel · S3</text>
+	<rect x="24" y="24" width="914" height="56" rx="14" fill="var(--panel)" stroke="var(--line)" stroke-dasharray="6 5"/>
+	<text x="48" y="58" class="t-label">GALLERY, AS A SUPPLY CHAIN</text>
+	<g class="t-chip">
+		<rect x="270" y="38" width="100" height="28" rx="14" fill="var(--paper)" stroke="var(--line)"/><text x="320" y="56" text-anchor="middle">a person submits</text>
+		<path d="M370 52 H392" stroke="var(--faint)" marker-end="url(#arr3)"/>
+		<rect x="394" y="38" width="70" height="28" rx="14" fill="var(--paper)" stroke="var(--line)"/><text x="429" y="56" text-anchor="middle">scanned</text>
+		<path d="M464 52 H486" stroke="var(--faint)" marker-end="url(#arr3)"/>
+		<rect x="488" y="38" width="130" height="28" rx="14" fill="var(--warn-soft)" stroke="var(--line)"/><text x="553" y="56" text-anchor="middle" fill="var(--warn)">a person reviews</text>
+		<path d="M618 52 H640" stroke="var(--faint)" marker-end="url(#arr3)"/>
+		<rect x="642" y="38" width="64" height="28" rx="14" fill="var(--paper)" stroke="var(--line)"/><text x="674" y="56" text-anchor="middle">signed</text>
+		<path d="M706 52 H728" stroke="var(--faint)" marker-end="url(#arr3)"/>
+		<rect x="730" y="38" width="184" height="28" rx="14" fill="var(--accent-soft)" stroke="var(--accent-line)"/><text x="822" y="56" text-anchor="middle" fill="var(--accent-ink)">machines install, hold-able</text>
+	</g>
+	<text x="481" y="480" text-anchor="middle" class="t-small">A compromised console can deny service. It cannot widen what any machine permits, and it cannot read work, because none is there.</text>
+	<text x="481" y="504" text-anchor="middle" class="t-small">There is nothing above owner. An operator is an operator of one organisation.</text>
+</svg>

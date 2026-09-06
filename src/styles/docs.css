@@ -1,0 +1,81 @@
+/* The manual: Starlight's variables mapped onto the site tokens. Starlight names its
+   greys from the text end, so in the light theme --sl-color-white is the darkest value and
+   --sl-color-black is the page. Every theme state gets the same values: Starlight's static
+   markup says data-theme="dark" until its script runs, and this site has one theme whatever
+   the attribute says, JavaScript or not. */
+:root, :root[data-theme='light'], :root[data-theme='dark'] {
+	--sl-font: var(--font-body);
+	--sl-font-mono: var(--font-mono);
+
+	--sl-color-accent-low: var(--accent-soft);
+	--sl-color-accent: var(--accent);
+	--sl-color-accent-high: var(--accent-ink);
+	--sl-color-white: var(--ink);
+	--sl-color-gray-1: #2b2f35;
+	--sl-color-gray-2: var(--muted);
+	--sl-color-gray-3: var(--faint);
+	--sl-color-gray-4: #9aa1ab;
+	--sl-color-gray-5: var(--line-strong);
+	--sl-color-gray-6: var(--line);
+	--sl-color-gray-7: var(--paper);
+	--sl-color-black: var(--canvas);
+
+	--sl-color-text: var(--ink);
+	--sl-color-text-accent: var(--accent);
+	--sl-color-bg: var(--canvas);
+	--sl-color-bg-nav: var(--canvas);
+	--sl-color-bg-sidebar: var(--canvas);
+	--sl-color-bg-inline-code: var(--paper);
+	--sl-color-hairline: var(--line);
+	--sl-color-hairline-light: var(--line);
+	--sl-color-hairline-shade: var(--line);
+
+	--sl-color-green: var(--ok);
+	--sl-color-green-low: var(--ok-soft);
+	--sl-color-orange: var(--warn);
+	--sl-color-orange-low: var(--warn-soft);
+	--sl-color-red: var(--danger);
+	--sl-color-red-low: var(--danger-soft);
+
+	--sl-text-h1: 2rem;
+	--sl-text-h2: 1.5rem;
+	--sl-text-h3: 1.2rem;
+	--sl-line-height: 1.65;
+	--sl-content-width: 46rem;
+	--sl-shadow-sm: var(--e-1);
+	--sl-shadow-md: var(--e-2);
+}
+
+/* Headings in the display face; body copy stays in Plex. */
+.sl-markdown-content h1, .sl-markdown-content h2, .sl-markdown-content h3, .content-panel h1 {
+	font-family: var(--font-display);
+	letter-spacing: -0.015em;
+	font-weight: 700;
+	text-wrap: balance;
+}
+.sl-markdown-content :is(h2, h3) { margin-top: 2.25em; }
+.sl-markdown-content code:not(pre code) { font-size: 0.9em; border: 1px solid var(--line); }
+.sl-markdown-content table { font-size: 0.94rem; }
+.sl-markdown-content th { background: var(--paper); font-weight: 600; }
+.sl-markdown-content td, .sl-markdown-content th { border-color: var(--line); }
+.sl-markdown-content hr { border-color: var(--line); }
+
+/* Provenance line at the top of a synced page. */
+.sl-markdown-content .rm-synced {
+	font-size: 0.85rem; color: var(--faint); margin: 0 0 1.5rem;
+	padding-bottom: .75rem; border-bottom: 1px solid var(--line);
+}
+.sl-markdown-content .rm-synced a { color: var(--muted); }
+
+/* Sidebar: quieter groups, the active page in the accent, no lozenge fill. */
+.sidebar-content summary .large { font-size: var(--sl-text-sm); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.sidebar-content a[aria-current='page'] { background: var(--accent-soft); color: var(--accent-ink); font-weight: 600; }
+.sidebar-content a { border-radius: var(--r-sm); }
+
+/* Header */
+header.header { border-bottom: 1px solid var(--line); box-shadow: none; }
+site-search button { border-color: var(--line); background: var(--paper); box-shadow: none; }
+
+/* Pagination cards */
+.pagination-links a { border-color: var(--line); box-shadow: none; border-radius: var(--r-md); }
+.pagination-links a:hover { border-color: var(--accent-line); }

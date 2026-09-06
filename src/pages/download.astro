@@ -1,0 +1,47 @@
+---
+import Site from '../layouts/Site.astro';
+import DownloadButtons from '../components/DownloadButtons.astro';
+const DL = 'https://api.remit-ai.app/download';
+---
+<Site title="Download" description="Download Remit for macOS, Windows and Linux. Free, no account. The current build, with SHA-256 checksums, is always at the download page; releases are signed and the app verifies each update before it installs.">
+	<section class="hero">
+		<div class="wrap">
+			<div>
+				<p class="eyebrow">Download</p>
+				<h1 class="display">Remit for macOS, Windows and Linux.</h1>
+				<p class="lede">Free, no account, every protection on from the first run. The download page always lists the current version for each platform with its size and SHA-256 checksum, and changes the moment a release is promoted.</p>
+				<div class="actions" style="margin-top:26px"><DownloadButtons /></div>
+				<p class="meta"><span>macOS, Apple silicon and Intel</span><span>Windows x64</span><span>Linux x64, AppImage and .deb</span><span><a href="/docs/coworker/getting-started/">Getting started</a></span></p>
+			</div>
+			<div class="stack">
+				<div class="note"><strong>First run.</strong> Remit asks one question before anything else: where does this machine belong? Just you, your team's gallery, or your organisation on Remit Cloud. The answer decides where sign-in goes. It decides nothing about protection; every floor holds in all three.</div>
+				<div class="note"><strong>You will need</strong> an API key for at least one model provider, or a local or proxy endpoint. Remit has no server in the loop; the calls go from your machine to the provider you chose.</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Installing</p>
+				<h2>Two things to know, stated plainly.</h2>
+			</div>
+			<div class="grid two">
+				<div class="feature"><h3>macOS asks you to allow it, for now</h3><p>The macOS build is signed but not yet notarized with an Apple Developer ID, so the first open of a downloaded copy is refused by Gatekeeper. Open it once from <strong>System Settings ▸ Privacy &amp; Security ▸ Open Anyway</strong>. Updates the app installs for itself need none of this, and notarization is on the list.</p></div>
+				<div class="feature"><h3>Windows shows SmartScreen, for now</h3><p>The Windows installer is not yet signed with a code-signing certificate, so SmartScreen warns on install. Choose <strong>More info ▸ Run anyway</strong>. Check the SHA-256 against the download page first if you want to be sure of what you have.</p></div>
+				<div class="feature"><h3>Verify what you downloaded</h3><p>Every installer's SHA-256 is on the download page, and a <code>SHA256SUMS</code> file sits beside each release. On macOS or Linux: <code>shasum -a 256 &lt;file&gt;</code>. On Windows: <code>Get-FileHash &lt;file&gt;</code>.</p></div>
+				<div class="feature"><h3>Updates verify themselves</h3><p>Releases are signed with a key whose public half is compiled into the app. The app checks each update's signature against it before installing, swaps itself in place and relaunches. Under Remit Cloud, an organisation can hold a release for its fleet. <a href="/docs/coworker/updates/">How updates work</a>.</p></div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section tint">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Free, for everyone</p>
+				<h2>No licence key, no seat count, no trial clock.</h2>
+				<p>Remit Coworker is free for people and for organisations, on as many machines as you like, with every protection on. Use the model providers and the tools that already work for you. Remit Cloud Enterprise, the managed control plane for organisations that want one policy and one record across a fleet, is the paid part: <a href="/pricing/">US$200 a year per organisation</a>, with a fourteen-day trial.</p>
+			</div>
+		</div>
+	</section>
+</Site>

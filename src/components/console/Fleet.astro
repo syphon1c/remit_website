@@ -1,0 +1,23 @@
+---
+import Frame from './Frame.astro';
+const rows: [string, string, string, string, string, string, string][] = [
+	['MBP-ALICE', 'alice', '0.2.3', 'v7', 'Security · Dependency Audit', 'GitHub · Slack', 'compliant'],
+	['MBP-DANA', 'dana', '0.2.3', 'v7', 'AppSec Reviewer · Incident Scribe', 'GitHub · Slack · Jira', 'compliant'],
+	['WIN-RAVI', 'ravi', '0.2.3', 'v7', 'Security', 'GitHub', 'compliant'],
+	['LNX-BUILD-02', 'ci', '0.2.3', 'v7', 'Dependency Audit', 'GitHub', 'compliant'],
+	['MBP-LEE', 'lee', '0.2.3', 'v6', 'Onboarding Guide', 'Slack · Google Drive', 'policy stale'],
+	['MBP-SAM', 'sam', '0.2.1', 'v7', 'Security', 'GitHub', 'update held'],
+];
+const seen = ['2m', '5m', '11m', '1h', '3d', '40m'];
+---
+<Frame active="Fleet">
+	<div class="con-head"><div><h4>Fleet</h4><p>Which build, which policy and which coworkers are on each machine. 6 machines · 5 compliant · 1 stale.</p></div><span class="btn sm ghost">Export</span></div>
+	<table class="con-table">
+		<thead><tr><th>Machine</th><th>Person</th><th>Build</th><th>Policy</th><th>Coworkers</th><th>Connected</th><th>Last seen</th><th>&nbsp;</th></tr></thead>
+		<tbody>
+			{rows.map(([m, p, b, pol, cw, con, st], i) => (
+				<tr><td class="mono">{m}</td><td>{p}</td><td class="mono">{b}</td><td class="mono">{pol}</td><td>{cw}</td><td>{con}</td><td>{seen[i]} ago</td><td><span class={`pill ${st === 'compliant' ? 'ok' : 'warn'}`}>{st}</span></td></tr>
+			))}
+		</tbody>
+	</table>
+</Frame>

@@ -1,0 +1,113 @@
+---
+import '@fontsource-variable/bricolage-grotesque/wght.css';
+import '@fontsource/ibm-plex-sans/400.css';
+import '@fontsource/ibm-plex-sans/400-italic.css';
+import '@fontsource/ibm-plex-sans/500.css';
+import '@fontsource/ibm-plex-sans/600.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '../styles/tokens.css';
+import '../styles/site.css';
+import Mark from '../components/Mark.astro';
+
+interface Props { title: string; description: string; }
+const { title, description } = Astro.props;
+const path = Astro.url.pathname;
+const canonical = new URL(path, Astro.site).href;
+const nav = [
+	['/product/', 'Product'],
+	['/security/', 'Security'],
+	['/cloud/', 'Enterprise'],
+	['/compare/', 'Compare'],
+	['/pricing/', 'Pricing'],
+	['/docs/', 'Manual'],
+];
+const current = (href: string) => (href === '/' ? path === '/' : path.startsWith(href)) ? 'page' : undefined;
+const fullTitle = path === '/' ? 'Remit — the governed AI coworker' : `${title} · Remit`;
+---
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>{fullTitle}</title>
+	<meta name="description" content={description} />
+	<link rel="canonical" href={canonical} />
+	<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+	<link rel="sitemap" href="/sitemap-index.xml" />
+	<meta property="og:site_name" content="Remit" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content={fullTitle} />
+	<meta property="og:description" content={description} />
+	<meta property="og:url" content={canonical} />
+	<meta name="theme-color" content="#ffffff" />
+	<meta name="color-scheme" content="light" />
+</head>
+<body>
+	<a class="sr-only" href="#main">Skip to content</a>
+	<header class="hdr">
+		<div class="wrap">
+			<a class="brand" href="/" aria-label="Remit home"><Mark size={26} /> Remit</a>
+			<nav class="nav" aria-label="Site">
+				{nav.map(([href, label]) => <a href={href} aria-current={current(href)}>{label}</a>)}
+			</nav>
+			<a class="btn primary" href="/download/">Download</a>
+			<details class="menu">
+				<summary aria-label="Menu">Menu</summary>
+				<div class="sheet">
+					{nav.map(([href, label]) => <a href={href} aria-current={current(href)}>{label}</a>)}
+				</div>
+			</details>
+		</div>
+	</header>
+	<main id="main">
+		<slot />
+	</main>
+	<footer class="ftr">
+		<div class="wrap">
+			<div class="cols">
+				<div>
+					<a class="brand" href="/"><Mark size={22} /> Remit</a>
+					<p class="tag">Your own team of AI coworkers, on your own machine, with the models you choose. Free for people and for organisations.</p>
+					<p class="tag">This site sets no cookies, runs no analytics and loads nothing from anyone else.</p>
+				</div>
+				<div>
+					<h4>Product</h4>
+					<ul>
+						<li><a href="/product/">What it does</a></li>
+						<li><a href="/security/">Security</a></li>
+						<li><a href="/cloud/">Remit Cloud</a></li>
+						<li><a href="/compare/">Compare</a></li>
+						<li><a href="/pricing/">Pricing</a></li>
+						<li><a href="/download/">Download</a></li>
+					</ul>
+				</div>
+				<div>
+					<h4>Manual</h4>
+					<ul>
+						<li><a href="/docs/coworker/getting-started/">Getting started</a></li>
+						<li><a href="/docs/coworker/using-remit/">Using Remit</a></li>
+						<li><a href="/docs/coworker/security/">Security model</a></li>
+						<li><a href="/docs/cloud/overview/">Remit Cloud</a></li>
+						<li><a href="/docs/self-hosting/broker/">Self-hosting</a></li>
+						<li><a href="/docs/developers/architecture/">Developers</a></li>
+					</ul>
+				</div>
+				<div>
+					<h4>Company</h4>
+					<ul>
+						<li><a href="/privacy/">Privacy</a></li>
+						<li><a href="mailto:hello@remit-ai.app">hello@remit-ai.app</a></li>
+						<li><a href="/cloud/">Remit Cloud Enterprise</a></li>
+						<li><a href="/trial/">Start a trial</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="bottom">
+				<span>© 2026 Scapecom. Remit is free to use.</span>
+				<span>No cookies, no trackers, nothing loaded from anyone else.</span>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>

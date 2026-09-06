@@ -1,0 +1,37 @@
+# remit-ai.app served by Caddy from the built site. Automatic TLS, clean URLs, the same
+# security headers as public/_headers, long-lived caching for hashed assets, www → apex.
+# Put the built `dist/` at /var/www/remit-ai.app.
+
+www.remit-ai.app {
+	redir https://remit-ai.app{uri} permanent
+}
+
+remit-ai.app {
+	root * /var/www/remit-ai.app
+	encode zstd gzip
+	file_server
+
+	# Clean URLs: /pricing → /pricing/index.html
+	try_files {path} {path}/index.html {path}.html
+	handle_errors {
+		rewrite * /404.html
+		file_server
+	}
+
+	header {
+		Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.remit-ai.app; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+		Cross-Origin-Opener-Policy "same-origin"
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		-Server
+	}
+	@immutable path /_astro/*
+	header @immutable Cache-Control "public, max-age=31536000, immutable"
+	@search path /pagefind/*
+	header @search Cache-Control "public, max-age=3600"
+	@internal path /_headers /_redirects
+	respond @internal 404
+}

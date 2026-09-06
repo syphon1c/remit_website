@@ -1,0 +1,111 @@
+---
+import Site from '../layouts/Site.astro';
+import Shot from '../components/Shot.astro';
+import AuditRows from '../components/AuditRows.astro';
+import shotUnsure from '../assets/app/approval-unsure-card.webp';
+import shotTrust from '../assets/app/settings-trust-focus.webp';
+import DiagramLadder from '../components/DiagramLadder.astro';
+---
+<Site title="Security" description="Governance in Remit is architecture, not a setting: five risk classes, a permission ladder with hard floors, the outside-content floor, a bound on off-machine actions, workspace trust, a reviewer that fails closed, and a hash-chained audit journal. Every protection works signed out, offline and unlicensed.">
+	<section class="hero art">
+		<div class="wrap">
+			<div>
+				<p class="eyebrow">Security</p>
+				<h1 class="display">Governance is architecture, not a setting.</h1>
+				<p class="lede">Every tool call is classified, then run through a permission ladder before it executes, and the outcome lands in a hash-chained journal. The parts that protect you from the agent are the parts you cannot turn off from inside a conversation.</p>
+				<div class="actions">
+					<a class="btn primary lg" href="/docs/coworker/security/">The security model, in full</a>
+					<a class="btn ghost lg" href="/docs/cloud/threat-model/">The threat model</a>
+				</div>
+			</div>
+			<Shot src={shotUnsure} alt="An approval card: Run a command, EXECUTE, stays on this computer. Only you can approve this, the reviewer is not allowed to." caption="The reviewer answered unsure. Unsure is human-only." priority sizes="(max-width: 900px) 100vw, 60vw" />
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Risk classes</p>
+				<h2>Every tool resolves to exactly one class.</h2>
+				<p>Anything but <code>read</code> is consequential and must clear the ladder. You may raise a tool's class in an override file; a loosening override on a floored tool is ignored. An unclassified tool is a bug, and the tests catch one.</p>
+			</div>
+			<div class="dgm-wrap" style="margin-top:32px"><DiagramLadder /></div>
+			<div class="table-wrap">
+				<table class="tbl rc">
+					<thead><tr><th>Class</th><th>Meaning</th></tr></thead>
+					<tbody>
+						<tr><td>read</td><td>no side effects; always allowed</td></tr>
+						<tr><td>egress</td><td>reaches the network; the request itself can carry data off the machine</td></tr>
+						<tr><td>write_local</td><td>mutates the workspace; path-scoped and mode-gated</td></tr>
+						<tr><td>exec</td><td>runs commands; mode-gated, and commands are not allowlisted by default</td></tr>
+						<tr><td>external</td><td>side effects off the machine</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<p class="foot">The class a verdict turned on travels with the decision: the approval event carries it, and every audit row records it, from the engine's own classification rather than re-derived by a surface that might disagree.</p>
+		</div>
+	</section>
+
+	<section class="section tint">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Floors</p>
+				<h2>Five things no mode, click or tier can change.</h2>
+			</div>
+			<div class="grid two">
+				<div class="floor"><h3>Remit will not modify its own settings</h3><p>A coworker cannot loosen the configuration it runs under, whatever it is asked.</p></div>
+				<div class="floor"><h3>It will not write outside a writable root</h3><p>Workspace trust decides where writes may land. A path outside it is refused, not asked about.</p></div>
+				<div class="floor"><h3>It will not grant itself authority that outlives the session</h3><p>"Always allow" is scoped to the session unless a person makes it a standing rule.</p></div>
+				<div class="floor"><h3>After reading outside content, off-machine actions reach a person</h3><p>In every mode, over the reviewer, over "always allow". The card names the read that caused it. Destinations you named in advance are exempt, because they cannot have been chosen by the read.</p></div>
+				<div class="floor"><h3>A turn's off-machine actions are bounded</h3><p>Fifty on its own by default, then the rest come to you with a note saying so. Configurable per session and per organisation; never switchable off.</p></div>
+			</div>
+			<p class="foot">Both of the last two are enforced where the decision is made and recorded on every audit row whether or not they fired. <a href="/docs/coworker/outside-content/">Outside content</a> explains how to measure them and back them out if they are wrong for you.</p>
+			<div class="split art rev">
+				<Shot src={shotTrust} alt="Settings, Security and trust: auto-approve, the actions a turn takes on its own, always-allowed destinations." caption="Where the two floors are tuned, never switched off." sizes="(max-width: 900px) 100vw, 62vw" />
+				<div>
+					<h3>Tunable, not switchable</h3>
+					<p>The number of actions a turn takes on its own lives in Settings and can be carried per session, because five sends is odd for a coding session and unremarkable for an inbox triage. Below one or above a hundred is clamped. The always-allowed list names hosts in advance. Neither has an off.</p>
+					<AuditRows />
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">The ladder</p>
+				<h2>Modes change what gets asked. They never change the floors.</h2>
+			</div>
+			<div class="grid three">
+				<div class="feature"><h3>Workspace trust</h3><p>A project is untrusted until you say otherwise. Untrusted workspaces cannot run commands or write; trust is granted by a person and recorded.</p></div>
+				<div class="feature"><h3>Commands are not allowlisted by default</h3><p>The shell starts closed. You add the prefixes you accept, and adding one is you accepting what that command can reach, including its plugins and helpers.</p></div>
+				<div class="feature"><h3>The reviewer fails closed</h3><p>In auto-approve mode a second model judges each ask. Its verdict parses to "unsure" on doubt, and unsure reaches a person. Its provenance is on the audit row.</p></div>
+				<div class="feature"><h3>The address guard</h3><p>A model-chosen URL that resolves to this machine, a private range, carrier-grade NAT or link-local is refused, every hop, with the resolved address pinned so a name cannot change answer between the check and the connection.</p></div>
+				<div class="feature"><h3>Secrets</h3><p>Keys and tokens live in the local secret store, never in the transcript, never in the journal. The local server binds loopback and every request needs a token.</p></div>
+				<div class="feature"><h3>Audit</h3><p>Append-only, hash-chained, with the risk class, the decision, who made it and what it turned on. With Remit Cloud, chain anchors make a rewound or rewritten local journal detectable as a fork.</p></div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section tint">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Nothing lowers the floor</p>
+				<h2>Security is never a paid feature.</h2>
+				<p>Every protection works signed out, offline and unlicensed. No mode, setting, licence tier or central policy may widen a permission floor. Policy composes by intersection and may only tighten, and a document that would loosen anything is refused at the endpoint rather than discouraged in a console. That is an owner ruling from 2 September 2026, written into the security model and held by tests.</p>
+			</div>
+			<div class="grid two">
+				<div class="note"><strong>What a compromised Remit Cloud can do:</strong> issue any policy it likes, withhold documents, serve an empty gallery, drop events, lie in the inventory. <strong>What it cannot do:</strong> widen what any runtime permits, or read work content, because none is there to read. Net: denial of service, visible and recoverable. Not escalation.</div>
+				<div class="note"><strong>What Remit will not do for you.</strong> The address guard is not a network boundary; if an agent must be unable to reach your internal network whatever it runs, that belongs in a firewall or an egress proxy. An MCP server that fetches a URL on your behalf does so on its own infrastructure. The model provider you configure sees your prompts, under its terms. The manual says all of this plainly, because a control you misunderstand is worse than one you lack.</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="wrap">
+			<div><h2>Read the model. Then read the threat model.</h2><p>Five attackers, what each can do, what each cannot, and the property that keeps the second true.</p></div>
+			<div class="actions" style="margin:0"><a class="btn primary lg" href="/docs/coworker/security/">Security model</a><a class="btn ghost lg" href="/docs/cloud/threat-model/">Threat model</a></div>
+		</div>
+	</section>
+</Site>

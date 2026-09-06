@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://remit-ai.app/sitemap-index.xml

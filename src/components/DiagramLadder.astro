@@ -1,0 +1,59 @@
+---
+// The path of one tool call: classified, laddered, floored, decided, journalled.
+---
+<svg class="dgm" viewBox="0 0 960 300" role="img" aria-labelledby="dgm-ladder-t">
+	<title id="dgm-ladder-t">Every tool call is classified into one of five risk classes, run through the permission ladder, checked against two floors, decided, and written to the hash-chained journal.</title>
+	<defs><marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--faint)"/></marker></defs>
+	<!-- stage boxes -->
+	<g class="stage">
+		<rect x="16" y="90" width="150" height="120" rx="14" fill="var(--panel)" stroke="var(--line-strong)"/>
+		<text x="91" y="120" text-anchor="middle" class="t-label">1 · TOOL CALL</text>
+		<text x="91" y="150" text-anchor="middle" class="t-sub">the coworker asks</text>
+		<text x="91" y="172" text-anchor="middle" class="t-small">e.g. slack.post_message</text>
+	</g>
+	<path d="M166 150 H206" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#arr2)"/>
+	<g class="stage">
+		<rect x="206" y="60" width="176" height="180" rx="14" fill="var(--panel)" stroke="var(--line-strong)"/>
+		<text x="294" y="90" text-anchor="middle" class="t-label">2 · CLASSIFY</text>
+		<g class="t-chip">
+			<rect x="226" y="104" width="136" height="22" rx="11" fill="var(--paper)" stroke="var(--line)"/><text x="294" y="119" text-anchor="middle">read · always allowed</text>
+			<rect x="226" y="130" width="136" height="22" rx="11" fill="var(--paper)" stroke="var(--line)"/><text x="294" y="145" text-anchor="middle">egress</text>
+			<rect x="226" y="156" width="136" height="22" rx="11" fill="var(--paper)" stroke="var(--line)"/><text x="294" y="171" text-anchor="middle">write_local</text>
+			<rect x="226" y="182" width="136" height="22" rx="11" fill="var(--paper)" stroke="var(--line)"/><text x="294" y="197" text-anchor="middle">exec</text>
+			<rect x="226" y="208" width="136" height="22" rx="11" fill="var(--warn-soft)" stroke="var(--line)"/><text x="294" y="223" text-anchor="middle" fill="var(--warn)">external</text>
+		</g>
+	</g>
+	<path d="M382 150 H422" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#arr2)"/>
+	<g class="stage">
+		<rect x="422" y="60" width="176" height="180" rx="14" fill="var(--panel)" stroke="var(--line-strong)"/>
+		<text x="510" y="90" text-anchor="middle" class="t-label">3 · THE LADDER</text>
+		<text x="510" y="118" text-anchor="middle" class="t-sub">mode</text>
+		<text x="510" y="140" text-anchor="middle" class="t-sub">workspace trust</text>
+		<text x="510" y="162" text-anchor="middle" class="t-sub">command allowlist</text>
+		<text x="510" y="184" text-anchor="middle" class="t-sub">standing rules</text>
+		<text x="510" y="206" text-anchor="middle" class="t-sub">organisation policy ∩</text>
+		<text x="510" y="228" text-anchor="middle" class="t-small">each may only tighten</text>
+	</g>
+	<path d="M598 150 H638" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#arr2)"/>
+	<g class="stage">
+		<rect x="638" y="60" width="176" height="180" rx="14" fill="var(--accent-soft)" stroke="var(--accent-line)"/>
+		<text x="726" y="90" text-anchor="middle" class="t-label" fill="var(--accent-ink)">4 · TWO FLOORS</text>
+		<text x="726" y="120" text-anchor="middle" class="t-sub">read outside content?</text>
+		<text x="726" y="140" text-anchor="middle" class="t-small">→ off-machine actions reach a person</text>
+		<text x="726" y="172" text-anchor="middle" class="t-sub">50 off-machine actions?</text>
+		<text x="726" y="192" text-anchor="middle" class="t-small">→ the rest come to you</text>
+		<text x="726" y="222" text-anchor="middle" class="t-small" fill="var(--accent-ink)">no mode, click or tier lowers these</text>
+	</g>
+	<path d="M814 150 H854" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#arr2)"/>
+	<g class="stage">
+		<rect x="854" y="90" width="96" height="120" rx="14" fill="var(--panel)" stroke="var(--line-strong)"/>
+		<text x="902" y="120" text-anchor="middle" class="t-label">5 · DECIDE</text>
+		<text x="902" y="146" text-anchor="middle" class="t-small" fill="var(--ok)">allowed</text>
+		<text x="902" y="166" text-anchor="middle" class="t-small" fill="var(--warn)">ask a person</text>
+		<text x="902" y="186" text-anchor="middle" class="t-small" fill="var(--danger)">refused</text>
+	</g>
+	<!-- journal bar -->
+	<rect x="16" y="258" width="934" height="30" rx="8" fill="var(--paper)" stroke="var(--line)"/>
+	<text x="483" y="278" text-anchor="middle" class="t-small">Every step lands in the journal: class, decision, who decided, and the hash of the row before it. Append-only.</text>
+	<path d="M91 210 V258 M294 240 V258 M510 240 V258 M726 240 V258 M902 210 V258" stroke="var(--line-strong)" stroke-width="1" stroke-dasharray="3 3"/>
+</svg>

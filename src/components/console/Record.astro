@@ -1,0 +1,24 @@
+---
+import Frame from './Frame.astro';
+const rows: [string, string, string, string, string, string, string][] = [
+	['14:03:05', 'gareth', 'approval', 'external', 'slack.post_message', '—', '9f2a…c31e'],
+	['14:02:40', 'gareth', 'floor · outside content', 'external', 'slack.post_message', 'egress.allowed_domains.only', '9f2a…c31e'],
+	['13:41:12', 'alice', 'refusal', 'exec', 'run_shell', 'commands.allowed.only', '41bd…0a77'],
+	['13:22:58', 'ravi', 'approval', 'write_local', 'write_file', '—', 'c07e…88d2'],
+	['12:10:31', 'dana', 'break-glass opened · engineering · 8h', '—', '—', 'policy', '—'],
+	['09:00:00', 'dana', 'policy issued · v7 · organisation', '—', '—', 'policy', '—'],
+];
+---
+<Frame active="Record">
+	<div class="con-head"><div><h4>Record</h4><p>Content-free evidence: the kind of thing, its class, the tool's name, the policy key, a hash of the session. Never what was said.</p></div><span class="btn sm ghost">Export · Splunk · Sentinel · S3</span></div>
+	<div class="con-tabs"><span class="on">Last 7 days</span><span>All groups</span><span>All kinds</span></div>
+	<table class="con-table">
+		<thead><tr><th>Time</th><th>Person</th><th>Kind</th><th>Class</th><th>Tool</th><th>Policy key</th><th>Session</th></tr></thead>
+		<tbody>
+			{rows.map(([t, p, k, c, tool, key, s]) => (
+				<tr><td class="mono">{t}</td><td>{p}</td><td>{k}</td><td>{c !== '—' ? <span class={`pill ${c === 'external' ? 'warn' : 'neutral'}`}>{c}</span> : '—'}</td><td class="mono">{tool}</td><td class="mono">{key}</td><td class="mono faint">{s}</td></tr>
+			))}
+		</tbody>
+	</table>
+	<p class="con-foot">Chain anchors from every machine are checked against these rows; a rewound local journal shows here as a fork.</p>
+</Frame>

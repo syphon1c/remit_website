@@ -1,0 +1,218 @@
+---
+import Site from '../layouts/Site.astro';
+import Shot from '../components/Shot.astro';
+import Logos from '../components/Logos.astro';
+import Coworkers from '../components/Coworkers.astro';
+import DownloadButtons from '../components/DownloadButtons.astro';
+import Fleet from '../components/Fleet.astro';
+import DiagramRuns from '../components/DiagramRuns.astro';
+import DiagramLadder from '../components/DiagramLadder.astro';
+import DiagramModels from '../components/DiagramModels.astro';
+import DiagramWays from '../components/DiagramWays.astro';
+import shotApproval from '../assets/app/approval-slack-card.webp';
+import shotUnsure from '../assets/app/approval-unsure-card.webp';
+import shotTrust from '../assets/app/settings-trust-focus.webp';
+import shotInbox from '../assets/app/inbox-focus.webp';
+---
+<Site title="Remit" description="Remit is your own team of AI coworkers, running on your machine with the models you choose. Free for people and for organisations. Governed by architecture: a permission ladder nothing can lower and a journal that carries its own proof.">
+	<section class="hero center">
+		<div class="wrap">
+			<p class="eyebrow">Remit AI Coworker · free · self-hosted · any model</p>
+			<h1 class="display">Your army of <em class="acc">AI coworkers.</em></h1>
+			<p class="lede">Give each one a job. They read, plan and act on your own machine, with the models you choose, inside limits you set. They come back with finished work, and ask when something is yours to decide. Free, for people and for organisations.</p>
+			<DownloadButtons />
+			<ul class="checks">
+				<li>Free for people and organisations</li>
+				<li>Runs on your machine, sends us nothing</li>
+				<li>Any model provider, several at once</li>
+				<li>As many coworkers as the work needs</li>
+			</ul>
+			<div class="hero-visual">
+				<Fleet />
+				<p class="cap">How a morning with Remit reads: each coworker with its job, reporting back, and one waiting for your decision. The approval card carries the app's own wording.</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">What it is</p>
+				<h2>One machine. Many coworkers. Any model.</h2>
+				<p>Remit Coworker is a private runtime you install, not a service you rent. The coworkers, the permission ladder and the journal run on your machine; the only things that leave are the model calls you configured and the tool calls you allowed.</p>
+			</div>
+			<div class="tiles">
+				<div class="tile wide">
+					<div class="tile-art"><DiagramRuns /></div>
+					<div class="tile-copy">
+						<h3>Self-hosted, by design</h3>
+						<p>There is no server of ours in the loop. Sessions, memory, keys and the journal live in one directory on your disk. Model calls go to the provider you chose, under its terms; tool calls go to the services you connected, with your own accounts. Remit Cloud is optional, for organisations, and holds policy and evidence, never your work.</p>
+						<a class="more" href="/privacy/">Exactly what leaves the machine, and to whom</a>
+					</div>
+				</div>
+				<div class="tile wide flip">
+					<div class="tile-art"><DiagramModels /></div>
+					<div class="tile-copy">
+						<h3>Not tied to a model provider</h3>
+						<p>Configure Anthropic, OpenAI, Gemini, Bedrock, Vertex, Mistral, DeepSeek, a local model through Ollama, or your own gateway, several at once. Pick per coworker, change per session, keep the keys you already have.</p>
+						<a class="more" href="/product/#models">Every provider</a>
+					</div>
+				</div>
+				<div class="tile wide">
+					<div class="tile-art"><Shot src={shotApproval} alt="The Remit app: a coworker wants to send a Slack message, and the approval card asks: Send a message to C1, leaves this computer, Slack. Allow once, Always allow, Deny." sizes="(max-width: 900px) 100vw, 45vw" /></div>
+					<div class="tile-copy">
+						<h3>Asks when it must</h3>
+						<p>A coworker works on its own inside the ladder, and stops for you when an action leaves the machine, when it has read something from outside, or when the reviewer is not sure. The card says what, where, and why.</p>
+						<a class="more" href="/security/">How the ladder decides</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section tint" id="coworkers">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Coworkers</p>
+				<h2>Give each coworker a job. Add another when the work grows.</h2>
+				<p>The security specialists ship in the app. The gallery adds more, reviewed by a person before they were published. And a coworker is a plain manifest, so the next one is yours to write.</p>
+				<div class="jobs">
+					<span>Code security review</span><span>Dependency upgrades</span><span>Terraform posture check</span><span>PR review with fixes</span><span>Incident timeline</span><span>Data question, query shown</span><span>Docs Q&amp;A</span><span>Design QA against Figma</span><span>Wiz findings, ranked</span><span>Inbox triage</span><span>Weekly digest to Slack</span><span class="more">and the one you write</span>
+				</div>
+			</div>
+			<Coworkers />
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Governed by architecture</p>
+				<h2>What it reads cannot quietly become what it does.</h2>
+				<p>Every tool call takes the same path: classified, run through the ladder, checked against two floors, decided, and written to a journal that carries the hash of the row before it. No mode, click, plan or policy can lower the floors.</p>
+			</div>
+			<div class="dgm-wrap" style="margin-top:36px"><DiagramLadder /></div>
+			<p class="dgm-cap">The path of one tool call. The classes, the ladder and the floors are the product's, not a diagrammer's simplification.</p>
+			<div class="split art">
+				<div>
+					<h3>Two floors no mode or click can lower</h3>
+					<p><strong>After it reads something from outside</strong>, a web page, an email, an issue, anything a turn does that leaves the machine comes to a person. Over the reviewer, over "always allow". Destinations you named in advance are exempt, because a host you chose before the turn began cannot have been chosen by something it just read.</p>
+					<p><strong>After it has done enough</strong>, fifty off-machine actions by default, the rest of the turn comes to you with a note saying so. It never blocks; you decide.</p>
+					<a class="more" href="/security/">The whole security model</a>
+				</div>
+				<Shot src={shotTrust} alt="Settings, Security and trust: the auto-approve reviewer, the number of actions a turn takes on its own, and always-allowed destinations." caption="Settings ▸ Security &amp; trust: tunable, never switchable." sizes="(max-width: 900px) 100vw, 62vw" />
+			</div>
+			<div class="split art rev">
+				<div>
+					<h3>A reviewer that knows when it is not sure</h3>
+					<p>In auto-approve mode a second model judges each ask and clears the routine ones. When it cannot tell what a command will do, its verdict is "unsure", and unsure is human-only: the card says so, and only you can approve it. Every verdict, and who made it, is on the audit row.</p>
+					<a class="more" href="/docs/coworker/security/">Read the security model</a>
+				</div>
+				<Shot src={shotUnsure} alt="An approval card: Run a command, EXECUTE, stays on this computer. Only you can approve this, the reviewer is not allowed to." caption="The reviewer answered unsure, so the decision is a person's." sizes="(max-width: 900px) 100vw, 62vw" />
+			</div>
+		</div>
+	</section>
+
+	<section class="section tint">
+		<div class="wrap">
+			<div class="split art" style="margin-top:0">
+				<div>
+					<p class="eyebrow">Starts when work happens</p>
+					<h2 style="font-size:clamp(1.6rem,2.4vw,2rem);margin-top:12px">On a schedule, from a Slack channel, or off the board.</h2>
+					<p><strong>Automations</strong> run a coworker when you say: a Monday digest, a nightly triage. <strong>Slack</strong> messages in channels you subscribe reach the coworker you bound them to, through your own Slack app or the managed relay. <strong>Leads</strong> staff workers over a work-item board with its own hash-chained journal.</p>
+					<p>Approvals from unattended runs land in your <strong>Inbox</strong>. Nothing leaves the machine while you are away without a rule you set in advance.</p>
+					<a class="more" href="/docs/coworker/using-remit/">Automations, the inbox and the board</a>
+				</div>
+				<Shot src={shotInbox} alt="The Inbox: items that need a person, an approval from an unattended run and a question from a coworker." caption="The Inbox: what unattended runs need from you." sizes="(max-width: 900px) 100vw, 62vw" />
+			</div>
+		</div>
+	</section>
+
+	<section class="section" id="models">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Your models. Your tools.</p>
+				<h2>Use the AI setup that already works for you.</h2>
+				<p>Bring a key for the models you already pay for, run them locally, or route everything through your own gateway. Connect the tools with your own accounts; each tool inside a connector has its own switch. Nothing goes through us.</p>
+			</div>
+			<div class="logo-rows">
+				<div class="logo-row"><h3>Model providers<small>hand-written HTTP, no vendor SDKs</small></h3><Logos kind="providers" /></div>
+				<div class="logo-row"><h3>Thirty-eight connectors<small>plus any MCP server, stdio or HTTP, with OAuth 2.1</small></h3><Logos kind="tools" /></div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section tint">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Three ways to run it</p>
+				<h2>Alone, with your team's gallery, or under your organisation's policy.</h2>
+				<p>The protections are identical in all three. Two are free. The third buys what one machine cannot do on its own.</p>
+			</div>
+			<DiagramWays />
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Free. Really.</p>
+				<h2>Free for people. Free for organisations. Your AI setup, your way.</h2>
+				<p>No licence key, no seat count, no trial clock on the coworkers themselves. You pay your model provider for tokens, as you would anyway. Remit Cloud Enterprise, the managed control plane for organisations that want one policy and one record across a fleet, is US$200 per organisation per year, with a fourteen-day trial.</p>
+			</div>
+			<div class="grid three">
+				<div class="feature"><h3>Free to install</h3><p>macOS, Windows and Linux. No account: download, open, bring a key.</p></div>
+				<div class="feature"><h3>Free to run at work</h3><p>An organisation may put Remit Coworker on every desk without buying anything. Every protection is on from the first run.</p></div>
+				<div class="feature"><h3>Paid only for governance</h3><p>Remit Cloud Enterprise, when you want one signed policy across a fleet, an evidence record and a reviewed gallery. US$200 a year per organisation. <a href="/trial/">Start a trial</a>.</p></div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section tint">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Compared</p>
+				<h2>When the answer to "whose models, whose data, whose rules" has to be yours.</h2>
+			</div>
+			<div class="table-wrap">
+				<table class="tbl">
+					<thead><tr><th>&nbsp;</th><th>Remit</th><th>Hosted agent products, such as Claude Cowork</th></tr></thead>
+					<tbody>
+						<tr><td>Where the work runs</td><td>On your machine. One app.</td><td>In the vendor's app, by the vendor's service.</td></tr>
+						<tr><td>Which models</td><td>Any provider, several at once, or your own gateway.</td><td>The vendor's.</td></tr>
+						<tr><td>Where your prompts and files go</td><td>To the provider you chose. Never to us.</td><td>To the vendor, under its terms.</td></tr>
+						<tr><td>What governs an action</td><td>Risk classes, a ladder with floors, policy that only tightens, a hash-chained journal you hold.</td><td>Permission prompts; the vendor's plan controls.</td></tr>
+						<tr><td>Price</td><td>Free for people and organisations. Remit Cloud Enterprise US$200 a year per organisation.</td><td>A paid plan per person.</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<p class="foot"><a href="/compare/">The full comparison</a>, including where a hosted product is the better choice.</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Questions</p>
+				<h2>Answered before you download.</h2>
+			</div>
+			<div class="faq wide">
+				<details><summary>Is it really free?</summary><p>Yes, for people and for organisations. Remit Coworker is the whole runtime: every coworker, connector, provider, mode and floor, on as many machines as you like, for as long as you like. You pay your model provider for the tokens you use, as you would anyway. Remit Cloud, the governance service for organisations, is the paid part.</p></details>
+				<details><summary>Is it open source?</summary><p>No. Remit is free to use, but its source is not published. What it does is documented in detail instead: the security model, the threat model, every request it makes and to whom, and what Remit Cloud can and cannot hold. The manual is the same text the people building Remit read.</p></details>
+				<details><summary>What do you collect?</summary><p>Nothing from Remit Coworker: it has no server of ours in the loop. It asks our site for the newest version, and that is all. Signed in to Remit Cloud, it sends one content-free event when a session starts, with an opt-out. No prompt, message, file or tool argument ever, in any mode. <a href="/privacy/">The plain statement</a>.</p></details>
+				<details><summary>Which models can I use?</summary><p>Anthropic, OpenAI, Gemini, Amazon Bedrock, Vertex AI, a ChatGPT subscription through Codex, Mistral, DeepSeek, xAI, Qwen, Kimi, MiniMax, Z.ai and others by name; anything OpenAI-compatible by URL; local models through Ollama; or everything through LiteLLM or your own gateway with one setting. Several at once, chosen per coworker.</p></details>
+				<details><summary>How many coworkers can I run?</summary><p>As many as the work needs. Each session is one coworker on one job; run several side by side, schedule them, or let a lead staff workers over the board. Each can use a different model.</p></details>
+				<details><summary>What can a coworker never do?</summary><p>Modify Remit's own settings. Write outside a writable root. Grant itself authority that outlives the session. Send anything off your machine after reading outside content without a person, or take more than a bounded number of off-machine actions in a turn on its own. None of those can be switched off from inside a conversation, and no plan or policy can widen them.</p></details>
+				<details><summary>Do I need an account?</summary><p>No. Download, open, bring a model key. An account exists only for Remit Cloud, and it is your organisation's identity provider, not ours.</p></details>
+				<details><summary>How do updates work?</summary><p>Releases are signed with a key whose public half is compiled into the app; the app verifies each update before installing it. Under Remit Cloud, an organisation can hold a release for its whole fleet with one switch. <a href="/docs/coworker/updates/">How updates work</a>.</p></details>
+			</div>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="wrap">
+			<div><h2>Meet your first coworker.</h2><p>Free, no account, every protection on from the first run.</p></div>
+			<DownloadButtons compact />
+		</div>
+	</section>
+</Site>

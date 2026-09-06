@@ -1,0 +1,57 @@
+---
+// Where things run. One picture for "self-hosted, any provider, your tools, and the cloud
+// only if you want it": your machine holds the coworkers, the ladder and the journal; the
+// only things that leave are what you configured.
+---
+<svg class="dgm" viewBox="0 0 960 470" role="img" aria-labelledby="dgm-runs-t">
+	<title id="dgm-runs-t">Remit Coworker runs on your machine. Model calls go to providers you chose; tool calls go to services you connected; Remit Cloud is optional and holds policy and evidence, never your work.</title>
+	<defs>
+		<marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--faint)"/></marker>
+	</defs>
+	<!-- your machine -->
+	<rect x="24" y="40" width="430" height="390" rx="18" fill="var(--panel)" stroke="var(--line-strong)" stroke-width="1.5"/>
+	<text x="48" y="76" class="t-label">YOUR MACHINE</text>
+	<text x="48" y="106" class="t-title">Remit Coworker</text>
+	<rect x="48" y="126" width="382" height="86" rx="12" fill="var(--paper)" stroke="var(--line)"/>
+	<text x="64" y="152" class="t-sub">Coworkers</text>
+	<g class="t-chip">
+		<rect x="64" y="164" width="84" height="26" rx="13" fill="var(--panel)" stroke="var(--line)"/><text x="106" y="181" text-anchor="middle">Security</text>
+		<rect x="156" y="164" width="120" height="26" rx="13" fill="var(--panel)" stroke="var(--line)"/><text x="216" y="181" text-anchor="middle">Dependency Audit</text>
+		<rect x="284" y="164" width="96" height="26" rx="13" fill="var(--panel)" stroke="var(--line)"/><text x="332" y="181" text-anchor="middle">Data Analyst</text>
+		<rect x="388" y="164" width="30" height="26" rx="13" fill="var(--panel)" stroke="var(--line)"/><text x="403" y="181" text-anchor="middle">+6</text>
+	</g>
+	<rect x="48" y="226" width="382" height="62" rx="12" fill="var(--accent-soft)" stroke="var(--accent-line)"/>
+	<text x="64" y="252" class="t-sub" fill="var(--accent-ink)">Permission ladder</text>
+	<text x="64" y="272" class="t-small">5 risk classes · modes · workspace trust · two floors nothing can lower</text>
+	<rect x="48" y="302" width="182" height="58" rx="12" fill="var(--paper)" stroke="var(--line)"/>
+	<text x="64" y="327" class="t-sub">Journal</text><text x="64" y="346" class="t-small">append-only, hash-chained</text>
+	<rect x="248" y="302" width="182" height="58" rx="12" fill="var(--paper)" stroke="var(--line)"/>
+	<text x="264" y="327" class="t-sub">Your keys, files, memory</text><text x="264" y="346" class="t-small">on this disk, nowhere else</text>
+	<text x="48" y="404" class="t-small">Free. No account. Every protection on, signed out and offline.</text>
+
+	<!-- providers -->
+	<rect x="600" y="40" width="336" height="112" rx="16" fill="var(--panel)" stroke="var(--line-strong)" stroke-width="1.5"/>
+	<text x="624" y="70" class="t-label">MODEL PROVIDERS YOU CONFIGURED</text>
+	<text x="624" y="96" class="t-sub">Anthropic · OpenAI · Gemini · Bedrock · Vertex</text>
+	<text x="624" y="118" class="t-sub">Mistral · DeepSeek · Ollama (local) · your gateway</text>
+	<text x="624" y="140" class="t-small">one or many; per coworker; switch any time</text>
+	<path d="M454 120 H600" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#arr)"/>
+	<text x="527" y="112" text-anchor="middle" class="t-small">prompts and context</text>
+
+	<!-- tools -->
+	<rect x="600" y="180" width="336" height="100" rx="16" fill="var(--panel)" stroke="var(--line-strong)" stroke-width="1.5"/>
+	<text x="624" y="210" class="t-label">TOOLS YOU CONNECTED</text>
+	<text x="624" y="236" class="t-sub">GitHub · Slack · Jira · Gmail · Notion · Wiz …</text>
+	<text x="624" y="258" class="t-small">38 connectors and any MCP server, with your own accounts</text>
+	<path d="M454 230 H600" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#arr)"/>
+	<text x="527" y="222" text-anchor="middle" class="t-small">tool calls, within the ladder</text>
+
+	<!-- cloud (optional) -->
+	<rect x="600" y="312" width="336" height="118" rx="16" fill="var(--panel)" stroke="var(--line-strong)" stroke-width="1.5" stroke-dasharray="6 5"/>
+	<text x="624" y="342" class="t-label">REMIT CLOUD · OPTIONAL, FOR ORGANISATIONS</text>
+	<text x="624" y="368" class="t-sub">signed policy that only tightens · content-free evidence</text>
+	<text x="624" y="390" class="t-sub">a reviewed gallery · fleet inventory · console</text>
+	<text x="624" y="414" class="t-small">never a prompt, a file, a result or a tool argument</text>
+	<path d="M454 360 H600" stroke="var(--faint)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr)" marker-start="url(#arr)"/>
+	<text x="527" y="352" text-anchor="middle" class="t-small">policy in, evidence out</text>
+</svg>

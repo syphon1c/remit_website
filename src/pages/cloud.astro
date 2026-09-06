@@ -1,0 +1,137 @@
+---
+import Site from '../layouts/Site.astro';
+import ConsolePolicy from '../components/console/Policy.astro';
+import ConsoleFleet from '../components/console/Fleet.astro';
+import ConsoleRecord from '../components/console/Record.astro';
+import ConsoleGallery from '../components/console/Gallery.astro';
+import DiagramControls from '../components/DiagramControls.astro';
+import DiagramCloud from '../components/DiagramCloud.astro';
+import DiagramRuns from '../components/DiagramRuns.astro';
+---
+<Site title="Remit Cloud Enterprise" description="Remit Cloud Enterprise is the cloud-managed control plane for your fleet of Remit Coworkers: lock down models, connectors, MCP servers and coworkers, set the limits, keep a content-free evidence record, and see every machine from one console. It governs the fleet without ever seeing its work.">
+	<section class="hero center">
+		<div class="wrap">
+			<p class="eyebrow">Remit Cloud Enterprise · managed from the cloud, enforced on every machine</p>
+			<h1 class="display">Manage your fleet of <em class="acc">AI coworkers</em> across the enterprise.</h1>
+			<p class="lede">One console for every Remit Coworker in your organisation: lock down which models, connectors, MCP servers and coworkers may be used, set the limits, keep an evidence record an auditor can use, and see which build, policy and coworkers are on every machine. Policy goes out signed. Evidence comes back without content. Your people keep working on their own machines.</p>
+			<div class="actions" style="justify-content:center">
+				<a class="btn primary lg" href="/trial/">Start your free trial</a>
+				<a class="btn ghost lg" href="/pricing/">US$200 a year per organisation</a>
+			</div>
+			<ul class="checks">
+				<li>Sign in with your identity provider, provision with SCIM</li>
+				<li>Controls that only tighten what a machine already permits</li>
+				<li>Never a prompt, a file, a result or a tool argument</li>
+			</ul>
+			<div class="hero-visual">
+				<ConsolePolicy />
+				<p class="cap">The Policy screen, illustrated: rules by what they do, their state, and what a person on the fleet will see. Issued signed, in versions, per organisation and per group.</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">What you can lock down</p>
+				<h2>Twenty-three controls, over every part of a coworker.</h2>
+				<p>Which models, and through which gateway. Which modes, how many steps, how many actions leave a machine in one turn. Which connectors and which tools inside them. Which MCP servers, by catalogue, URL or command. Which coworkers and skills, by content hash and signature. Which destinations, which shell commands, which workspace roots. Every one composes with the machine's own settings by intersection, so a policy can narrow, never widen.</p>
+			</div>
+			<DiagramControls />
+			<p class="foot">The keys are the product's own, from <a href="/docs/cloud/policy/">the policy reference</a>. An absent key is no constraint; an applied, empty allowlist allows nothing, and the console makes that difference unmissable. A document that would loosen anything is refused whole by the runtime, not discouraged by the console.</p>
+		</div>
+	</section>
+
+	<section class="section tint">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">How it works</p>
+				<h2>Policy out, evidence back, and a person in the gallery's loop.</h2>
+			</div>
+			<div class="dgm-wrap" style="margin-top:36px"><DiagramCloud /></div>
+			<div class="grid three">
+				<div class="feature"><h3>Signed and versioned</h3><p>Each issue is a new version, signed with the organisation's key, with the difference from the last shown before you sign. Every machine verifies the signature against a pinned key before composing it.</p></div>
+				<div class="feature"><h3>Groups from your identity provider</h3><p>One document for the organisation and one per group, whatever the provider calls it. Engineering can be allowed a gateway finance is not; the intersection decides for a person in both.</p></div>
+				<div class="feature"><h3>Safe when the cloud is unreachable</h3><p>A machine keeps the last policy it verified. You decide what a stale policy means for that machine, and the fleet view shows who is stale. Nothing ever becomes less safe by losing contact.</p></div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Extra managed security controls</p>
+				<h2>The controls one machine cannot give you.</h2>
+			</div>
+			<div class="grid three">
+				<div class="feature"><h3>One gateway for every model call</h3><p>Allowlist the providers and models, and make every machine route through your LLM gateway, where your logging, budgets and data-loss controls already live.</p></div>
+				<div class="feature"><h3>Connectors and MCP, approved only</h3><p>Only the connectors you name may be connected; individual tools inside them can be switched off fleet-wide. MCP servers by allowlist, so a local process nobody vetted cannot become a tool.</p></div>
+				<div class="feature"><h3>Coworkers by content, signed</h3><p>Allow coworkers by manifest hash, require a signature to install, withdraw one from the whole fleet in a minute. The gallery publishes nothing a person did not review with the scan beside it.</p></div>
+				<div class="feature"><h3>Bounded break-glass</h3><p>An operator can suspend a group's document for at most eight hours, with a reason, on the policy chain. Never the organisation's, and never in a way that hides who did it.</p></div>
+				<div class="feature"><h3>Release hold</h3><p>Hold a desktop release for the whole fleet with one switch while you test it; release it when you are ready. On the policy chain like every other act.</p></div>
+				<div class="feature"><h3>Evidence, retained and exported</h3><p>Retention per organisation, legal hold, and export to Splunk, Sentinel and S3 carrying the same content-free rows. Chain anchors make a rewound local journal show as a fork.</p></div>
+				<div class="feature"><h3>Managed GitHub and Slack apps</h3><p>Your people connect through the organisation's apps rather than personal tokens, and the relay brings Slack events to the right coworker without a token ever being stored.</p></div>
+				<div class="feature"><h3>Your identity, your lifecycle</h3><p>OIDC sign-in with your provider; SCIM creates and removes people. When someone leaves, their access goes with them, everywhere.</p></div>
+				<div class="feature"><h3>Nothing above owner</h3><p>No support tier can read an organisation's records from the inside. An operator is an operator of one organisation, and a deployment-wide administrator was considered and rejected.</p></div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section tint">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">The console</p>
+				<h2>Six screens. None of them can lower a protection.</h2>
+				<p>Policy, People, Coworker Gallery, Fleet, Record and Organisation. Everything composes by intersection; the refusal lives at the endpoint, not in the page.</p>
+			</div>
+			<div class="figure"><ConsoleFleet /><p class="cap">Fleet, illustrated: which build, which policy version and which coworkers are on each machine, and who is stale or held.</p></div>
+			<div class="figure"><ConsoleRecord /><p class="cap">Record, illustrated: the kind of governed thing, its class, the tool's name, the policy key and a hash of the session. Never what was said.</p></div>
+			<div class="figure"><ConsoleGallery /><p class="cap">Coworker Gallery, illustrated: the review queue with the scan's findings, what the organisation is served, and the release hold.</p></div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Evidence without content</p>
+				<h2>Prove what happened without holding what was said.</h2>
+				<p>The evidence decoder refuses unknown fields, the evidence table has no text column that is not an enum, an identifier or a hash, and the runtime's event type has no field for content. Tests on both sides try to smuggle a prompt, a reason, a tool argument and a raw session id through, and none lands.</p>
+			</div>
+			<div class="table-wrap">
+				<table class="tbl">
+					<thead><tr><th>It holds</th><th>What is in it</th><th>Why</th></tr></thead>
+					<tbody>
+						<tr><td>Evidence events</td><td>the kind of governed thing, the risk class, the policy key, a tool's name, a hash of the session, the time, the person and their groups</td><td>so a question about a fleet has an answer</td></tr>
+						<tr><td>Policy documents and their chain</td><td>the constraints, who issued them, when; a hash chain of every change</td><td>so a rewrite is detectable</td></tr>
+						<tr><td>Chain anchors</td><td>which chain, how far, its head hash, when</td><td>so a rewound local journal shows as a fork</td></tr>
+						<tr><td>Fleet inventory</td><td>device id, build, OS, policy ids held, coworkers by id and hash, connected connector ids</td><td>so compliance is a question with an answer</td></tr>
+						<tr><td>Gallery</td><td>published coworkers, signatures, the review queue and its scan findings, install counts</td><td>the shared gallery is what one machine cannot do</td></tr>
+						<tr><td>Telemetry</td><td>counts per day, coworker family, version and platform</td><td>never who</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<p class="foot"><strong>It never holds</strong> a message, a prompt, a document, a file, a page, an email body, a tool's arguments or results, the reason text on any decision, a connector token, a case name or a raw session id. <a href="/docs/cloud/evidence/">The one-page statement</a>.</p>
+		</div>
+	</section>
+
+	<section class="section tint">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Where it sits</p>
+				<h2>The work stays on the machines. The cloud holds the rules and the record.</h2>
+			</div>
+			<div class="dgm-wrap" style="margin-top:36px"><DiagramRuns /></div>
+			<div class="grid two">
+				<div class="note"><strong>What a compromised Remit Cloud can do:</strong> issue any policy it likes, withhold documents, serve an empty gallery, drop events, lie in the inventory. <strong>What it cannot do:</strong> widen what any runtime permits, or read work content, because none is there to read. Net: denial of service, visible and recoverable. Not escalation. <a href="/docs/cloud/threat-model/">The threat model, from the attacker's side</a>.</div>
+				<div class="note"><strong>Or run it yourself.</strong> The free broker gives a team a shared, reviewed gallery on its own network. Remit Cloud itself, the policy and evidence service, can be deployed on your servers by arrangement; <a href="/docs/self-hosting/cloud-deployment/">the deployment guide</a> is the one we run production from.</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="wrap">
+			<div><h2>Fourteen days free, no card.</h2><p>Five people, ten machines, a thirty-day record, every control. Then US$200 a year for the organisation, however many people and machines. The coworkers themselves stay free.</p></div>
+			<div class="actions" style="margin:0"><a class="btn primary lg" href="/trial/">Start your free trial</a><a class="btn ghost lg" href="mailto:hello@remit-ai.app?subject=Remit%20Cloud%20Enterprise">Talk to us</a></div>
+		</div>
+	</section>
+</Site>

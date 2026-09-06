@@ -1,0 +1,13 @@
+---
+// A real capture of the interface, taken from the app's own test harness by
+// scripts/shots (see README). Never a mock-up: if the product changes, re-shoot.
+import { Image } from 'astro:assets';
+interface Props { src: ImageMetadata; alt: string; caption?: string; class?: string; sizes?: string; priority?: boolean; ratio?: string }
+const { src, alt, caption, class: cls = '', sizes = '(max-width: 900px) 100vw, 60vw', priority = false, ratio } = Astro.props;
+---
+<figure class={`shot ${cls}`}>
+	<div class={`shot-frame ${ratio ? 'crop' : ''}`} style={ratio ? `aspect-ratio: ${ratio}` : undefined}>
+		<Image src={src} alt={alt} widths={[720, 1080, 1440, 2160]} sizes={sizes} format="webp" quality={82} loading={priority ? 'eager' : 'lazy'} fetchpriority={priority ? 'high' : 'auto'} />
+	</div>
+	{caption && <figcaption>{caption}</figcaption>}
+</figure>

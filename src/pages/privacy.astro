@@ -1,0 +1,43 @@
+---
+import Site from '../layouts/Site.astro';
+---
+<Site title="Privacy" description="What Remit sends, to whom, and when; what Remit Cloud holds and what it cannot; and what this website does, which is nothing beyond serving pages. Stated plainly, so the legal documents have something to be measured against.">
+	<section class="section">
+		<div class="wrap">
+			<div class="prose">
+				<p class="eyebrow">Privacy, plainly</p>
+				<h1>We do not collect your data or your prompts.</h1>
+				<p class="lede">This page says exactly what Remit sends, to whom and when, what Remit Cloud holds, and what this website does. It is written as facts, so that the formal privacy policy and terms, which are being prepared, have something to be measured against.</p>
+
+				<h2>Remit Coworker, on your machine</h2>
+				<p>Remit runs entirely on your machine. Sessions, memory, model keys, connector tokens and the audit journal live in one directory on your disk. Remit has no server of ours in the loop and sends nothing to us. Four kinds of request leave the machine, and you control each.</p>
+				<table>
+					<thead><tr><th>To whom</th><th>What</th><th>When</th><th>Your control</th></tr></thead>
+					<tbody>
+						<tr><td>The model provider you configured</td><td>Your prompts and the context a coworker assembles for them, under that provider's terms</td><td>Whenever a coworker runs</td><td>Choose the provider, a local endpoint, or your own gateway</td></tr>
+						<tr><td>The services you connected</td><td>What the tool call carries: the issue it files, the message it posts</td><td>When a coworker uses a connector or MCP server, within the ladder</td><td>Connect and disconnect per service; switch tools per connector</td></tr>
+						<tr><td>api.remit-ai.app</td><td>A request for the newest version. Signed in, it carries your sign-in so your organisation's release channel and hold apply. It carries nothing about your work.</td><td>Every thirty minutes and at launch</td><td>Point it at your own update source, or run without one</td></tr>
+						<tr><td>api.remit-ai.app, only when signed in to Remit Cloud</td><td>One event when a session starts: which coworker, its family, the app version, the platform, and a hashed session id. Never a title, prompt, output or tool argument.</td><td>Session start, signed in, if not opted out</td><td>Settings ▸ Telemetry. Signed out, nothing is sent.</td></tr>
+					</tbody>
+				</table>
+				<p>That is the whole list. Remit contains no analytics library, no crash reporter and no identifier of you.</p>
+
+				<h2>Remit Cloud, for organisations</h2>
+				<p>Remit Cloud holds what an organisation needs to govern a fleet and prove what happened, and is built so that it cannot hold what was said.</p>
+				<p><strong>It never holds</strong> a message, a prompt, a document, a file, a page, an email body, a tool's arguments or results, the reason text on any decision, a connector token, a case name, or a raw session id. The evidence decoder refuses unknown fields; the evidence table has no text column that is not an enum, an identifier or a hash; and tests on both sides try to smuggle each of those through, and none lands.</p>
+				<p><strong>It holds</strong> the organisation, its people and their connections (names, email addresses, identity-provider subjects, which connector and account, routing metadata); policy documents and their hash chain; evidence events (the kind of governed thing, the risk class, the policy key, a tool's name, a session's hash, the time, the person and their groups); chain anchors; a fleet inventory (device id, build, OS, policy ids, installed coworkers by id and hash, connected connector ids); the gallery; and telemetry counts per day, coworker family, version and platform, never per person.</p>
+				<p>Retention is set per organisation, a legal hold suspends the sweep, and export to Splunk, Sentinel and S3 carries the same rows and nothing more. <a href="/docs/cloud/evidence/">The one-page statement in the manual</a> is the authoritative version of this section.</p>
+
+				<h2>This website</h2>
+				<p>It sets no cookies, runs no analytics, and loads nothing from anyone else: fonts, scripts and images are served from this site, and its security policy forbids requests elsewhere. Search runs in your browser against an index built into the site. The download buttons ask <code>api.remit-ai.app</code>, our own service, for the current version and installer links, and that request carries nothing about you. It is served by Cloudflare Pages, and the installers by Cloudflare R2, which keep request logs under Cloudflare's own terms; we do not receive them.</p>
+
+				<h2>Where things are</h2>
+				<p>Remit Cloud runs on a Linode instance with its database on the same infrastructure; the download files are in Cloudflare R2; sign-in for Remit Cloud goes through Auth0; outbound mail, for invitations and codes, goes through Cloudflare Email Service. The sub-processor list and data-processing terms will name these with their regions.</p>
+
+				<h2>Contact</h2>
+				<p>Questions, corrections, or a request about your organisation's data: <a href="mailto:hello@remit-ai.app">hello@remit-ai.app</a>.</p>
+				<p class="faint">Last reviewed 6 September 2026.</p>
+			</div>
+		</div>
+	</section>
+</Site>

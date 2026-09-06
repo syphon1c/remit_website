@@ -1,0 +1,31 @@
+{
+	"name": "remit-website",
+	"type": "module",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"astro": "astro",
+		"sync-docs": "node scripts/sync-docs.mjs",
+		"check-links": "node scripts/check-links.mjs",
+		"check": "npm run build && npm run check-links",
+		"sync-coworkers": "node scripts/sync-coworkers.mjs",
+		"sync": "npm run sync-docs && npm run sync-coworkers"
+	},
+	"dependencies": {
+		"@astrojs/starlight": "^0.42.0",
+		"@fontsource-variable/bricolage-grotesque": "^5.3.0",
+		"@fontsource/ibm-plex-mono": "^5.3.0",
+		"@fontsource/ibm-plex-sans": "^5.3.0",
+		"astro": "^7.2.10",
+		"sharp": "^0.35.3",
+		"simple-icons": "^16.30.0"
+	},
+	"allowScripts": {
+		"esbuild": true
+	},
+	"private": true,
+	"description": "remit-ai.app: the site and the manual"
+}

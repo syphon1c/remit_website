@@ -1,0 +1,36 @@
+---
+import Frame from './Frame.astro';
+const rules: [string, string, string, string][] = [
+	['Models a coworker may use', 'model.allowed.only', '2 allowed', 'anthropic/claude-opus-4-8 · openai/gpt-5.5'],
+	['Where model traffic may go', 'model.proxy_urls.only', '1 allowed', 'https://llm-gateway.acme.internal'],
+	['Modes people may use', 'permission.allowed_modes', '3 allowed', 'discuss · plan · interactive'],
+	['What may be connected', 'connectors.allowed.only', '4 allowed', 'GitHub · Slack · Jira · Google Drive'],
+	['MCP servers', 'mcp.servers.allowed.only', '1 allowed', 'https://mcp.acme.internal/*'],
+	['Off-machine actions per turn', 'limits.external_budget', 'At most 20', 'then the rest of the turn comes to a person'],
+	['Coworkers, by content', 'personas.allowed.only', '5 allowed', 'Security · Dependency Audit · AppSec Reviewer · Incident Scribe · Onboarding Guide'],
+	['Only signed coworkers install', 'personas.require_signature', 'On', ''],
+	['Destinations reachable without asking', 'egress.allowed_domains.only', '3 allowed', '*.acme.internal · api.github.com · slack.com'],
+	['Approvals may go to the Inbox', 'unattended.allowed', 'Off', 'unattended runs wait for a person'],
+];
+---
+<Frame active="Policy">
+	<div class="con-head"><div><h4>Policy</h4><p>Rules every machine in the organisation composes with its own settings. A rule may only tighten.</p></div><span class="btn sm primary">Issue version 7</span></div>
+	<div class="con-tabs"><span class="on">Organisation</span><span>engineering</span><span>finance</span><span class="add">+ group</span></div>
+	<div class="pol">
+		<div class="pol-rules">
+			{rules.map(([t, k, state, v]) => (
+				<div class="pol-card"><div class="pol-t"><strong>{t}</strong><span class={`pill ${state === 'Off' ? 'neutral' : state === 'On' ? 'ok' : 'accent'}`}>{state}</span></div><code>{k}</code>{v && <p>{v}</p>}</div>
+			))}
+		</div>
+		<aside class="pol-side">
+			<h5>What a person will see</h5>
+			<p class="pol-modes"><span>Discuss</span><span>Plan</span><span class="cur">Interactive</span><s>Custom</s><s>Auto-approve</s></p>
+			<p><strong>Connectors on offer:</strong> GitHub, Slack, Jira, Google Drive. Others do not appear.</p>
+			<p><strong>Models:</strong> two, both through llm-gateway.acme.internal.</p>
+			<p><strong>Sent back:</strong> content-free evidence events; a heartbeat every 15 minutes.</p>
+			<p class="pol-refusal">"Your organisation's policy does not allow this. Ask security@acme.com."</p>
+			<h5>Review before issuing</h5>
+			<p><span class="pill ok">+ MCP servers</span> <span class="pill warn">changed: off-machine actions 50 → 20</span></p>
+		</aside>
+	</div>
+</Frame>

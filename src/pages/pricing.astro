@@ -1,0 +1,96 @@
+---
+import Site from '../layouts/Site.astro';
+---
+<Site title="Pricing" description="Remit Coworker is free for people and for organisations, with every protection on. Remit Cloud Enterprise, the managed control plane for your fleet of coworkers, is US$200 per organisation per year, with a fourteen-day trial. A plan limits the service, never a protection.">
+	<section class="hero">
+		<div class="wrap">
+			<div>
+				<p class="eyebrow">Pricing</p>
+				<h1 class="display">Free for everyone. One plan for the enterprise.</h1>
+				<p class="lede">Remit Coworker costs nothing, needs no account, and has every protection on from the first run, for people and for organisations alike. Remit Cloud Enterprise, the managed control plane for your fleet of coworkers, is one price per organisation per year, however many people and machines it covers.</p>
+			</div>
+			<div class="note" style="font-size:1rem"><strong>A plan limits the service, never a protection.</strong> An expired plan refuses administrative writes and nothing else: the fleet stays governed, evidence keeps arriving, documents already issued stay served, and every floor in Remit works signed out, offline and unlicensed. If a change could make a fleet less safe, the change is wrong. That sentence is in the code, beside the plan table.</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="wrap">
+			<div class="plans" style="margin-top:0;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));max-width:900px">
+				<div class="plan">
+					<h3>Remit Coworker <span class="pill accent">free forever</span></h3>
+					<div class="price">US$0</div>
+					<p class="for">For anyone, on any number of machines, at home or at work. The whole runtime, the whole time.</p>
+					<ul>
+						<li>macOS, Windows and Linux</li>
+						<li>The security coworkers built in, the gallery, and your own</li>
+						<li>Every model provider, several at once, or your gateway</li>
+						<li>Thirty-eight connectors and any MCP server</li>
+						<li>Every protection: the ladder, the floors, the journal</li>
+						<li>A shared gallery for your team with the free self-hosted broker</li>
+						<li>Signed updates, verified before they install</li>
+					</ul>
+					<div class="cta"><a class="btn ghost" href="/download/">Download Remit</a></div>
+				</div>
+				<div class="plan lead">
+					<h3>Remit Cloud Enterprise <span class="pill neutral">14-day trial</span></h3>
+					<div class="price">US$200<small>per organisation, per year</small></div>
+					<p class="for">Manage your fleet of coworkers across the organisation: lock down models, connectors, MCP servers and coworkers; keep the record; see every machine.</p>
+					<ul>
+						<li>Unlimited people and machines</li>
+						<li>Signed policy across the fleet, per organisation and per group, composing by intersection</li>
+						<li>Twenty-three controls: models and gateway, modes and limits, connectors and tools, MCP servers, coworkers and skills by content, destinations, shell, workspace roots</li>
+						<li>A private gallery with human review and a scan on every submission</li>
+						<li>Fleet inventory, release hold, bounded break-glass on the record</li>
+						<li>Content-free evidence, retention you set, legal hold, export to Splunk, Sentinel and S3</li>
+						<li>Sign in with your identity provider; SCIM provisioning</li>
+						<li>Purchase order or card; your own servers by arrangement</li>
+					</ul>
+					<div class="cta"><a class="btn primary" href="/trial/">Start your free trial</a></div>
+				</div>
+			</div>
+			<p class="foot">The trial is fourteen days with no card: five people, ten machines, a thirty-day record, every control. When it ends, nothing on any machine changes; the console refuses new administrative writes until the plan is chosen. <a href="/trial/">How the trial works</a>.</p>
+		</div>
+	</section>
+
+	<section class="section tint">
+		<div class="wrap">
+			<div class="section-head">
+				<p class="eyebrow">Questions</p>
+				<h2>The ones people ask before they pay.</h2>
+			</div>
+			<div class="faq">
+				<details>
+					<summary>Per organisation, or per person?</summary>
+					<p>Per organisation, per year. One price covers everyone in it and every machine. During the trial the ceilings are five people, members and pending invitations together, and ten machines, meaning devices that have signed in to the organisation.</p>
+				</details>
+				<details>
+					<summary>What does the free version leave out?</summary>
+					<p>Nothing that protects you, and nothing on the machine. Remit Coworker is the whole runtime: every coworker, connector, provider, mode and floor, for people and for organisations alike. What it cannot do alone is share one policy across many machines, keep an organisation's evidence record, or run a reviewed gallery. That is Remit Cloud Enterprise.</p>
+				</details>
+				<details>
+					<summary>Do you see our prompts, files or results?</summary>
+					<p>No, on any plan. Remit Coworker sends us nothing. Remit Cloud holds the kind of a governed thing, its risk class, a tool's name and a hash of the session, never a message, a prompt, a file, a tool's arguments or the reason on a decision; its schema has nowhere to put them. <a href="/privacy/">The plain statement</a>.</p>
+				</details>
+				<details>
+					<summary>What happens when the trial or the plan expires?</summary>
+					<p>The console refuses administrative writes: no new policy, no new invitations, no gallery approvals. Everything already issued stays in force and served, evidence keeps arriving, and every protection on every machine is unchanged. Choose the plan and the writes come back.</p>
+				</details>
+				<details>
+					<summary>Can we pay by invoice?</summary>
+					<p>Yes. An invoiced deal and a card payment are the same act on our side: one change to the plan, with an actor and a reason, on your organisation's own record. Write to <a href="mailto:hello@remit-ai.app?subject=Remit%20Cloud%20Enterprise">hello@remit-ai.app</a>.</p>
+				</details>
+				<details>
+					<summary>Can we run the whole thing on our own network?</summary>
+					<p>The runtime only ever runs on your machines. For a shared gallery, the broker is free and self-hosted. Remit Cloud itself, the policy and evidence service, can be deployed on your servers by arrangement; the deployment and operations guides in the manual are the ones we run from.</p>
+				</details>
+			</div>
+		</div>
+	</section>
+
+	<section class="band">
+		<div class="wrap">
+			<div><h2>Not sure yet? Start with the free one.</h2><p>It is the same runtime the enterprise plan governs.</p></div>
+			<div class="actions" style="margin:0"><a class="btn primary lg" href="/download/">Download Remit</a><a class="btn ghost lg" href="/trial/">Start a trial</a></div>
+		</div>
+	</section>
+</Site>

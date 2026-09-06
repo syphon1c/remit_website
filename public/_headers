@@ -1,0 +1,15 @@
+# Cloudflare Pages headers. The site loads nothing from anyone else, so the policy can say so.
+# 'unsafe-inline' scripts: Astro and Starlight inline small scripts (the theme pin, search).
+# 'wasm-unsafe-eval': Pagefind, the static search index, runs in WebAssembly.
+# connect-src api.remit-ai.app: the download buttons ask our own service for the current installers.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.remit-ai.app; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+/pagefind/*
+  Cache-Control: public, max-age=3600

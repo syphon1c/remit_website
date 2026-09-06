@@ -1,0 +1,47 @@
+---
+// The roster: a team of coworkers, each with a job, reporting back, and asking when it
+// must. Built in HTML so it stays crisp and honest; every line is something a Remit
+// coworker does, and the approval card carries the app's real wording.
+const roster = [
+	['Security', 'now', 'auth bypass in login.go confirmed; PR #142 opened with the fix and a test. Needs your review.', 'needs'],
+	['Dependency Audit', '09:12', '3 vulnerable packages reachable from prod. Minimal upgrades queued, held for your ok.', 'needs'],
+	['Cloud Posture', '08:40', 'posture check done: 2 public buckets, 1 already fixed in IaC, 1 in a PR.', 'done'],
+	['AppSec Reviewer', '08:05', 'reviewed the payments diff: one IDOR, one missing rate limit. Both with fixes.', 'done'],
+	['Incident Scribe', '07:58', 'timeline for INC-231 kept from the Slack thread; postmortem skeleton drafted.', 'done'],
+	['Data Analyst', '07:30', 'churn by cohort, query shown. Q2 cohort is the outlier.', 'done'],
+	['Onboarding Guide', '07:12', 'answered "how do deploys work here" from the runbook, and said where it is stale.', 'done'],
+	['Design Reviewer', 'Fri', 'shipped settings page vs Figma: 4 differences, screenshots attached.', 'done'],
+	['Wiz Security Analyst', 'Fri', 'Wiz findings ranked by what to fix first; owners proposed.', 'working'],
+];
+---
+<div class="fleet" role="img" aria-label="A roster of nine Remit coworkers, each reporting what it finished, with one conversation open showing an approval card.">
+	<div class="fleet-side">
+		<div class="fleet-top"><span class="fleet-you">You</span><span class="pill accent">9 coworkers</span></div>
+		<ul class="fleet-list">
+			{roster.map(([name, t, line, state], i) => (
+				<li class={i === 0 ? 'active' : ''}>
+					<span class="cw-glyph" aria-hidden="true"></span>
+					<div class="fleet-row">
+						<div class="fleet-name"><strong>{name}</strong><time>{t}</time></div>
+						<p>{line}</p>
+					</div>
+					<span class={`dot ${state}`} title={state === 'needs' ? 'needs you' : state === 'working' ? 'working' : 'done'}></span>
+				</li>
+			))}
+		</ul>
+		<div class="fleet-new">+ New coworker</div>
+	</div>
+	<div class="fleet-main">
+		<div class="fleet-head"><strong>Security</strong><span>Claude Opus 4.8 · Anthropic · interactive</span></div>
+		<div class="fleet-msgs">
+			<div class="msg you">Review the auth changes on this branch for vulnerabilities and prepare fixes.</div>
+			<div class="msg them"><span class="steps">4 steps · read 12 files · ran semgrep</span>Found an auth bypass: <code>validateSession</code> trusts the <code>X-User</code> header when the cookie is missing. Reachable from the public login route. I've written the fix and a regression test.</div>
+			<div class="approval mini">
+				<div class="ttl"><strong>Open a pull request on acme/api</strong><span class="pill warn">leaves this computer → GitHub</span></div>
+				<div class="act">fix(auth): stop trusting X-User without a session cookie · 2 files · +41 −6</div>
+				<div class="btns"><span class="btn sm primary">Allow once</span><span class="btn sm ghost">Always allow</span><span class="btn sm ghost reject">Deny</span></div>
+			</div>
+		</div>
+		<div class="fleet-compose">Ask the coworker…<span>Ask for approval ▾</span></div>
+	</div>
+</div>

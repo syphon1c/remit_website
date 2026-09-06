@@ -1,0 +1,13 @@
+---
+// A mock-up of the Remit Cloud console, in the console's own structure: the screens are
+// Policy, People, Coworker Gallery, Fleet, Record and Organisation. Illustrations, captioned
+// as such where they appear; the words on them are the product's.
+interface Props { active: string; title?: string; class?: string }
+const { active, title = 'acme', class: cls = '' } = Astro.props;
+const tabs = ['Policy', 'People', 'Coworker Gallery', 'Fleet', 'Record', 'Organisation'];
+---
+<div class={`con ${cls}`} role="img" aria-label={`Remit Cloud console, ${active} screen, illustrated.`}>
+	<div class="con-bar"><span class="con-mark"></span><strong>Remit Cloud</strong><span class="con-org">· {title}</span><span class="con-user">dana@acme.com · owner</span></div>
+	<nav class="con-nav">{tabs.map((t) => <span class={t === active ? 'on' : ''}>{t}</span>)}</nav>
+	<div class="con-body"><slot /></div>
+</div>

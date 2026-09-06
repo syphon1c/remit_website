@@ -1,0 +1,9 @@
+---
+// Light only, by the owner's ruling. Starlight's provider reads localStorage and the OS
+// preference; this one pins the document to light and gives the picker script a no-op so
+// nothing else in Starlight has to know the picker is gone.
+---
+<script is:inline>
+	document.documentElement.dataset.theme = 'light';
+	window.StarlightThemeProvider = { updatePickers() {} };
+</script>

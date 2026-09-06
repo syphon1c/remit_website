@@ -1,0 +1,15 @@
+---
+import Mark from '../Mark.astro';
+---
+<span class="rm-title">
+	<a href="/" class="rm-home" aria-label="Remit home"><Mark size={22} /><span>Remit</span></a>
+	<span class="rm-sep" aria-hidden="true">/</span>
+	<a href="/docs/" class="rm-manual">Manual</a>
+</span>
+<style>
+	.rm-title { display: inline-flex; align-items: center; gap: .5rem; font-weight: 600; font-size: var(--sl-text-lg); }
+	.rm-home { display: inline-flex; align-items: center; gap: .5rem; color: var(--ink); text-decoration: none; }
+	.rm-sep { color: var(--faint); font-weight: 400; }
+	.rm-manual { color: var(--muted); text-decoration: none; font-weight: 500; }
+	.rm-manual:hover, .rm-home:hover span { color: var(--accent); }
+</style>

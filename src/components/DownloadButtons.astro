@@ -1,0 +1,58 @@
+---
+// Platform-aware download buttons. Without script, every button opens the download page,
+// which always lists the current build with checksums. With script, the page asks
+// api.remit-ai.app (our own service, allowed by the CSP) for the current installers and
+// links each button straight to its file, with the version shown.
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+const PAGE = 'https://api.remit-ai.app/download';
+---
+<div class={`dl ${compact ? 'compact' : ''}`} data-page={PAGE} data-json="https://api.remit-ai.app/download.json">
+	<div class="dl-row">
+		<a class="btn primary lg" href={PAGE} data-target="darwin-aarch64" data-label="macOS">Download for macOS</a>
+		<a class="btn ghost lg" href={PAGE} data-target="windows-x86_64" data-label="Windows">Windows</a>
+		<a class="btn ghost lg" href={PAGE} data-target="linux-x86_64" data-label="Linux">Linux</a>
+	</div>
+	<p class="dl-meta"><span data-version>Free. No account.</span> <a href={PAGE} data-target="darwin-x86_64">Intel Mac</a> · <a href={PAGE}>All downloads and checksums</a></p>
+</div>
+<script>
+	type File = { label: string; url: string; name: string; size?: number; sha256?: string };
+	type Platform = { target: string; name: string; files: File[] };
+	const prefer: Record<string, RegExp[]> = {
+		'darwin-aarch64': [/\.dmg$/i, /\.tar\.gz$/i], 'darwin-x86_64': [/\.dmg$/i, /\.tar\.gz$/i],
+		'windows-x86_64': [/-setup\.exe$/i, /\.exe$/i, /\.msi$/i], 'linux-x86_64': [/\.AppImage$/i, /\.deb$/i, /\.rpm$/i],
+	};
+	const pick = (p: Platform | undefined, target: string) => {
+		if (!p) return null;
+		for (const re of prefer[target] || []) { const f = p.files.find((f) => re.test(f.name)); if (f) return f; }
+		return p.files[0] || null;
+	};
+	const detect = () => {
+		const ua = navigator.userAgent, plat = ((navigator as any).userAgentData?.platform || navigator.platform || '').toLowerCase();
+		if (/win/.test(plat) || /Windows/.test(ua)) return 'windows-x86_64';
+		if (/linux/.test(plat) && !/Android/.test(ua)) return 'linux-x86_64';
+		return 'darwin-aarch64';
+	};
+	for (const root of document.querySelectorAll<HTMLElement>('.dl')) {
+		const primary = detect();
+		// Put the visitor's platform first and give it the primary button.
+		const row = root.querySelector('.dl-row')!;
+		const first = row.querySelector<HTMLAnchorElement>(`a[data-target="${primary}"]`);
+		if (first) {
+			for (const a of row.querySelectorAll('a')) { a.classList.remove('primary'); a.classList.add('ghost'); a.textContent = a.dataset.label || a.textContent; }
+			first.classList.remove('ghost'); first.classList.add('primary'); first.textContent = `Download for ${first.dataset.label}`;
+			row.prepend(first);
+		}
+		fetch(root.dataset.json!, { mode: 'cors', credentials: 'omit' }).then((r) => (r.ok ? r.json() : null)).then((j: { version: string; pub_date: string; platforms: Platform[] } | null) => {
+			if (!j || !j.version) return;
+			const by = new Map(j.platforms.map((p) => [p.target, p]));
+			for (const a of root.querySelectorAll<HTMLAnchorElement>('a[data-target]')) {
+				const f = pick(by.get(a.dataset.target!), a.dataset.target!);
+				if (f) { a.href = f.url; if (f.size) a.title = `${f.name} · ${Math.round(f.size / 1048576)} MB`; }
+			}
+			const v = root.querySelector('[data-version]');
+			const when = j.pub_date ? new Date(j.pub_date).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+			if (v) v.textContent = `Remit ${j.version}${when ? `, released ${when}` : ''}. Free, no account.`;
+		}).catch(() => {});
+	}
+</script>

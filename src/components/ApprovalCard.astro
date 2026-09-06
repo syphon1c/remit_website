@@ -1,0 +1,17 @@
+---
+// The approval card the outside-content floor raises. Real wording, real shape: this is
+// the artefact a person meets, so the site shows it rather than describing it.
+---
+<div class="proof approval" role="img" aria-label="An approval card: a coworker wants to post to Slack after reading a GitHub issue, and the action needs a person in every mode.">
+	<div class="proof-bar"><span class="dot"></span> Triage Lead · session 7c1e · interactive mode</div>
+	<div class="proof-body">
+		<div class="ttl"><strong>Needs you</strong><span class="pill warn">after reading outside content</span></div>
+		<div class="act">slack.post_message → #eng-alerts<br/>"4.2.1 rolled back after the cache regression in #418; details in thread."</div>
+		<p class="why">This turn read <b>GitHub issue #418</b> before deciding to post. Anything it read from outside could have written this request, so sending it comes to you, in every mode. Name <code>slack.com</code> as an always-allowed destination and it stops asking.</p>
+		<div class="btns">
+			<span class="btn sm primary">Approve once</span>
+			<span class="btn sm ghost">Always allow · this session</span>
+			<span class="btn sm ghost reject">Reject</span>
+		</div>
+	</div>
+</div>

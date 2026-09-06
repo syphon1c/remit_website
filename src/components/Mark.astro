@@ -1,0 +1,15 @@
+---
+// The Remit mark: the R struck out of the cobalt tile, the same geometry as the app icon
+// (surfaces/gui/src-tauri/icons/icon.svg in the runtime repository). Inline so it needs no
+// request and inherits nothing it should not.
+interface Props { size?: number; class?: string }
+const { size = 24, class: cls = '' } = Astro.props;
+---
+<svg class={cls} width={size} height={size} viewBox="-0.42 -0.42 24.84 24.84" aria-hidden="true" focusable="false">
+	<rect x="1.6" y="1.6" width="20.8" height="20.8" rx="5.6" fill="#4338ca"/>
+	<g transform="translate(-0.6 0.2)" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+		<path d="M9.5 6.3 V17.7"/>
+		<path d="M9.5 6.3 H12.9 a2.85 2.85 0 0 1 0 5.7 H9.5"/>
+		<path d="M12.5 12.0 L16.3 17.7"/>
+	</g>
+</svg>

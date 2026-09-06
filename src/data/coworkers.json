@@ -1,0 +1,247 @@
+[
+	{
+		"id": "cloud-posture",
+		"name": "Cloud Posture Coworker",
+		"source": "built-in",
+		"icon": "sliders",
+		"group": "security",
+		"tagline": "Review Terraform & cloud config — read-only, evidence first",
+		"description": "An infrastructure-security reviewer for teams without a cloud security team. Scans Terraform and cloud configuration with open-source tools (trivy, checkov), reads your live cloud posture strictly read-only, and fixes what matters in the IaC — never by clicking around a console.",
+		"connectors": [
+			"GitHub"
+		],
+		"tools": [
+			"your code",
+			"git",
+			"search",
+			"the shell",
+			"a task list"
+		],
+		"skills": [
+			"iac scan",
+			"aws posture"
+		],
+		"mode": "interactive"
+	},
+	{
+		"id": "dep-audit",
+		"name": "Dependency Audit Coworker",
+		"source": "built-in",
+		"icon": "audit",
+		"group": "security",
+		"tagline": "Vulnerable dependencies — audit, minimal upgrades, PRs",
+		"description": "A dependency auditor for teams without a security team. Runs open-source vulnerability scanners (osv-scanner, npm audit, pip-audit, trivy) across your lockfiles, separates exploitable from theoretical, and ships minimal, test-verified upgrade PRs.",
+		"connectors": [
+			"GitHub"
+		],
+		"tools": [
+			"your code",
+			"git",
+			"search",
+			"the shell",
+			"a task list"
+		],
+		"skills": [
+			"dependency audit",
+			"safe upgrade pr"
+		],
+		"mode": "interactive"
+	},
+	{
+		"id": "security",
+		"name": "Security Coworker",
+		"source": "built-in",
+		"icon": "shield",
+		"group": "security",
+		"tagline": "Find and fix security issues — scan, triage, PR",
+		"description": "A code-security reviewer for teams without a security team. Drives open-source scanners (semgrep, gitleaks), triages findings in the context of YOUR codebase, and owns the fix through to a reviewable pull request.",
+		"connectors": [
+			"GitHub"
+		],
+		"tools": [
+			"your code",
+			"git",
+			"search",
+			"the shell",
+			"a task list"
+		],
+		"skills": [
+			"semgrep review",
+			"secret scan",
+			"security fix pr"
+		],
+		"mode": "interactive"
+	},
+	{
+		"id": "appsec-reviewer",
+		"name": "AppSec Reviewer",
+		"source": "gallery",
+		"icon": "shield",
+		"group": "security",
+		"tagline": "Reviews a change for what an attacker can reach, and hands back the fix",
+		"description": "A security reviewer for pull requests, branches and working-tree changes. Reads the change in the context of the code that calls it, proves each finding by tracing untrusted input to the flaw, ranks by what an attacker gets rather than by scanner severity, and hands back a patch and a test for anything it confirms.",
+		"connectors": [
+			"GitHub",
+			"GitLab"
+		],
+		"tools": [
+			"your code",
+			"git",
+			"search",
+			"the shell",
+			"a task list"
+		],
+		"skills": [
+			"reachability trace",
+			"semgrep review",
+			"secret scan",
+			"dependency diff",
+			"security fix pr",
+			"findings report"
+		],
+		"mode": "interactive"
+	},
+	{
+		"id": "data-analyst",
+		"name": "Data Analyst",
+		"source": "gallery",
+		"icon": "table",
+		"group": null,
+		"tagline": "Answers a business question from the warehouse, with the query shown",
+		"description": "An analyst for business teams that works from the organisation's Databricks workspace. Asks Genie in plain language, shows the SQL that produced every number, pins metric definitions so next week's answer is computed the same way, and says plainly when the data cannot answer the question. Read-only, under Unity Catalog permissions.",
+		"connectors": [],
+		"tools": [
+			"your files",
+			"search",
+			"a task list"
+		],
+		"skills": [
+			"question scoping",
+			"genie ask",
+			"sql query",
+			"answer with evidence",
+			"metric definitions",
+			"scheduled report"
+		],
+		"mode": "interactive"
+	},
+	{
+		"id": "design-reviewer",
+		"name": "Design Reviewer",
+		"source": "gallery",
+		"icon": "layout",
+		"group": null,
+		"tagline": "Compares what shipped to what was designed, and says exactly where they differ",
+		"description": "A design QA reviewer for the hand-off gap. Reads the Figma frame, screenshots the built page, and lists the differences in spacing, type, colour, states and copy. Runs an accessibility pass and a design-system drift audit on the same screen, and hands the findings back as a review note or Figma comments. It reviews; it does not change designs or code.",
+		"connectors": [
+			"Figma",
+			"Browser",
+			"Canva"
+		],
+		"tools": [
+			"your files",
+			"search",
+			"a task list"
+		],
+		"skills": [
+			"figma spec",
+			"build compare",
+			"accessibility pass",
+			"design system audit",
+			"copy pass",
+			"review note"
+		],
+		"mode": "interactive"
+	},
+	{
+		"id": "incident-scribe",
+		"name": "Incident Scribe",
+		"source": "gallery",
+		"icon": "pencil",
+		"group": null,
+		"tagline": "Keeps the record of a live incident so the postmortem starts from evidence",
+		"description": "Sits alongside an incident and keeps the record — a timestamped, append-only timeline of what was observed, decided and tried, with the evidence attached — then drafts the status updates, the hand-off brief and the blameless postmortem from it. It reads and writes the record; it never operates the system.",
+		"connectors": [
+			"Slack",
+			"Jira",
+			"GitHub"
+		],
+		"tools": [
+			"your files",
+			"search",
+			"the shell",
+			"a task list"
+		],
+		"skills": [
+			"incident timeline",
+			"channel follow",
+			"evidence capture",
+			"status update",
+			"handoff brief",
+			"postmortem draft"
+		],
+		"mode": "interactive"
+	},
+	{
+		"id": "onboarding-guide",
+		"name": "Onboarding Guide",
+		"source": "gallery",
+		"icon": "search",
+		"group": null,
+		"tagline": "Answers \"how does this work here?\" from the docs we actually have, and says when they don't",
+		"description": "The coworker a new joiner asks instead of interrupting the team. Answers from the company's own handbook, runbooks, READMEs and design docs, cites the document and section every time, names the owner when the answer is not written down, and keeps a running list of the documentation that contradicted itself along the way.",
+		"connectors": [
+			"Confluence",
+			"Notion",
+			"GitHub",
+			"Google Drive",
+			"Slack"
+		],
+		"tools": [
+			"your files",
+			"search",
+			"a task list"
+		],
+		"skills": [
+			"source search",
+			"answer with citations",
+			"ownership lookup",
+			"doc rot report",
+			"faq builder",
+			"channel answering"
+		],
+		"mode": "interactive"
+	},
+	{
+		"id": "wiz-security-analyst",
+		"name": "Wiz Security Analyst",
+		"source": "gallery",
+		"icon": "audit",
+		"group": "security",
+		"tagline": "Turns what Wiz found into what to fix first, and who fixes it",
+		"description": "A cloud security analyst that works from your Wiz tenant. Ranks issues by whether an attacker can actually reach them, traces each one to the code and the team that owns it, and hands back the fix with the Wiz evidence attached. It writes to Wiz only when you hand it a security review to import.",
+		"connectors": [
+			"Wiz",
+			"GitHub",
+			"Jira"
+		],
+		"tools": [
+			"your files",
+			"search",
+			"a task list"
+		],
+		"skills": [
+			"wiz vuln triage",
+			"wiz vuln to code",
+			"wiz remediate green agent",
+			"wiz technology explore",
+			"wiz compliance mapping",
+			"wiz anomaly security audit",
+			"wiz cost spike",
+			"wiz wizos migration",
+			"wiz sbom v2 readiness",
+			"wiz import security review"
+		],
+		"mode": "interactive"
+	}
+]

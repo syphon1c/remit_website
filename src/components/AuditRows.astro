@@ -1,0 +1,12 @@
+---
+// Four rows of the hash-chained journal, as the audit view lists them. Each row records
+// the class the decision turned on and the hash of the row before it.
+---
+<div class="proof audit" role="img" aria-label="Four audit journal rows, each with its risk class, decision and chain hash.">
+	<div class="proof-bar"><span class="dot"></span> journal · case 3f9a · chain intact</div>
+	<div class="row head"><span>time</span><span>class</span><span>tool</span><span>decision</span></div>
+	<div class="row"><span class="t">14:02:11</span><span class="pill neutral">read</span><span class="tool">github.get_issue #418</span><span class="d allow">allowed</span><span class="hash"><i>prev</i>a41c…9e02 · <i>this</i>7b0f…c3d1</span></div>
+	<div class="row"><span class="t">14:02:19</span><span class="pill neutral">read</span><span class="tool">code_files.read internal/cache/lru.go</span><span class="d allow">allowed</span><span class="hash"><i>prev</i>7b0f…c3d1 · <i>this</i>e88a…1f47</span></div>
+	<div class="row"><span class="t">14:02:40</span><span class="pill warn">external</span><span class="tool">slack.post_message #eng-alerts</span><span class="d ask">person · outside content</span><span class="hash"><i>prev</i>e88a…1f47 · <i>this</i>2c51…b9a0</span></div>
+	<div class="row"><span class="t">14:03:05</span><span class="pill warn">external</span><span class="tool">slack.post_message #eng-alerts</span><span class="d allow">approved by gareth</span><span class="hash"><i>prev</i>2c51…b9a0 · <i>this</i>90de…44e7</span></div>
+</div>
