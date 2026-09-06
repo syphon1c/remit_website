@@ -52,9 +52,17 @@ const MAP = [
 
 const bySource = new Map(MAP.map(([repo, src, slug]) => [`${repo}:${src}`, slug]));
 
-// Per-page rewrites for the public manual, when a page needs one. None today: the guides
-// are written for the desktop app at the source.
-const TRANSFORM = {};
+// Per-page rewrites for the public manual, when a page needs one.
+const TRANSFORM = {
+	// How updates work: the reader's half. The sections on running the release pipeline,
+	// deploying the server and its credentials are operator material and stay internal.
+	'runtime:docs/how-updates-work.md': (md) => {
+		const keep = new Set(['The short version', 'The pieces', 'On the desktop', 'Which channel answers', 'Not yet', 'What happens if…']);
+		const parts = md.split(/^(?=## )/m);
+		const out = parts.filter((p, i) => i === 0 || keep.has(p.match(/^## (.*)$/m)?.[1]?.trim() ?? ''));
+		return out.join('') + '\nThe release pipeline itself — building, signing, publishing and deploying — is documented for the people who run it, not here.\n';
+	},
+};
 
 const HTML_TAGS = new Set(('a abbr article aside b blockquote br button code dd details div dl dt em figcaption figure footer h1 h2 h3 h4 h5 h6 header hr i iframe img input kbd label li main mark nav ol p path picture pre section small source span strong sub summary sup svg table tbody td th thead tr ul video').split(' '));
 
