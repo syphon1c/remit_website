@@ -48,6 +48,7 @@ export default defineConfig({
 					{ label: 'Outside content', slug: 'docs/coworker/outside-content' },
 					{ label: 'Connectors: Slack', slug: 'docs/coworker/connectors/slack' },
 					{ label: 'How updates work', slug: 'docs/coworker/updates' },
+					{ label: 'Running the server directly', slug: 'docs/coworker/server' },
 				] },
 				{ label: 'Remit Cloud', items: [
 					{ label: 'Overview', slug: 'docs/cloud/overview' },

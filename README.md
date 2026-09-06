@@ -37,11 +37,12 @@ out on purpose. The output is committed so the site builds anywhere.
 
 ## The captures are real
 
-`src/assets/app/*.webp` are screenshots of the actual interface, taken from the runtime's own
-hermetic end-to-end harness (`surfaces/gui/e2e`, a scripted fake agent: no model, no keys,
-deterministic). `scripts/shots/run.sh` re-shoots them: it copies the spec beside the harness,
-starts the interface's dev server, drives the approval cards and the settings screens, and
-converts the results to WebP. Re-run it when the product changes; never edit a capture.
+The screenshots in the manual and on the marketing pages are taken from the actual interface
+by the runtime's own screenshot harness (`npm run shots` in `ai_openWork/surfaces/gui`, which
+drives the hermetic e2e mocks: a scripted fake agent, no model, no keys, deterministic) into
+the runtime's `docs/images/`. `npm run sync-docs` here copies them to `public/docs/images/`
+for the manual and converts them to WebP in `src/assets/app/` for the marketing pages. To
+refresh a capture, re-run the harness there and sync here; never edit a capture.
 
 `src/data/coworkers.json` (the coworker cards) and `src/data/vendored-marks.json` (the four
 brand marks the app vendors by hand) are generated too: `npm run sync-coworkers`, and the

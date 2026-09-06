@@ -72,10 +72,14 @@ DELETE /v1/admin/invitations/{email}
 ```
 
 When the deployment has a `public_url`, the response carries `join_link` and the mail
-carries the same: `remit://join?gallery=<public_url>`. Clicking it opens Remit on "join a
-gallery" with this address filled in — and nothing else: the app asks the deployment what it
-is, shows what it found, and the person presses Sign in. Without Remit installed it does
-nothing.
+carries the same: `remit://join?gallery=<host>` — the address as a person would type it,
+`api.remit-ai.app`, not percent-encoded, because mail clients auto-link the middle of an
+encoded URL and break it. Clicking it opens Remit on "join a gallery" with this address
+filled in — and nothing else: the app asks the deployment what it is, shows what it found,
+and the person presses Sign in. Without Remit installed it does nothing, which is why the
+mail leads with the steps — get Remit at `<host>/download`, choose Remit Cloud Enterprise,
+enter the address, sign in — and shows the link second. The mail still carries no web link
+and no token.
 
 **There is no token in an invitation and none in the mail.** Accepting one is signing in
 with that address and having the identity provider say it is verified. So there is nothing
@@ -178,7 +182,6 @@ the service: seats, enrolled machines and how long evidence is kept.
 | Plan | People | Machines | Evidence kept |
 |---|---|---|---|
 | trial | 5 | 10 | 30 days |
-| team | 50 | 200 | 365 days |
 | enterprise | — | — | — |
 
 Seats count members **and pending invitations**: an invitation is a seat somebody is about

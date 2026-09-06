@@ -88,6 +88,8 @@ indistinguishable from one that broke.
 It never blocks: past the allowance you decide, and if you approve, it runs. The
 control is "you are watching now", not "stop".
 
+![Settings, Security and trust: the actions a turn takes on its own, and always-allowed destinations](/docs/images/settings-trust.png)
+
 Fifty is high on purpose. The number has two jobs that want different answers:
 as a runaway-loop guard high is fine, and as a bound on a turn acting on injected
 instructions it wants to be low — but low is what interrupts honest bulk work,

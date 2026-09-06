@@ -105,11 +105,11 @@ become GitHub links (the repositories are private today, so those resolve only f
       the CSP tried against the built site with a local server that sets the header, search
       included; a look at the home page and one manual page in the browser at desktop and
       phone widths.
-- [x] Commit; create the private GitHub repository `syphon1c/remit-website`; push.
+- [x] Commit; create the private GitHub repository `syphon1c/remit_website`; push.
 
 ## Owner steps, after the push
 
-1. Cloudflare ▸ Workers & Pages ▸ Create ▸ Pages ▸ connect to Git ▸ `syphon1c/remit-website`
+1. Cloudflare ▸ Workers & Pages ▸ Create ▸ Pages ▸ connect to Git ▸ `syphon1c/remit_website`
    — or `npx wrangler pages project create remit-website --production-branch main` once,
    signed in. Build command `npm run build`, output `dist`.
 2. Repository secrets `CLOUDFLARE_API_TOKEN` (Pages: Edit) and `CLOUDFLARE_ACCOUNT_ID`, set

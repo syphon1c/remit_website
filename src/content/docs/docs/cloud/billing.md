@@ -36,7 +36,7 @@ organisation sets. So it arrives from outside the request path entirely:
 
 ```bash
 remit-cloud plan show acme
-remit-cloud plan set acme team gareth@scapecom.com "invoice 2026-114 paid by bank transfer"
+remit-cloud plan set acme enterprise gareth@scapecom.com "invoice 2026-114 paid by bank transfer"
 remit-cloud plan link acme cus_QK3f9…
 ```
 
@@ -57,9 +57,7 @@ Yes — Stripe is what "payment provider" means here, and the integration is one
 stripe_webhook_secret = "whsec_…"          # empty: the route is not mounted at all
 
 [billing.plans]                             # a price's lookup_key → a plan
-remit_team_monthly    = "team"
-remit_team_annual     = "team"
-remit_enterprise      = "enterprise"
+remit_enterprise_annual = "enterprise"      # US$200 per organisation per year, the one paid plan
 ```
 
 Point a Stripe endpoint at `POST /v1/billing/stripe` for the `customer.subscription.*`

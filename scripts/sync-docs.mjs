@@ -19,6 +19,7 @@ const REPOS = {
 // repo, source path, site slug under /docs/, optional title override.
 const MAP = [
 	['runtime', 'docs/getting-started.md', 'coworker/getting-started'],
+	['runtime', 'docs/server.md', 'coworker/server', 'Running the server directly'],
 	['runtime', 'docs/using-remit.md', 'coworker/using-remit'],
 	['runtime', 'docs/configuration.md', 'coworker/configuration'],
 	['runtime', 'docs/security.md', 'coworker/security'],
@@ -51,26 +52,9 @@ const MAP = [
 
 const bySource = new Map(MAP.map(([repo, src, slug]) => [`${repo}:${src}`, slug]));
 
-// Per-page rewrites for the public manual. Remit is free but its source is not published,
-// so the build-from-source sections become an install section.
-const TRANSFORM = {
-	'runtime:docs/getting-started.md': (md) => {
-		const start = md.indexOf('## Requirements');
-		const end = md.indexOf('## Start the server');
-		if (start < 0 || end < 0) return md;
-		const install = `## Install
-
-Download Remit for macOS, Windows or Linux from [remit-ai.app/download](/download/). The app
-includes the local server and the interface; nothing else is needed. You will want an API key
-for at least one model provider, or a local or proxy endpoint, which setup asks for on first run.
-
-The desktop app runs the local server for you. The command-line notes below are for people
-running the server directly, for example on a machine without a desktop.
-
-`;
-		return md.slice(0, start) + install + md.slice(end);
-	},
-};
+// Per-page rewrites for the public manual, when a page needs one. None today: the guides
+// are written for the desktop app at the source.
+const TRANSFORM = {};
 
 const HTML_TAGS = new Set(('a abbr article aside b blockquote br button code dd details div dl dt em figcaption figure footer h1 h2 h3 h4 h5 h6 header hr i iframe img input kbd label li main mark nav ol p path picture pre section small source span strong sub summary sup svg table tbody td th thead tr ul video').split(' '));
 
@@ -89,8 +73,8 @@ function rewriteLinks(md, repo, srcPath) {
 	const srcDir = path.posix.dirname(srcPath);
 	// Links to files that are not part of the manual (other repository files, internal
 	// specs) are dropped and their text kept: the repositories are not public.
-	md = md.replace(/\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g, (m, text, target) => {
-		if (/^(https?:|mailto:|#)/.test(target)) return m;
+	md = md.replace(/(?<!!)\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g, (m, text, target) => {
+		if (/^(https?:|mailto:|#|\/)/.test(target)) return m;
 		const [file] = target.split('#');
 		const resolved = path.posix.normalize(path.posix.join(srcDir, file));
 		return bySource.has(`${repo}:${resolved}`) ? m : text;
@@ -99,7 +83,7 @@ function rewriteLinks(md, repo, srcPath) {
 	// Bare mentions of the private repositories become the product's name.
 	for (const r of Object.values(REPOS)) md = md.replace(new RegExp(`(?:https?:\\/\\/)?github\\.com\\/${r.gh.replace('/', '\\/')}[\\w\\-\\/.#]*`, 'g'), r.label);
 	return md.replace(/\]\(([^)\s]+)(\s+"[^"]*")?\)/g, (m, target, title) => {
-		if (/^(https?:|mailto:|#)/.test(target)) return m;
+		if (/^(https?:|mailto:|#|\/)/.test(target)) return m;
 		const [file, anchor] = target.split('#');
 		const resolved = path.posix.normalize(path.posix.join(srcDir, file));
 		const slug = bySource.get(`${repo}:${resolved}`);
@@ -150,6 +134,7 @@ for (const [repo, src, slug, titleOverride] of MAP) {
 	const description = firstParagraph(bodyLines);
 	let body = bodyLines.join('\n').replace(/^\s+/, '');
 	if (TRANSFORM[`${repo}:${src}`]) body = TRANSFORM[`${repo}:${src}`](body);
+	body = body.replace(/\]\(images\//g, '](/docs/images/');
 	body = rewriteLinks(body, repo, src);
 	body = escapePlaceholders(body);
 	const fm = ['---', `title: ${yaml(title)}`, description ? `description: ${yaml(description)}` : null, '---'].filter(Boolean).join('\n');
@@ -159,4 +144,20 @@ for (const [repo, src, slug, titleOverride] of MAP) {
 	fs.writeFileSync(outPath, `${fm}\n\n${prov}\n\n${body}`);
 	n++;
 }
-console.log(`synced ${n} pages into src/content/docs/docs`);
+// The captures the pages refer to, and the same files as WebP for the marketing pages.
+const IMG_SRC = path.join(REPOS.runtime.dir, 'docs/images');
+const IMG_PUB = path.join(ROOT, 'public/docs/images');
+const IMG_APP = path.join(ROOT, 'src/assets/app');
+fs.rmSync(IMG_PUB, { recursive: true, force: true });
+fs.mkdirSync(IMG_PUB, { recursive: true });
+fs.mkdirSync(IMG_APP, { recursive: true });
+let imgs = 0;
+if (fs.existsSync(IMG_SRC)) {
+	const sharp = (await import('sharp')).default;
+	for (const f of fs.readdirSync(IMG_SRC).filter((f) => f.endsWith('.png'))) {
+		fs.copyFileSync(path.join(IMG_SRC, f), path.join(IMG_PUB, f));
+		await sharp(path.join(IMG_SRC, f)).webp({ quality: 90 }).toFile(path.join(IMG_APP, f.replace(/\.png$/, '.webp')));
+		imgs++;
+	}
+}
+console.log(`synced ${n} pages into src/content/docs/docs, ${imgs} captures into public/docs/images and src/assets/app`);

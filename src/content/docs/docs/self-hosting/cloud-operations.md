@@ -201,6 +201,14 @@ public, cached for five minutes and readable from any origin, because it says no
 browser could not read off the page. The website's download buttons use it, so "Download
 for macOS" points at the current installer without the site being rebuilt for a release.
 
+## Brand assets
+
+`GET /brand/mark.svg`, `/brand/mark.png` (512 px, transparent) and `/brand/mark-padded.png`
+(on white, for a login page's logo box) serve the Remit mark from the API host, cached for a
+day. They exist because third parties that show the logo — the identity provider's tenant
+settings and login page, a status page — want a stable https URL, and the website may live
+on a host that changes. Nothing else is served under `/brand/`.
+
 
 ## Publishing a desktop release
 

@@ -29,11 +29,12 @@ have the same leverage, governed.
 Pick one in the composer. The picker has a filter once the list outgrows
 scanning by eye.
 
+![The coworker picker in the composer](/docs/images/coworker-picker.png)
+
 ### Team galleries
 
 Coworkers can come from a **gallery**. That is either Remit Cloud's curated one,
-or a gallery your own organisation runs — a
-broker somebody there installed,
+or a gallery your own organisation runs — a broker somebody there installed,
 holding coworkers your colleagues wrote. The sections below apply to both, and
 say which when it matters.
 
@@ -72,6 +73,8 @@ whoever runs it has the code — it will not tell you to check an inbox nothing
 was sent to.
 
 ### Keeping one up to date
+
+![Settings, Coworkers: the coworkers on this machine, and one opened](/docs/images/coworker-detail.png)
 
 A coworker installed from a gallery remembers where it came from, so **Settings ▸
 Coworkers** badges the ones with something published beyond what you have —
@@ -153,6 +156,8 @@ that arrived from somebody else.
 The first time a coworker wants to do something consequential you get an
 approval card: what it wants to do, and why.
 
+![A command the reviewer was not sure about: only a person can approve it](/docs/images/approval-unsure.png)
+
 Your options are usually *approve once*, *always allow this*, or *reject*.
 "Always allow this" is scoped to the session unless you make it a standing rule.
 
@@ -200,8 +205,10 @@ these two catch.
 
 ## Connectors
 
-**Settings ▸ Connectors** — 25+ native integrations (GitHub, Slack, Jira,
-Notion, Linear, HubSpot, Gmail and more), plus any MCP server.
+**Settings ▸ Connectors** — thirty-eight native integrations (GitHub, Slack,
+Jira, Notion, Linear, HubSpot, Gmail and more), plus any MCP server.
+
+![Settings, Connectors](/docs/images/connectors.png)
 
 MCP servers can be added by hand, or from a built-in catalogue of vendor-published
 ones. Anything added from the catalogue lands **disabled**: the catalogue makes a
@@ -215,8 +222,10 @@ subscriptions, and what each symptom means.
 
 ## Models
 
-**Settings ▸ Models**. Add a key per provider, or point everything at one
-gateway with `model_proxy_url`.
+**Settings ▸ Models**. Add a key per provider, run models locally through Ollama,
+or point everything at one gateway with **LiteLLM (proxy)**.
+
+![Settings, Models](/docs/images/settings-models.png)
 
 You can switch a session's model mid-conversation, but only while it is idle —
 a model cannot be swapped underneath a turn that is running. Stop it, or wait,
@@ -236,6 +245,8 @@ preferences, project context that could not be rederived from the code.
 
 - Everything remembered is listed in **Settings ▸ Memory**, in plain language,
   grouped by project. Global memories ("About you") apply everywhere.
+
+  ![Settings, Memory](/docs/images/settings-memory.png)
 - Each save is announced in the conversation with one-tap **Undo**.
 - **Ask me before saving** routes every save through an approval card. Off by
   default.
@@ -253,30 +264,29 @@ can also propose saving a finished skill, which routes through the normal
 approval card.
 
 **Automations** run a coworker on a schedule — a Monday digest, a nightly triage.
-They live in **Automations** in the sidebar.
+They live in **Automations** in the sidebar. A coworker can propose one; the proposal
+is an approval card that lists exactly what the automation would be allowed to do,
+target by target.
+
+![Automations, with their runs](/docs/images/automations.png)
+
+Approvals and questions from unattended runs land in the **Inbox**, reached from the
+account menu at the foot of the sidebar; the badge on it counts what needs you.
+
+![The Inbox: what unattended runs need from you](/docs/images/inbox.png)
 
 ## The board
 
-`remit-board` is a work-item board with a hash-chained journal. Coworkers claim
-items off it, act inside the remit granted, and answer for what they did.
+The board is a work-item board with a hash-chained journal. Leads plan and staff it;
+workers claim items off it, act inside the remit granted, and answer for what they did.
+A session is bound to a board from the composer's **Attach ▸ Board** menu, and a
+coworker can work the board as a tool, because it also runs as an MCP server.
 
-```bash
-./bin/remit-board board --help
-./bin/remit-board journal --help
-```
+## Without the desktop
 
-It also runs as an MCP server, so a coworker can work the board as a tool.
-
-## The other binaries
-
-```bash
-./bin/remit --cwd ~/code/project        # terminal worker (TUI)
-./bin/remit-connectors status           # connector diagnostics
-./bin/remit-board board list            # the board
-```
-
-`remit` takes `--model`, `--mode`, `--resume <session-id>` and an optional skill
-to launch.
+The app runs the local server for you. On a machine with no desktop, the same server
+runs on its own, and the terminal worker, the connector tool and the board CLI are
+there for people who live in a terminal: [Running the server directly](/docs/coworker/server/).
 
 ## Where your data lives
 
