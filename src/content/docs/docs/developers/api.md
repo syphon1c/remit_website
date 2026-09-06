@@ -1,5 +1,5 @@
 ---
-title: "Runtime API"
+title: "The local API"
 description: "The server exposes ~160 routes under /v1. This groups them by subsystem rather than listing each one — an exhaustive table would rot on the next…"
 ---
 

@@ -32,8 +32,12 @@ Edit a page in its repository, not here; the next sync overwrites it. The script
 matter and a provenance line, turns links between mapped pages into site links and links to
 other repository files into GitHub links, and escapes `<placeholder>` tokens outside code so
 Markdown does not swallow them. The mapping table at the top of the script is the list of
-what is published; `docs/interface.md`, the release runbooks and the readiness list are left
-out on purpose. The output is committed so the site builds anywhere.
+what is published. Left out on purpose, because the manual is for people using the app,
+administrators of an organisation and teams self-hosting the free broker — not for whoever
+operates Remit Cloud itself: billing, the cloud's auth modes, its deployment, operations and
+key custody, the cloud and broker APIs, the architecture and development pages, the release
+runbooks, the readiness list and `docs/interface.md`. The cloud overview and the console page
+lose their operator sections at sync time (`TRANSFORM` in the script). The output is committed so the site builds anywhere.
 
 ## The captures are real
 

@@ -50,7 +50,7 @@ export default defineConfig({
 					{ label: 'How updates work', slug: 'docs/coworker/updates' },
 					{ label: 'Running the server directly', slug: 'docs/coworker/server' },
 				] },
-				{ label: 'Remit Cloud', items: [
+				{ label: 'Remit Cloud Enterprise', items: [
 					{ label: 'Overview', slug: 'docs/cloud/overview' },
 					{ label: 'Organisations', slug: 'docs/cloud/organisations' },
 					{ label: 'The console', slug: 'docs/cloud/console' },
@@ -59,24 +59,15 @@ export default defineConfig({
 					{ label: 'Threat model', slug: 'docs/cloud/threat-model' },
 					{ label: 'Curating the gallery', slug: 'docs/cloud/gallery-curating' },
 					{ label: 'Sharing coworkers', slug: 'docs/cloud/sharing' },
-					{ label: 'The gallery', slug: 'docs/cloud/gallery' },
-					{ label: 'Authentication', slug: 'docs/cloud/auth' },
-					{ label: 'Billing', slug: 'docs/cloud/billing' },
 				] },
-				{ label: 'Self-hosting', items: [
+				{ label: 'Self-hosting a gallery', items: [
 					{ label: 'The broker', slug: 'docs/self-hosting/broker' },
 					{ label: 'Curating a broker gallery', slug: 'docs/self-hosting/broker-curating' },
 					{ label: 'Broker authentication', slug: 'docs/self-hosting/broker-auth' },
 					{ label: 'Broker sharing', slug: 'docs/self-hosting/broker-sharing' },
-					{ label: 'Deploying Remit Cloud', slug: 'docs/self-hosting/cloud-deployment' },
-					{ label: 'Operating Remit Cloud', slug: 'docs/self-hosting/cloud-operations' },
-					{ label: 'Key custody', slug: 'docs/self-hosting/key-custody' },
 				] },
 				{ label: 'Reference', items: [
-					{ label: 'Architecture', slug: 'docs/developers/architecture' },
-					{ label: 'Runtime API', slug: 'docs/developers/api' },
-					{ label: 'Remit Cloud API', slug: 'docs/developers/cloud-api' },
-					{ label: 'Broker API', slug: 'docs/developers/broker-api' },
+					{ label: 'The local API', slug: 'docs/developers/api' },
 				] },
 			],
 		}),

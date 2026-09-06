@@ -26,8 +26,7 @@ const MAP = [
 	['runtime', 'docs/outside-content.md', 'coworker/outside-content', 'Outside content'],
 	['runtime', 'docs/connectors-slack.md', 'coworker/connectors/slack', 'Connectors: Slack'],
 	['runtime', 'docs/how-updates-work.md', 'coworker/updates'],
-	['runtime', 'docs/architecture.md', 'developers/architecture'],
-	['runtime', 'docs/api.md', 'developers/api', 'Runtime API'],
+	['runtime', 'docs/api.md', 'developers/api', 'The local API'],
 	['cloud', 'docs/README.md', 'cloud/overview', 'Remit Cloud'],
 	['cloud', 'docs/organisations.md', 'cloud/organisations'],
 	['cloud', 'docs/console.md', 'cloud/console'],
@@ -36,24 +35,35 @@ const MAP = [
 	['cloud', 'docs/threat-model.md', 'cloud/threat-model'],
 	['cloud', 'docs/gallery-curating.md', 'cloud/gallery-curating', 'Curating the gallery'],
 	['cloud', 'docs/sharing.md', 'cloud/sharing'],
-	['cloud', 'docs/gallery-deployment.md', 'cloud/gallery', 'The gallery'],
-	['cloud', 'docs/auth.md', 'cloud/auth'],
-	['cloud', 'docs/billing.md', 'cloud/billing'],
-	['cloud', 'docs/deployment.md', 'self-hosting/cloud-deployment'],
-	['cloud', 'docs/operations.md', 'self-hosting/cloud-operations', 'Operating Remit Cloud'],
-	['cloud', 'docs/key-custody.md', 'self-hosting/key-custody'],
-	['cloud', 'docs/api.md', 'developers/cloud-api', 'Remit Cloud API'],
 	['broker', 'README.md', 'self-hosting/broker', 'The broker'],
 	['broker', 'USER_GUIDE.md', 'self-hosting/broker-curating', 'Curating a broker gallery'],
 	['broker', 'docs/auth.md', 'self-hosting/broker-auth', 'Broker authentication'],
 	['broker', 'docs/sharing.md', 'self-hosting/broker-sharing', 'Broker: sharing coworkers'],
-	['broker', 'docs/api.md', 'developers/broker-api', 'Broker API'],
 ];
 
 const bySource = new Map(MAP.map(([repo, src, slug]) => [`${repo}:${src}`, slug]));
 
 // Per-page rewrites for the public manual, when a page needs one.
 const TRANSFORM = {
+	// The cloud overview: the three ways to run Remit and the pieces an administrator meets.
+	// Its map of operator pages (deployment, operations, billing, key custody) stays internal.
+	'cloud:docs/README.md': (md) => {
+		const cut = md.indexOf('## Where to start');
+		const head = cut > 0 ? md.slice(0, cut) : md;
+		return head.trimEnd() + `
+
+## In this section
+
+- [Organisations](organisations.md) — registration, roles, invitations, and what is separated between organisations.
+- [The console](console.md) — the six screens, and the rule that none of them can lower a protection.
+- [Policy](policy.md) — the controls, what "tighter" means for each, issuing and break-glass.
+- [What the server holds](evidence.md) — and what it never does.
+- [Threat model](threat-model.md) — five attackers, what each can and cannot do.
+- [Curating the gallery](gallery-curating.md) and [sharing coworkers](sharing.md) — publishing, review, and what travels.
+`;
+	},
+	// The console: an administrator's page; the deployment switch that mounts it is operator material.
+	'cloud:docs/console.md': (md) => md.replace(/^## Turning it on[\s\S]*?(?=^## )/m, ''),
 	// How updates work: the reader's half. The sections on running the release pipeline,
 	// deploying the server and its credentials are operator material and stay internal.
 	'runtime:docs/how-updates-work.md': (md) => {

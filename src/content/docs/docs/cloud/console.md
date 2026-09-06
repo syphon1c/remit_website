@@ -14,15 +14,6 @@ policy; this is where the policy is issued.** The people who write one are often
 or IT operators who never install the coworker at all, and every free build would otherwise
 ship the whole administrative surface for a service most people never touch.
 
-## Turning it on
-
-On wherever there is a durable store, off otherwise. Override either way:
-
-```toml
-[console]
-enabled = true
-```
-
 ## How a browser signs in
 
 The console runs the ordinary authorization-code flow with PKCE against **this

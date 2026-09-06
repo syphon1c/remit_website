@@ -223,3 +223,14 @@ the organisation"; and a page to register for a trial.
       production tenant exists (readiness 0.2); the trial page is live-ready the moment that
       is switched. The cloud's `team` plan was removed the same evening (cloud commit "One paid
       plan") and deployed.
+
+## No backend documentation in the public manual (2026-09-06)
+
+Owner: billing — how plans are set and approved — and the like are not for public
+consumption. Removed from the mapping: billing, the cloud's auth modes, gallery deployment,
+Remit Cloud deployment, operations and key custody, the cloud and broker APIs, and the
+runtime architecture page. The cloud overview keeps the three ways to run Remit and a list
+of the administrator pages; the console page drops its "turning it on" section; the updates
+page keeps the reader's half. The manual is now 21 pages for three readers: people using
+the app, administrators, and teams self-hosting the broker. Site links that pointed at the
+removed pages now point at the broker guide or at hello@.

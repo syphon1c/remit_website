@@ -22,7 +22,7 @@ Curating the gallery rather than deploying the broker?
 | **[Your first real deployment](#your-first-real-deployment)** | the ordered walkthrough, below |
 | [docs/auth.md](/docs/self-hosting/broker-auth/) | auth modes, TLS, sign-in codes, operators |
 | [docs/sharing.md](/docs/self-hosting/broker-sharing/) | what travels, uploads, review, the journal |
-| [docs/api.md](/docs/developers/broker-api/) | every endpoint and its shape |
+| docs/api.md | every endpoint and its shape |
 | [USER_GUIDE.md](/docs/self-hosting/broker-curating/) | for whoever curates the gallery |
 
 ## Quick start
