@@ -17,8 +17,7 @@ gallery; drop relay events; lie in the inventory; read every content-free record
 **Cannot:** widen what any runtime permits. Policy composes by intersection at the
 endpoint and may only tighten; a document that would loosen is refused by the runtime, not
 by this console. Cannot read work content, because none is here to read. Cannot sign a
-coworker or a policy it does not hold the key for, and the keys are the custody decision
-(todo.md decision 6) that blocks release.
+coworker or a policy it does not hold the key for, and the keys are the custody decision made before release.
 
 **Keeps it true:** the runtime's lattice and its whole-document refusal; the signed
 document with a pinned key; the fact that nothing this server can say makes a runtime

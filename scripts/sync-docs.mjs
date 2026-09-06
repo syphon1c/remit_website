@@ -34,7 +34,6 @@ const MAP = [
 	['cloud', 'docs/evidence.md', 'cloud/evidence'],
 	['cloud', 'docs/threat-model.md', 'cloud/threat-model'],
 	['cloud', 'docs/gallery-curating.md', 'cloud/gallery-curating', 'Curating the gallery'],
-	['cloud', 'docs/sharing.md', 'cloud/sharing'],
 	['broker', 'README.md', 'self-hosting/broker', 'The broker'],
 	['broker', 'USER_GUIDE.md', 'self-hosting/broker-curating', 'Curating a broker gallery'],
 	['broker', 'docs/auth.md', 'self-hosting/broker-auth', 'Broker authentication'],
@@ -59,9 +58,16 @@ const TRANSFORM = {
 - [Policy](policy.md) — the controls, what "tighter" means for each, issuing and break-glass.
 - [What the server holds](evidence.md) — and what it never does.
 - [Threat model](threat-model.md) — five attackers, what each can and cannot do.
-- [Curating the gallery](gallery-curating.md) and [sharing coworkers](sharing.md) — publishing, review, and what travels.
+- [Curating the gallery](gallery-curating.md) — writing a coworker, publishing it, and the review it goes through.
 `;
 	},
+	// Organisations: an administrator's page. The deployment's shape (single- or multi-tenant
+	// configuration) and the operator's command-line tools stay internal.
+	'cloud:docs/organisations.md': (md) => md
+		.replace(/^## Two shapes, one binary[\s\S]*?(?=^## Registering)/m, '')
+		.replace(/Administering the deployment is what it always was:[\s\S]*?an attacker could find\.\n\n/, ''),
+	// The threat model: one internal cross-reference becomes plain words.
+	'cloud:docs/threat-model.md': (md) => md.replace(/the custody decision\s*\(todo\.md decision 6\) that blocks release/, 'the custody decision made before release'),
 	// The console: an administrator's page; the deployment switch that mounts it is operator material.
 	'cloud:docs/console.md': (md) => md.replace(/^## Turning it on[\s\S]*?(?=^## )/m, ''),
 	// How updates work: the reader's half. The sections on running the release pipeline,

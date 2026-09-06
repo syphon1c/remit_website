@@ -7,31 +7,6 @@ description: "Who a request belongs to, and who may administer them."
 
 Who a request belongs to, and who may administer them.
 
-## Two shapes, one binary
-
-**Single-tenant** is the default and every self-hosted deployment. One organisation, named
-in the configuration, created at startup if absent, and every authenticated identity is
-inside it. `[auth] operators` is the allowlist. Nothing below changes it.
-
-```toml
-[org]
-slug = "acme"
-name = "Acme"
-```
-
-**Multi-tenant** is Remit Cloud. People register their own organisation, and **membership**
-decides which one a request is inside.
-
-```toml
-[org]
-registration = true
-```
-
-Turning it on changes who an existing deployment's signed-in people are: with membership
-deciding, somebody who is a member of nothing is inside no organisation. That is right for
-a hosted service and wrong for a box that has been serving one team, which is why it is
-off by default.
-
 ## Registering
 
 ```
@@ -162,11 +137,6 @@ installable.
 
 A deployment-wide system administrator — somebody who could see or administer every
 organisation from inside the product — was considered and **rejected** on 2026-09-03.
-
-Administering the deployment is what it always was: `remit-cloud plan`, `remit-cloud
-gallery`, `remit-cloud verify`. Those need access to the server, so they grant nothing
-somebody with that access did not already have, and none of them is a door in the API that
-an attacker could find.
 
 The cost is real and worth stating: supporting a customer means asking them what their
 policy says, because there is no way to look. That cost is what the claim is made of.

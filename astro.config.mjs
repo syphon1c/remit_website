@@ -58,7 +58,6 @@ export default defineConfig({
 					{ label: 'What the server holds', slug: 'docs/cloud/evidence' },
 					{ label: 'Threat model', slug: 'docs/cloud/threat-model' },
 					{ label: 'Curating the gallery', slug: 'docs/cloud/gallery-curating' },
-					{ label: 'Sharing coworkers', slug: 'docs/cloud/sharing' },
 				] },
 				{ label: 'Self-hosting a gallery', items: [
 					{ label: 'The broker', slug: 'docs/self-hosting/broker' },
