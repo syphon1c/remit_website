@@ -125,3 +125,10 @@ the same things in that platform's format.
   "GET /download.json"); without it, or without script, they open the download page.
 - The comparison names Claude Cowork on structural, public properties only, dated September
   2026, with an invitation to correct it.
+- **Memory is scoped by who it is about** — you, a project, one coworker, one team — since the
+  runtime's C7 (2026-09-09, `internal/memory/memory.go`). The product page says so; "per person
+  and per project" was true of the first three scopes only.
+- **Nothing invites a source build.** The download call to action names the three platforms and
+  stops there: the manual's getting started has an install section and no build section, and a
+  page telling somebody to build what the site will not help them get is the "free, not open
+  source" decision contradicting itself (fixed 2026-09-09).

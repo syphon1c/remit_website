@@ -69,7 +69,7 @@ import DiagramModels from '../components/DiagramModels.astro';
 				<div>
 					<h3>Approval cards speak the transcript's language</h3>
 					<p>A routine write inside the workspace is a compact row: what file, a preview, allow or not. A command shows the command and says it stays on this computer. Anything that leaves the machine says where it is going. No raw argument dumps, no "PERMISSION REQUIRED" kicker.</p>
-					<p>"Always allow" is scoped to the session unless you make it a standing rule, and never clears the two floors.</p>
+					<p>"Always allow" is scoped to the session unless you make it a standing rule, and never clears the two floors. A standing rule is one tool against one exact target — an issue in one repository, a reply in one channel — taught from the card and honoured until you remove it. Settings lists every one you have taught, with the session and the call that taught it.</p>
 				</div>
 				<Shot src={shotWrite} alt="A compact approval row: Write fetch_data.py, with an inline preview and Allow and Always allow buttons." caption="A routine workspace write is one row." sizes="(max-width: 900px) 100vw, 62vw" />
 			</div>
@@ -132,7 +132,7 @@ import DiagramModels from '../components/DiagramModels.astro';
 				<h2>Memory, skills, automations, the board, and one binary.</h2>
 			</div>
 			<div class="grid three">
-				<div class="feature"><h3>Memory that stays legible</h3><p>Scoped per person and per project, listed in plain language so you can read what a coworker remembers, with an injection ceiling so memory cannot quietly eat your context window.</p></div>
+				<div class="feature"><h3>Memory that stays legible</h3><p>Scoped by who it is about — you, a project, one coworker, one team — listed in plain language so you can read what a coworker remembers, with an injection ceiling so memory cannot quietly eat your context window.</p></div>
 				<div class="feature"><h3>Skills</h3><p>Loadable capabilities a coworker picks up mid-task. A finished skill can be proposed for saving; the proposal goes through the approval card like any other write.</p></div>
 				<div class="feature"><h3>Automations and the inbox</h3><p>Run a coworker on a schedule: a Monday digest, a nightly triage. Approvals from unattended runs can be routed to your inbox, unless your organisation's policy says they may not.</p></div>
 				<div class="feature"><h3>The board</h3><p>A work-item board with a hash-chained journal. Coworkers claim items off it and answer for them. It also runs as an MCP server, so a coworker can work the board as a tool.</p></div>
@@ -142,7 +142,8 @@ import DiagramModels from '../components/DiagramModels.astro';
 			<div class="split art">
 				<div>
 					<h3>Work that starts on its own</h3>
-					<p>An automation runs a coworker on a schedule with the permission set you approved when you created it, target by target. Its approvals, when it needs one, go to your Inbox. A coworker can propose an automation; the proposal is an approval card that lists exactly what it would be allowed to do.</p>
+					<p>An automation runs a coworker on a schedule with the permission set you approved when you created it, target by target, on the model you pin to it or your default. Its approvals, when it needs one, go to your Inbox. A coworker can propose an automation; the proposal is an approval card that lists exactly what it would be allowed to do.</p>
+					<p>Each run says what it produced: the files it wrote, titled and hashed, and the messages it sent and where. A run that failed for the runtime's own reasons — the model failed, a tool crashed — is run once more, and says so. One call returns everything delivered since a time you name, which is what you want on a Monday morning.</p>
 				</div>
 				<Shot src={shotAutomations} alt="Automations: a scheduled Daily AI News automation with its runs." caption="Automations, with their runs." sizes="(max-width: 900px) 100vw, 62vw" />
 			</div>
@@ -162,7 +163,7 @@ import DiagramModels from '../components/DiagramModels.astro';
 
 	<section class="band">
 		<div class="wrap">
-			<div><h2>Free, no account, every protection on from the first run.</h2><p>Download the app, or build it from source with Go 1.25.</p></div>
+			<div><h2>Free, no account, every protection on from the first run.</h2><p>Download the app for macOS, Windows or Linux. Nothing to register, nothing to configure first.</p></div>
 			<div class="actions" style="margin:0"><a class="btn primary lg" href="/download/">Download Remit</a><a class="btn ghost lg" href="/docs/coworker/getting-started/">Getting started</a></div>
 		</div>
 	</section>

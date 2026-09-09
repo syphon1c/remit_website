@@ -29,6 +29,9 @@ The control only bites where a turn does **both** things: reads outside content
 | reading a page, then fetching an allowlisted domain | nothing — configured in advance |
 | searching the web after reading something | nothing — the provider is the one you configured |
 | an automation with a pinned standing rule | nothing — pinned rules are exempt |
+| answering a Slack mention in its own thread | nothing — unless the turn read something else first, then a card |
+| reading a board comment a worker wrote after reading a mail | the reader's turn is marked; its next external action gets a card |
+| waking from `sleep_until` after a marked turn | nothing new — the mark carries over the wake |
 | working in discuss or plan mode | nothing — those already refuse |
 
 If you see prompts outside that middle row, something is wrong. Take the audit
@@ -230,9 +233,12 @@ In order of how much you give up.
 For `egress`, the configured allowlist is the exemption: a domain named in
 advance cannot have been chosen by something the turn just read. If a coworker
 reads pages and then fetches from a handful of known hosts, listing those hosts
-stops the prompts without switching anything off. An in-flow "always allow this
-domain" click does not have the same effect, deliberately — it was made during
-the turn, not before it.
+stops the prompts without switching anything off. A *session* grant ("always
+allow this domain this session") does not have the same effect, deliberately —
+it is a ladder grant, and the floor sits under the ladder. So a card the floor
+raised no longer offers one: it offers **Allow *host* from now on**, which writes
+the same Always-allowed entry the Settings page does, after you press it, for
+every session. A person names the host; the page cannot.
 
 ### 1. Pin the target with a standing rule — the intended answer
 
@@ -242,9 +248,11 @@ pinned target, so the channel an attacker wants is already shut.
 
 If an automation posts to one channel or files against one project, give it a
 standing rule for exactly that target and it stops asking — without switching
-anything off. This is the designed escape hatch, and it is strictly better than
-the two below because it keeps the protection for everything that is *not*
-pinned.
+anything off. A live session has the same lever: **Allow every time against
+*target*** on the card teaches a standing allowance every session honours, listed
+and revocable under Settings ▸ Security & trust. This is the designed escape
+hatch, and it is strictly better than the two below because it keeps the
+protection for everything that is *not* pinned.
 
 ### 2. Keep the record, drop the enforcement
 

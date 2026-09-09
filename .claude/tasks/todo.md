@@ -234,3 +234,38 @@ of the administrator pages; the console page drops its "turning it on" section; 
 page keeps the reader's half. The manual is now 21 pages for three readers: people using
 the app, administrators, and teams self-hosting the broker. Site links that pointed at the
 removed pages now point at the broker guide or at hello@.
+
+## The manual catches up, and two claims that had gone false (2026-09-09)
+
+Owner: "is there anything that should update there or features. Specifically aswell there is
+a manual section, can you analyse and see what needs to be updated."
+
+**The manual was four tiers behind.** `npm run sync-docs` brought ten pages forward, +547
+lines: Slack's "Replies without asking", standing allowances and the teaching card, model
+tiers and the reviewer separation, approval expiry, the browser driver, session grants,
+the automation's model pin and its one bounded retry, board chain verification, memory's
+persona and team scopes with `memory_search` and the journal bridge, typed deliverables and
+the digest, and the Cloud's policy keys, heartbeat fields and evidence kinds. `npm run check`
+builds and every link in 31 pages resolves. Nothing here was authored: the pages are
+generated, and every one of those features was written in its own repository as it shipped —
+which is why the sync was a mechanical catch-up rather than a rewrite.
+
+**Two claims on the product page had become false, and one contradicted a decision.**
+- [x] "Memory … scoped per person and per project" — true of three scopes, and there are now
+      four: you, a project, one coworker, one team.
+- [x] "Download the app, or build it from source with Go 1.25." The site's own rule is *free,
+      not open source*, and it is enforced everywhere else — the sync drops repository links,
+      leaves out `development.md`, and replaces getting started's build section with an
+      install section. A call to action inviting a source build is the decision contradicting
+      itself on the page most people read. It names the three platforms now.
+- [x] Both recorded in `README.md` ▸ Facts the copy depends on, with what made them wrong.
+
+**Two capabilities earned a line.** The approvals section said "unless you make it a standing
+rule" without ever saying what one is; it now says — one tool, one exact target, taught from
+the card, listed and revocable. The automations section now says what a run delivers, that a
+runtime failure is retried once, and that one call returns everything since a time you name.
+
+Checked and left alone: the connector counts (43 in the catalogue, 38 available, the five
+"soon" named), the security page's five floors — its line on authority outliving the session
+already anticipated standing rules and reads correctly beside them — and the pricing, trial
+and download numbers, none of which moved.

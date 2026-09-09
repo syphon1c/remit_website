@@ -68,6 +68,7 @@ remit-connectors status              # which connectors are configured, and thei
 remit-board board --help             # the work-item board
 remit-board journal --help           # its hash-chained journal
 remit-board board mcp                # the board as an MCP server, for a coworker to work it as a tool
+remit-board board verify --space X   # recompute the board's hash chain; non-zero exit on a break
 ```
 
 The board is what leads and workers coordinate over: leads plan and staff, workers claim

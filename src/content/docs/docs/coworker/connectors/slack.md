@@ -132,3 +132,27 @@ your Remit configuration:
 ```bash
 curl -s -H "X-Remit-Token: $(cat ~/.config/coworker/sidecar-8765.token)" http://127.0.0.1:8765/v1/connectors | python3 -c "import json,sys; s=[c for c in json.load(sys.stdin)['connectors'] if c['name']=='slack'][0]; print('recent:', s['recent']); print('waiting:', s['unauthorized'])"
 ```
+
+## Replying without asking
+
+A coworker tagged in a thread may reply into that thread without a card — until
+the turn reads something else. Read a page to answer the question, and the reply
+comes to you for approval, because a page can carry instructions and the reply
+is where they would land. That is the outside-content floor
+([security model](/docs/coworker/security/#outside-content)), and it is right for a channel
+nobody has vouched for.
+
+For a channel you have, name it: **Settings ▸ Connectors ▸ Slack ▸ Replies
+without asking**, per workspace — or press **Reply in *channel* without asking**
+on the card itself, which names it. Any coworker's send into that channel — a
+mention answering in its thread, a listener posting to the channel, an
+automation — is then a person-pinned target, read live from this list, so it
+runs without a card and survives a page read; un-name it and the cards return.
+You
+are making the same trade an automation with a pinned standing rule makes: a page
+can shape what is said in that channel, never where it goes. Take it for a
+news-briefing channel; think twice for one where a reply moves money.
+
+```bash
+curl -s -X POST -H "X-Remit-Token: $(cat ~/.config/coworker/sidecar-8765.token)" -H "Content-Type: application/json" -d '{"team_id":"","channel_id":"C0BUDBAPLBW"}' http://127.0.0.1:8765/v1/connectors/slack/reply-channels/add
+```

@@ -28,6 +28,15 @@ You can override a tool's class in `risk_overrides.json`. Overrides may only
 ever **raise** strictness relative to a floor — a loosening override on a
 floored tool is ignored.
 
+An MCP server's tools are somebody else's code across a socket, and their floor
+is `egress`: `external` when the server is marked as needing approval, `egress`
+when it is not, and never `read`. A server you mark `requires_approval: false`
+still runs without a card in every mode that honours allowlists — that is what
+the switch means — but its tools are refused in discuss and plan like any
+egress, cannot be loosened below egress by an override, and are audited as what
+they are. Before 2026-09-07 that switch made every tool on the server `read`:
+always allowed, in every mode, invisible to every floor.
+
 The class a verdict turned on travels with the decision: the `permission_required`
 event carries `risk_class` (and `human_only`, set when the reviewer may not clear
 the ask), and every audit row records it. Both come from the engine's own
@@ -51,7 +60,7 @@ about where it does and does not apply.
 | path | address-guarded |
 |---|---|
 | `web_fetch` | **yes** — every hop, with the resolved address pinned so a name cannot change answer between the check and the connection |
-| `browser_open_url` | **yes**, on the URL the model supplied, and on a redirect the browser reports. Loopback is permitted here: opening a dev server on this machine is what the tool is for |
+| the browser | **yes** — every request the page makes: the navigation, each redirect hop, scripts, images, fetches. Each is checked before it goes out and failed as blocked if it may not, so a page cannot reach a private address on the model's behalf however it tries. Loopback is permitted here: opening a dev server on this machine is what the tool is for. See [the browser](/docs/coworker/using-remit/#the-browser) for what else the session refuses |
 | connector calls that opt in | **yes**, per hop, for the requests that ask for it |
 | everything else a connector does | **no** — a vendor endpoint is configured, not model-chosen |
 | an MCP server fetching a URL for you | **no** — it runs on its own machine, under its own rules or none |
@@ -87,6 +96,12 @@ indistinguishable from one that broke.
 
 It never blocks: past the allowance you decide, and if you approve, it runs. The
 control is "you are watching now", not "stop".
+
+A wake the coworker set for itself (`sleep_until`) is **not a new turn** for this
+allowance, nor for the outside-content floor below. Both reset when a person
+speaks or a genuinely new message arrives from a connected platform. A boundary
+the model chooses cannot bound the model: read a page, sleep for a second, wake
+clean with a fresh fifty was the path, and it is closed.
 
 ![Settings, Security and trust: the actions a turn takes on its own, and always-allowed destinations](/docs/images/settings-trust.png)
 
@@ -134,7 +149,7 @@ reviewer and over full-access mode alike. It is a floor, like the
 downloaded-file rule beside it, and for the same reason: the escalation it
 blocks happens in modes where every other check has been switched off.
 
-Four conditions bound it, and each is deliberate:
+Six conditions bound it, and each is deliberate:
 
 - **`external` or `egress` risk.** External acts somewhere; egress carries data
   out in the request itself. Covering only the first left the readier channel
@@ -145,18 +160,38 @@ Four conditions bound it, and each is deliberate:
 - **A destination chosen in ADVANCE is exempt**, which is what makes egress
   coverage affordable. A domain on the configured allowlist was named before the
   turn existed, so injected text cannot have chosen it — the same argument that
-  exempts a pinned standing rule. An in-flow "always allow this domain" click
-  does not exempt, nor does it need to: a call with no destination argument at
-  all (`web_search`, the enrichment lookups) goes to the endpoint the operator
-  configured, and is pre-declared by construction.
+  exempts a pinned standing rule. A session grant ("always allow this domain
+  this session") does not exempt: it is a ladder grant, and the floor sits under
+  the ladder. A card the floor raised therefore offers **Allow *host* from now
+  on** instead, which writes the configured entry — a person naming the host.
+  A call with no destination argument at all (`web_search`, the enrichment
+  lookups) goes to the endpoint the operator configured, and is pre-declared by
+  construction. A Slack reply into a channel a person named in advance under
+  **Replies without asking** is a pinned target for the same reason.
 - **A hard deny is left alone.** It only ever tightens an allow; it never turns a
   refusal into a question.
-- **Exact-target standing rules are exempt.** A rule pins the tool *and* the
+- **Exact-target standing rules are exempt** — an automation's, and the standing
+  allowances a person teaches from a card (see [Standing allowances](#standing-allowances)). A rule pins the tool *and* the
   destination. Injected text can change what is said; it cannot move a pinned
   target, so the channel an attacker wants is already shut — and overriding
-  these would break every automation somebody deliberately set up.
+  these would break every automation somebody deliberately set up. A rule can
+  pin a connector's recipient, a fetch's host, or the configured search
+  provider — never a shell command or a file write, which the tables exclude
+  by construction.
+- **A mention's reply grant is exempt only for the message that asked.** A
+  Slack mention spawns a session that may answer in that thread without a card.
+  That target was chosen by the message that arrived, not pinned by a person in
+  advance, so the argument above does not carry all the way: the grant answers
+  the asker, but a reply composed after the turn has read something *else* — a
+  page, an issue, a mail — reaches a person first.
 - **Not already human-only.** The downloaded-file floor is more specific and its
   reason is the more useful one to show.
+
+**The board carries it too.** A filing, a comment or a transition written while
+the author's turn was marked is recorded as tainted in the hash-chained log, and
+a coworker that reads such a record back is marked in turn — a lead handed a
+worker's note that quotes a phishing mail does not start clean. The `team`
+category is local and never marks on its own; the record says when it should.
 
 [Outside content](/docs/coworker/outside-content/) covers measuring this on your own usage,
 testing it end to end, and backing it out if it asks too often.
@@ -205,7 +240,9 @@ or `custom` unscoped.
 
 **4. Protected in-project files.** Files that execute on some later action — git
 hooks, CI configs — may be edited, but never by an auto-approve path. A person
-has to see it.
+has to see it. That includes an automation's own approver, which otherwise
+clears ordinary local writes so an unattended run can proceed: a human-only ask
+parks in the Inbox for a person like anything else the run is not allowed.
 
 **5. Persistent authority.** Tools whose effect outlives the session reach a
 person, over the reviewer and over every allowlist.
@@ -213,12 +250,18 @@ person, over the reviewer and over every allowlist.
 **6. Non-consequential tools** run.
 
 **7. Allowlists**, in order: config `allowed_commands` → session grants ("always
-allow this…") → task-scoped standing rules → `custom` mode's `auto_allow` →
+allow this…", kept with the session until revoked) → standing rules, themselves
+in order: an automation's task-scoped rules, then a target a person named in
+advance — a standing allowance, a host on the no-asking list, a Slack reply
+channel — then a mention thread's grant → `custom` mode's `auto_allow` →
 otherwise ask.
 
 In `auto-approve`, session grants deliberately do **not** auto-allow. Out-of-band
 standing policy may skip the judge; an in-flow click may not. Those calls route
-to the reviewer instead.
+to the reviewer instead. A standing rule is the exception in every mode
+including bypass, because it names an exact target a person chose in advance —
+which is also why the outside-content floor exempts it and the session grant
+beside it does not.
 
 ## What consent can and cannot tell you
 
@@ -253,6 +296,45 @@ reads them before the whole company can install — `remit-broker gallery show`
 exists for exactly that, and it is a real control precisely because a person
 does it.
 
+## Standing allowances
+
+The reviewer is judgement; a standing allowance is a rule. It is the deterministic
+half of teaching a coworker what is acceptable: a person names one tool against one
+exact target, once, and every session honours it from then on — in every mode,
+even after the turn has read something from outside this machine, because the
+destination was named by a person in advance, which is the one condition the
+outside-content floor exempts. Nothing a model concludes can create one, widen one
+or remove one.
+
+Where they come from. An approval card for a call that names an exact target — a
+repository, a project, a team, a page, a message address — offers **Allow every
+time against *target***. Pressing it approves that call once and writes the rule.
+An automation's card offers the same button scoped to the automation instead,
+because an automation's rules belong to the automation. A fetch card offers the
+host under Always-allowed destinations, and a Slack reply the channel under
+Replies without asking; those two lists are standing allowances by another name.
+
+What one is, exactly. `tool → target`, nothing looser: `github_create_issue →
+syphon1c/ai_remit`, `jira_create_issue → SEC`, `send_email → ops@example.com`. There
+are no wildcards and no tool-wide entries, because the exact target is the whole
+safety argument — a page can shape what is said to a pinned destination, never
+where it goes. A tool that acts without naming a target, and every exec or
+destructive tool, can never carry one; the set of eligible tools is pinned by a test
+and widened only on purpose.
+
+Where they live. **Settings ▸ Security & trust ▸ Standing allowances** lists every
+rule with the session and call that taught it, and removes it live. Each use is an
+`auto_allowed` audit row citing the rule; teaching one writes
+`standing_allowance_added`, removing one `standing_allowance_removed`. An
+organisation can forbid teaching them with the policy key
+`standing.allowances.allowed`; a refused attempt is downgraded to a one-time
+approval and audited, never silently kept. That switch governs **teaching**, not
+what has already been taught: allowances a person pinned before it was turned off
+keep working, and are removed by that person, here, one at a time. An
+organisation that wants one gone asks for it; a policy does not reach into a
+machine and un-teach. The Cloud's key says so in its own words, so nobody issues
+it believing it revokes anything (owner ruling 2026-09-08).
+
 ## Workspace trust
 
 A repository you clone can ship its own `.coworker/config.toml`. Remit will not
@@ -284,12 +366,71 @@ matter:
 
 Both are user-global only.
 
+**The reviewer is not the actor.** It judges with the *reviewer model*, not the
+session's model: by default the cheapest curated model of the same family (Haiku
+for Claude, Luna for GPT-5.6, Flash for Gemini), or whatever **Settings ▸ Models**
+pins. A model reviewing its own plan shares its blind spots; a second opinion is
+only a second opinion when it is a second model. The done-ness critic uses the
+same reviewer model. An organisation can require the separation with the policy
+key `reviewer.separate`: when it holds and the reviewer would be the acting model,
+the reviewer is unavailable by policy — every verdict is *unsure*, so every card
+reaches you, and the session says why once. Refused at the point of use, never
+satisfied by quietly picking something.
+
+**What the reviewer is told.** Beside the request, your earlier words and the one
+action, the card now carries the facts the engine decides floors on: the action's
+risk class, the session's mode, and whether the turn has read content written off
+this machine. The reviewer is never shown that content — that is what stops it
+being talked into a verdict — so this is how it learns the action may have been
+suggested by it. Every verdict row names the model that judged.
+
 ## Audit
 
-Every decision is appended to a hash-chained journal (`journal.db`) carrying its
-own provenance: what was requested, how it was classified, which rung decided
-it, and what the outcome was. Chaining means an entry cannot be altered after
-the fact without breaking every entry after it.
+Every decision is appended to a hash-chained log carrying its own provenance:
+what was requested, how it was classified, which rung decided it, what the
+outcome was — and, since 2026-09-07, which model and provider were driving, a
+hash of the system prompt the session was built on, and the coworker
+definition's hash. Chaining means a row cannot be altered after the fact without
+breaking every row after it, and a stored head means a deleted tail is visible
+too.
+
+There are two chains, in two files. Decisions live in `coworker.db`'s
+`audit_events` table; the teams journal and board log live in `journal.db` and
+`teams.db`, chained per case and per space. All three seal their records with
+one primitive (`internal/hashchain`), the same canonical form the Python wrote.
+
+**Check it when you want to.** `GET /v1/audit/verify` recomputes the whole
+decision chain and answers `verified`, how many rows it checked, and how many
+rows precede the chain. Rows written before 2026-09-07 carry no hash: they are
+counted, never verified, because claiming a seal for a decision nobody sealed
+would be the same invention the `risk_class` column refused. A broken chain
+answers 200 with `verified: false` and what broke — a detected edit is the
+answer to the question, not a server fault. The journal's equivalent is
+`GET /v1/teams/journal/verify?case=`, and the board's — every item, claim,
+transition and comment a team made — is `GET /v1/board/verify?space=` under the
+board's own per-actor token, or `remit-board board verify` from the command
+line, which exits non-zero on a break so a script can act on it.
+
+**What it costs.** Every model response leaves a row of its own
+(`stage: model_call`) with its tokens, model, provider and which call it was —
+the turn, compaction, or the title; the reviewer's calls stay on its verdict
+rows. That is the spend trail the cap below reads, and the one a query can
+sum by session, by model, by hour.
+
+### How much
+
+`tokens_per_hour` (Settings ▸ Security & trust, `config.toml`, or an
+organisation's `limits.tokens_per_hour`) caps what a session spends in a rolling
+hour — `tokens_in + tokens_out + cache_write` over its model-call rows, so a
+long session's cheap re-reads of a cached prefix do not count against it. The
+scope is the session and its team when it has one, or every run of an
+automation, so neither a lead nor a nightly job can start each hour fresh. A
+new turn past the cap is refused with the numbers; a turn already under way
+finishes. Off by default: this is a cost control, not a floor, and an audit
+store that cannot be read fails open here, logged.
+
+
+An unattended prompt that nobody answers before its `approval_ttl` resolves as **expired**, recorded on its own `approval_resolved` row with `status: expired` — distinct from a person's deny, because nobody decided. Every approver treats it as a decline.
 
 ## Network posture
 
@@ -407,12 +548,22 @@ If the organisation's policy asks for it (`"evidence": {"events": true, "anchors
 the runtime sends back two content-free things on the document's interval: the *kind* of
 governed thing that happened — an approval asked for and how it went, a reviewer verdict,
 an auto-allow, a mode or unattended change, a policy denial with its key, a policy fetched
-or refused — with the risk class, the tool's *name*, a hash of the session and the time; and
+or refused, and a person teaching a coworker a standing allowance (a target pinned from a
+card, a host under Always-allowed destinations, a channel under Replies without asking) or
+removing one — with the risk class, the tool's *name*, a hash of the session and the time; and
 the heads of its teams-journal chains, with the case id hashed away, from which a rewritten
 or rewound local journal is detectable there. No argument, no reason text, no message, no
 name of anything but a tool or a connector ever leaves; the type that is sent has no field
-for one. Nothing is sent without the opt-in, and a cloud that is away costs nothing but a
-bounded queue.
+for one. A taught allowance's target — the repository, the address, the channel — is
+exactly such a field-less thing: the control plane learns that a person taught `send_email`
+something, never to whom. Nothing is sent without the opt-in, and a cloud that is away
+costs nothing but a bounded queue.
+
+The fleet heartbeat, when the policy asks for one, is ids, versions, hashes and counts:
+which build, which policy ids are held, which coworkers by hash, which connectors are
+connected, every policy key this build's lattice can order — so the console can say before
+issuing a key which machines would refuse the document carrying it — and how many standing
+allowances people have taught here. The number, never the rules.
 
 The gallery is a supply chain, and three things hold there. A Remit Cloud that has a
 gallery key signs every coworker it serves; this runtime verifies the signature over the

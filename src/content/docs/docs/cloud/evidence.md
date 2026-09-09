@@ -25,9 +25,9 @@ One page, because the answer to "what does Remit Cloud see" should not need more
 |---|---|---|
 | Org, people, connections | slugs, names, email addresses, IdP subjects, which connector, which account id, routing metadata | so a person's own connections restore and their events route to them |
 | Policy documents and their chain | the constraints, who issued them, when; a hash chain of every change | so a fleet has one policy and a rewrite is detectable |
-| Evidence events | the *kind* of governed thing, the risk class, the policy key, a tool's name, a session's hash, the time, the person and their groups | so an organisation can prove what happened without holding what was said |
+| Evidence events | the *kind* of governed thing — an approval and how it went, a reviewer verdict, an auto-allow, a person teaching a coworker a standing allowance or removing one — the risk class, the policy key, a tool's name, a session's hash, the time, the person and their groups | so an organisation can prove what happened without holding what was said. A taught allowance names a target on the machine; here it is the tool and nothing more |
 | Chain anchors | which chain, how far, its head hash, when | so a rewritten or rewound local journal is detectable as a fork |
-| Fleet inventory | device id, build, OS, policy ids held, installed coworkers by id and hash, connected connector ids | so compliance is a question with an answer |
+| Fleet inventory | device id, build, OS, policy ids held, installed coworkers by id and hash, connected connector ids, which policy keys the build understands, how many rules people have taught there | so compliance is a question with an answer, and a key is not issued to a fleet that would refuse it |
 | Gallery | published coworkers, their signatures, the review queue and its scan findings, install counts | the shared gallery is what one machine cannot do |
 | Telemetry | counts per day, persona family, version and platform | never who |
 

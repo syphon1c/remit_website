@@ -87,6 +87,11 @@ stop* — rather than around key names:
   the budget, which connectors are on offer, what is sent back — and the exact sentence a
   refusal will read, with the organisation's support contact in it, or a note that none is
   set.
+- **Review before issuing.** The difference from the issued version, and — when a rule is
+  being added that some machine in scope has said it does not understand — which machines
+  will refuse the whole document, and why that drops every other rule on them too. A
+  machine that has not said which rules it understands is counted separately as "cannot
+  tell", never rounded either way.
 - **What coworkers send back**, and **if a machine loses contact**: the evidence and
   heartbeat opt-ins in the same card style; the check-in and stale windows in minutes and
   days; and the stale rules (`on_stale`) edited with the same cards. Re-issuing carries the
@@ -118,7 +123,7 @@ call, in both directions. **Coworker Gallery** is the review queue — the manif
 skill in full, with the scan's findings beside them — then what the gallery serves this
 organisation, so an administrator can see what their people are offered without installing
 it, plus the update hold, which acts on a whole fleet at once and is on the policy chain. **Fleet** is which build, which policy and which coworkers are on each
-machine. **Record** is the content-free evidence. **Organisation** is the name, the contact
+machine, and how many rules people have taught coworkers there — a count, never the rules. **Record** is the content-free evidence. **Organisation** is the name, the contact
 a refusal sends people to, and what the plan covers.
 
 ## What it does not do

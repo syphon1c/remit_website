@@ -27,6 +27,12 @@ without asking you:
 | `auto_allow` | would let a repo auto-approve its own tools |
 | `allowed_domains` | would let a repo widen network reach |
 | `external_budget` | would let a repo widen how much one of its turns can do |
+| `tokens_per_hour` | would let a repo raise what its sessions may spend |
+| `browser_path` | would let a repo choose which binary runs with this machine's network position |
+| `approval_ttl` | would let a repo keep an unattended run parked longer than the machine allows |
+| `run_retry_after` | would let a repo decide how often a machine re-runs work unattended |
+| `stream_idle_timeout` | is applied to the whole process; a repo must not be able to switch the watchdog off for the server |
+| `reviewer_model` / `helper_model` | the reviewer is a judge; a repo must not be able to choose who judges it |
 | `auto_approve` / `auto_approve_shadow` | would let a repo relax the reviewer |
 | `cloud_auth_insecure` | would let a repo downgrade sign-in to plain HTTP |
 | `cloud_policy_pubkey` | would let a repo choose whose policy the machine trusts |
@@ -44,9 +50,16 @@ then they are advisory. See [security](/docs/coworker/security/#workspace-trust)
 |---|---|---|
 | `model` | `gpt-5.6-sol` | default model id, optionally `provider:model` |
 | `mode` | `interactive` | starting permission mode |
-| `max_iterations` | `150` | tool-call ceiling for one turn |
+| `max_iterations` | `150` | tool-call ceiling for one turn. At the ceiling the coworker is asked for a summary with tools withheld; unattended with its plan still open it continues in a wake of its own, twice per brief ([using Remit](/docs/coworker/using-remit/#the-plan-and-what-done-means)) |
 | `model_proxy_url` | *(unset)* | route providers through LiteLLM or any OpenAI-compatible gateway |
+| `browser_path` | *(unset)* | the browser binary the browser tools drive. Unset, Remit looks in the usual places for Chrome, Chromium, Edge and Brave; it never downloads one. Global-only ([the browser](/docs/coworker/using-remit/#the-browser)) |
+| `approval_ttl` | `24h` | how long a prompt an unattended run parks — an approval, a question, a plan, a folder or tool request — waits for an answer before it resolves as expired (which counts as a decline). `0` waits forever. Global-only ([approvals](/docs/coworker/using-remit/#approvals-the-part-worth-understanding)) |
+| `run_retry_after` | `10m` | how long after a scheduled run fails for the runtime's own reasons — the model or provider failed, the response stalled, a tool crashed — it is run once more. `0` never. One retry; never while a run of the task is going, never when the next scheduled run is sooner ([automations](/docs/coworker/using-remit/#skills-and-automations)). Global-only |
 | `web_search_provider` | `duckduckgo` | `duckduckgo` (keyless), `tavily` or `brave` |
+| `model_fallbacks` | *(none)* | models to try in order when the model fails with something worth failing over — an overload, a transport failure, a stall. Each entry may be a bare id or `provider:model`. Never for a bad request, auth, or a context overflow, and never after a byte of a reply has streamed ([the model layer](/docs/coworker/security/)) |
+| `stream_idle_timeout` | `120s` | how long a model response may go quiet before the connection is dropped and the turn told the model stopped responding. `0` waits the whole ten-minute request timeout. Global-only |
+| `reviewer_model` | *(automatic)* | the model the Auto-Approve reviewer and the done-ness critic judge with. Automatic is the session model's helper tier, else the session model. **Settings ▸ Models** pins win over this. Global-only ([security model](/docs/coworker/security/#the-reviewer)) |
+| `helper_model` | *(automatic)* | the model for compaction summaries (unless `compaction_model` pins one), session titles and explorer subagents; the same automatic. Settings pins win. Global-only |
 
 ### Server
 
@@ -62,6 +75,7 @@ then they are advisory. See [security](/docs/coworker/security/#workspace-trust)
 | `allowed_commands` | *(empty)* | command prefixes that run without an approval prompt |
 | `auto_allow` | *(empty)* | tools auto-approved in `custom` mode |
 | `external_budget` | `50` | actions with effects beyond this machine one turn takes on its own before the rest reach you. The global default; a session can override it in its Access panel. Clamped to 1–500: the allowance can be raised, never removed ([security model](/docs/coworker/security/)) |
+| `tokens_per_hour` | `0` (off) | the most a session — with its team, or an automation across its runs — may spend in a rolling hour before a new turn is refused: `tokens_in + tokens_out + cache_write` over the audit's model-call rows. `POST /v1/settings/tokens-per-hour` sets it from the interface; an organisation's `limits.tokens_per_hour` can lower it ([security model](/docs/coworker/security/#how-much)) |
 | `allowed_domains` | *(empty)* | hosts `web_fetch` may reach without asking — and the destinations exempt from the outside-content floor, since a host named here was chosen before any turn read anything ([outside content](/docs/coworker/outside-content/)) |
 | `auto_approve` | `false` | enable the LLM reviewer in auto-approve mode |
 | `auto_approve_shadow` | `false` | reviewer records what it *would* have decided while you still decide |
@@ -143,6 +157,7 @@ installs keep working.
 | `sidecar-<port>.token` | local API token, one per port |
 | `mcp.json` | configured MCP servers |
 | `personas.json`, `skills/`, `tools/` | installed coworkers, skills and tools |
+| `personas-builtin/` | the built-in coworkers' skills, written out of the binary at every start; behind the self-protection floor like `personas-installed/` |
 | `risk_overrides.json` | your per-tool risk overrides |
 | `workspace_trust.json` | which workspace paths you have trusted |
 | `memory-settings.json` | the memory switches and your standing rules |
