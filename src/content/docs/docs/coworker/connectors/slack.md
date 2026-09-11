@@ -3,7 +3,7 @@ title: "Connectors: Slack"
 description: "Connecting Slack asks for two tokens and nothing else. Everything else lives in Slack's own app settings, and Slack will not tell you what is missing —…"
 ---
 
-<p class="rm-synced">Part of the Remit Coworker documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the Remit Coworker documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 Connecting Slack asks for two tokens and nothing else. Everything else lives in
 Slack's own app settings, and Slack will not tell you what is missing — a socket

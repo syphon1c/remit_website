@@ -128,6 +128,21 @@ the same things in that platform's format.
 - **Memory is scoped by who it is about** — you, a project, one coworker, one team — since the
   runtime's C7 (2026-09-09, `internal/memory/memory.go`). The product page says so; "per person
   and per project" was true of the first three scopes only.
+- **macOS builds are signed and notarized** from 0.4.1 (2026-09-11): a Developer ID
+  Application certificate and notarization in CI, so Gatekeeper passes a downloaded copy
+  with no "Open Anyway" and the ticket is stapled for a first launch offline. The download
+  page says so; it previously carried the caveat. **Windows is still unsigned** and
+  SmartScreen still warns, so that caveat stays until an Authenticode certificate exists.
+  The macOS card also names the one prompt that remains, local network access, because a
+  coworker reaching Ollama on the LAN is the common case and a denial looks like an
+  unreachable host rather than a permission.
+- **Nothing internal reaches a public page.** Remit is closed source, so a package path, a
+  source or test file, a build or test command, a commit to revert or an internal planning
+  artefact is both a disclosure and an instruction the reader cannot follow.
+  `scripts/sync-docs.mjs` cuts the sections written for people with the repository, rewrites
+  the scattered references into words, and then REFUSES to write a page that still carries
+  one — the sync fails rather than publishes, because a leak that lands is already indexed.
+  Add a section like that to a product doc and the next sync tells you which page and line.
 - **Nothing invites a source build.** The download call to action names the three platforms and
   stops there: the manual's getting started has an install section and no build section, and a
   page telling somebody to build what the site will not help them get is the "free, not open

@@ -3,7 +3,7 @@ title: "Organisations"
 description: "Who a request belongs to, and who may administer them."
 ---
 
-<p class="rm-synced">Part of the Remit Cloud documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the Remit Cloud documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 Who a request belongs to, and who may administer them.
 

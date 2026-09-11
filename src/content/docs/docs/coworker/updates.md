@@ -3,7 +3,7 @@ title: "How Remit updates itself"
 description: "How a new build reaches every desktop — free, self-hosted broker or Cloud Enterprise — and how Remit Cloud deploys itself. What happens, in what order,…"
 ---
 
-<p class="rm-synced">Part of the Remit Coworker documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the Remit Coworker documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 How a new build reaches every desktop — free, self-hosted broker or Cloud Enterprise — and
 how Remit Cloud deploys itself. What happens, in what order, who approves it, and what each
@@ -113,11 +113,6 @@ is published. Neither touches anyone outside that organisation.
 
 ## Not yet
 
-- **Apple notarization.** Needs an Apple Developer Program membership and a Developer ID
-  Application certificate. Until then the macOS build is ad-hoc signed, which Apple
-  Silicon requires to run anything at all: a downloaded installer needs System Settings ▸
-  Privacy & Security ▸ *Open Anyway* once, and an update the app installs for itself runs
-  without ceremony. The workflow signs and notarizes properly when the Apple secrets exist.
 - **Windows code signing.** Authenticode, via Azure Trusted Signing or an EV certificate.
   Unsigned installers work but SmartScreen warns on every install.
 - **A hardware-backed release key.** The protected GitHub environment is the custody model

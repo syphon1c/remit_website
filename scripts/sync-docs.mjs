@@ -70,6 +70,42 @@ const TRANSFORM = {
 	'cloud:docs/threat-model.md': (md) => md.replace(/the custody decision\s*\(todo\.md decision 6\) that blocks release/, 'the custody decision made before release'),
 	// The console: an administrator's page; the deployment switch that mounts it is operator material.
 	'cloud:docs/console.md': (md) => md.replace(/^## Turning it on[\s\S]*?(?=^## )/m, ''),
+	// The broker's README ends in a development section — make targets, the package
+	// layout, the dependency argument. Written for whoever builds it; the manual is read
+	// by whoever runs it, and Remit is closed source, so a source map is a disclosure and
+	// an instruction nobody reading this can follow.
+	'broker:README.md': (md) => md
+		.replace(/^## Development[\s\S]*$/m, '')
+		// And its quick start begins by building it. A reader of this manual has the binary.
+		.replace(/```sh\nmake build\n\.\/bin\/remit-broker/, '```sh\n./remit-broker')
+		.replace(/  \.\/bin\/remit-broker/g, '  ./remit-broker'),
+	// Broker auth: the shape of the interface is how a contributor adds a mode. A reader
+	// choosing between the two that ship needs the modes, not the seam.
+	'broker:docs/auth.md': (md) => md.replace(
+		/The auth layer is an interface \(`internal\/auth\.Authenticator`: `Mode`,\n`Authenticate`, `Routes`\)\. Two implementations ship; a third — mTLS, a static\nshared token, an internal SSO shim — is a new file, not a refactor\./,
+		'Two authentication modes ship. A third — mTLS, a static shared token, an internal\nSSO shim — is an addition rather than a rewrite: the rest of the server does not\nknow which mode it is running under.'),
+	// Outside content: the page is for someone deciding whether the floor suits how they
+	// work, and it ends in three ways to back it out by reverting named commits, plus two
+	// "one-line changes" in a named source file. All of that assumes the repository. What
+	// a reader can actually act on — the allowlist, the standing rule, and the fact that
+	// there is no off switch — stays; the rest becomes the honest sentence.
+	'runtime:docs/outside-content.md': (md) => md
+		.replace(/### The automated coverage\n\n```bash\n[\s\S]*?```\n\n/, '')
+		.replace(/### 2\. Keep the record, drop the enforcement\n[\s\S]*?(?=^## If you want it stricter)/m,
+			'### 2. Anything further is a build, not a setting\n\n' +
+			'There is no configuration switch, and that is deliberate — a floor that can be\n' +
+			'turned off from inside a conversation is not a floor. Recording and enforcement\n' +
+			'can be separated, and the floor can be removed altogether, but each is a change to\n' +
+			'the product rather than a preference, made on purpose and released like any other:\n' +
+			'the same bar as the rules it protects. If your deployment needs one, ask us.\n\n')
+		.replace(/^## If you want it stricter\n\n[\s\S]*$/m,
+			'## If you want it stricter\n\n' +
+			'Two extensions were scoped out and are small changes we can make: covering local\n' +
+			'writes and commands as well as off-machine actions, and declining to exempt even a\n' +
+			'standing rule. Both are deliberately loud — the first asks whenever a session\n' +
+			'consults a page and then edits a file, the second makes every automation ask — which\n' +
+			'is why neither is the default. Each is guarded by tests that say what the condition\n' +
+			'is for, so changing one tells you exactly what you are giving up.\n'),
 	// How updates work: the reader's half. The sections on running the release pipeline,
 	// deploying the server and its credentials are operator material and stay internal.
 	'runtime:docs/how-updates-work.md': (md) => {
@@ -79,6 +115,65 @@ const TRANSFORM = {
 		return out.join('') + '\nThe release pipeline itself — building, signing, publishing and deploying — is documented for the people who run it, not here.\n';
 	},
 };
+
+// Scattered references to the source, in pages that are otherwise a reader's. Remit is
+// closed source: a package path names an internal structure and points at a file nobody
+// outside can open, so each sentence is rewritten to say the same thing in words. Whole
+// sections written for people with the source are cut in TRANSFORM above; anything either
+// misses is caught by the guard at the bottom of this file, which refuses to write it.
+const REDACTIONS = [
+	// The runtime's API page: the authoritative list is the table on the page itself.
+	[/For\s*\nthe authoritative list:\n\n```bash\ngrep[\s\S]*?```\n\n/, ''],
+	[/The event vocabulary lives in `internal\/events`, and\nevent names/, 'Event names'],
+	[/ \(`internal\/server\/docs_test\.go`\)/, ''],
+	// The Cloud's pages.
+	[/\n\nThe full specification, with the reasoning, is `\.claude\/tasks\/specs\/policy\.md`\. This page\nis the working reference\./, ''],
+	[/comes from\n`internal\/policy`: the `Title`/, 'comes from the server\'s own definition of the key: the title'],
+	[/the `Describe` that says what the rule is,\nand the `Effect` that says/, 'the description that says what the rule is,\nand the effect that says'],
+	[/`docs\/key-custody\.md` is the decision, per key:\nthe updater key cannot be loaded by a server at all — `internal\/signer` refuses it by name,/,
+		'Custody is decided per key: the updater key cannot be loaded by a server at all — it is refused by name,'],
+	// The runtime's security model.
+	[/one primitive \(`internal\/hashchain`\), the same canonical form/, 'one primitive, the same canonical form'],
+	// Outside content: why a denial is phrased the way it is, without naming where it lives.
+	[/— see\n`PersonDenyMessage` in internal\/engine\/messages\.go\./, '— so the refusal now\nsays plainly that a person declined it, and that retrying is not the answer.'],
+	// Two ways to back the floor out become one paragraph above, so the count goes with them.
+	[/strictly better than the two below because it keeps the/, 'strictly better than what follows because it keeps the'],
+];
+
+function redact(md) {
+	for (const [pattern, replacement] of REDACTIONS) md = md.replace(pattern, replacement);
+	return md;
+}
+
+// What must never reach a public page. Each pattern is something that only makes sense to
+// somebody holding the repository — a package path, a source or test file, a build or test
+// command, a commit to revert, an internal planning artefact. The sync fails rather than
+// publishes: a leak that lands is a leak that is already indexed.
+const FORBIDDEN = [
+	[/(?:^|[^\w/])(?:internal|cmd)\/[a-z]/, 'a package path'],
+	[/\.claude\/tasks/, 'an internal planning artefact'],
+	// A path'd or test source file. Deliberately NOT every `*.go`: the guide quotes a bad
+	// prompt — "Open auth.go, then grep for validate" — about the reader's own project,
+	// and a guard that cannot tell their file from ours would push that sentence out of
+	// the manual for nothing.
+	[/[\w/]+\/[\w]+\.go\b|[\w]+_test\.go\b/, 'a source or test file'],
+	[/\bgo (?:test|build|run|vet) /, 'a Go toolchain command'],
+	[/\bgit revert\b/, 'an instruction to revert a commit'],
+	[/^make (?:build|test|race|lint|check|ui|tidy|run)\b/m, 'a build target'],
+];
+
+function assertNoInternals(slug, md) {
+	for (const [pattern, what] of FORBIDDEN) {
+		const hit = md.match(pattern);
+		if (hit) {
+			const line = md.slice(0, hit.index).split('\n').length;
+			throw new Error(
+				`${slug}: line ${line} carries ${what} — ${JSON.stringify(hit[0].trim())}.\n` +
+				'The manual is public and the repositories are not. Rewrite the sentence in the\n' +
+				'source document, or cut the section for the public copy in TRANSFORM / REDACTIONS.');
+		}
+	}
+}
 
 const HTML_TAGS = new Set(('a abbr article aside b blockquote br button code dd details div dl dt em figcaption figure footer h1 h2 h3 h4 h5 h6 header hr i iframe img input kbd label li main mark nav ol p path picture pre section small source span strong sub summary sup svg table tbody td th thead tr ul video').split(' '));
 
@@ -160,9 +255,16 @@ for (const [repo, src, slug, titleOverride] of MAP) {
 	if (TRANSFORM[`${repo}:${src}`]) body = TRANSFORM[`${repo}:${src}`](body);
 	body = body.replace(/\]\(images\//g, '](/docs/images/');
 	body = rewriteLinks(body, repo, src);
+	// After the links: a reference to a repository file arrives here as a markdown link
+	// and leaves rewriteLinks as its bare text, which is the form these patterns match.
+	body = redact(body);
 	body = escapePlaceholders(body);
+	// Last thing before it is written: nothing internal leaves this script.
+	assertNoInternals(slug, body);
 	const fm = ['---', `title: ${yaml(title)}`, description ? `description: ${yaml(description)}` : null, '---'].filter(Boolean).join('\n');
-	const prov = `<p class="rm-synced">Part of the ${REPOS[repo].label} documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>`;
+	// The provenance line. It used to say the text is the same one the people building Remit
+	// read — true until the manual started leaving out what only they can act on.
+	const prov = `<p class="rm-synced">Part of the ${REPOS[repo].label} documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>`;
 	const outPath = path.join(OUT, `${slug}.md`);
 	fs.mkdirSync(path.dirname(outPath), { recursive: true });
 	fs.writeFileSync(outPath, `${fm}\n\n${prov}\n\n${body}`);

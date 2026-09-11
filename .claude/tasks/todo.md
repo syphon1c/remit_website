@@ -269,3 +269,67 @@ Checked and left alone: the connector counts (43 in the catalogue, 38 available,
 "soon" named), the security page's five floors — its line on authority outliving the session
 already anticipated standing rules and reads correctly beside them — and the pricing, trial
 and download numbers, none of which moved.
+
+## The manual stops carrying the source (2026-09-09)
+
+Owner: "As Remit is closed source, make sure the website manual is not giving/exposing
+internal development code etc." It was. Twenty-one references across eight pages, and
+three whole sections written for somebody holding the repository.
+
+**What was public.** The broker page carried its entire package layout — nine directories
+with what each contains — plus its make targets and its dependency argument, and its quick
+start opened with `make build`. The outside-content page told a reader to run
+`go test ./internal/engine/ …`, named a test file, and gave two ways to back the floor out
+as `git revert <sha>` against four internal commits, with advice on which tests to keep
+after the revert. Its "if you want it stricter" section described two one-line edits to a
+named source file and function. Scattered around: `internal/hashchain`, `internal/signer`,
+`internal/policy` with its field names, `internal/events`, `internal/auth.Authenticator`
+with its methods, a pointer to `.claude/tasks/specs/policy.md`, and a `grep` over
+`internal/server/*.go` offered as the authoritative route list.
+
+**Fixed at the source of the manual, not in its output.** The pages are generated, so a
+hand-edit would have lasted until the next sync. `scripts/sync-docs.mjs` now cuts those
+sections for the public copy the way it already cut the cloud's operator material, rewrites
+each scattered reference into the sentence it was standing in for — the same fact, in words
+— and starts the broker's quick start from the binary a reader actually has. The four
+"back it out" recipes become one honest paragraph: there is no switch, separating recording
+from enforcement or removing the floor is a change to the product, ask us.
+
+**And it cannot come back.** `assertNoInternals` runs on every page immediately before it is
+written: a package path, a source or test file, a Go toolchain command, a `git revert`, a
+build target or an internal planning artefact fails the sync with the page, the line and the
+text. Verified by putting one back — it named `cmd/r` on line 242 and refused. The rule is
+deliberately not "every `*.go`": the guide quotes a bad prompt about the reader's *own*
+`auth.go`, and a guard that cannot tell their file from ours would have pushed a good
+sentence out of the manual.
+
+One consequence worth naming: the provenance line under every page used to say the text is
+the same one the people building Remit read. That stopped being true the moment the manual
+started leaving things out, so it now says material written for them is left out.
+
+Checked and clean afterwards: no internal paths, no commit hashes (the one that remains is a
+truncated `sha256:` in an example CLI output), no internal identifiers, and `dist/`,
+`.astro/` and `node_modules/` are ignored rather than published. 31 pages build, all links
+resolve.
+
+## macOS is signed, so the copy that said otherwise is gone (2026-09-11)
+
+Remit 0.4.1 shipped signed with an Apple Developer ID and notarized, and the site still
+told people Gatekeeper would refuse it.
+
+- [x] `src/pages/download.astro`: the macOS caveat becomes a statement — it just opens, the
+      ticket is stapled, nothing to click past. The heading above the cards said "Two things
+      to know", which was a count of caveats and is now one, so it reads "What to expect".
+- [x] The same card names the one prompt that remains: local network access, the first time
+      a coworker reaches a model on your own network. That is worth saying here rather than
+      leaving it to be discovered, because a denial presents as an unreachable host and
+      reads like a broken network.
+- [x] Four cards, not five: the network note folded into the macOS card rather than standing
+      alone and leaving a ragged last row in a two-column grid.
+- [x] `npm run sync-docs` carried the corrections the runtime made to its own docs —
+      getting started, how updates work, releasing — into the manual. The "Not yet" entry
+      for Apple notarization is gone; Windows code signing is still there, because it is.
+- [x] Recorded in README ▸ Facts the copy depends on, including that Windows is untouched.
+
+Checked: no page in the manual or the site still says "not notarized" or "Open Anyway".
+31 pages build, all links resolve.

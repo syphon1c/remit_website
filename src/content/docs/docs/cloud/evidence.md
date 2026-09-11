@@ -3,7 +3,7 @@ title: "What this server holds, and what it does not"
 description: "One page, because the answer to \"what does Remit Cloud see\" should not need more."
 ---
 
-<p class="rm-synced">Part of the Remit Cloud documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the Remit Cloud documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 One page, because the answer to "what does Remit Cloud see" should not need more.
 

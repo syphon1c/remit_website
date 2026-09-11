@@ -3,7 +3,7 @@ title: "Broker: sharing coworkers"
 description: "How a coworker gets from somebody's machine into everyone's gallery, and what is checked on the way."
 ---
 
-<p class="rm-synced">Part of the remit-broker documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the remit-broker documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 How a coworker gets from somebody's machine into everyone's gallery, and what is
 checked on the way.

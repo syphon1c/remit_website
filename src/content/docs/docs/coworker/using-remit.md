@@ -3,7 +3,7 @@ title: "Using Remit"
 description: "Remit is built to deliver finished work. The brief that works is the one you would give a colleague:"
 ---
 
-<p class="rm-synced">Part of the Remit Coworker documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the Remit Coworker documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 ## Ask for an outcome, not a task list
 
@@ -355,6 +355,13 @@ token chip, and on every row under **Settings ▸ Models ▸ In the composer's
 picker**, where the full id is a hover away. Underneath, every id is stored as
 `provider:model`; the audit trail records the provider that answered each call
 whatever the picker showed.
+
+**A model on your own network.** macOS asks before an app may reach your local network,
+and it reports a refusal by making the host unreachable — so a model at an address like
+`192.168.1.9` fails with *no route to host* when the real answer is that Remit has not been
+allowed. Allow it under **System Settings ▸ Privacy & Security ▸ Local Network**. The
+permission belongs to the exact build it was granted to, so an update can drop it until you
+quit and reopen the app; Remit says so when it happens rather than passing the raw error on.
 
 **Refusals.** Some providers' safety filters decline a request outright — the
 public GPT-6 Astra declines cybersecurity prompts, for one. A declined request

@@ -3,7 +3,7 @@ title: "Security model"
 description: "Governance in Remit is architecture, not a setting. Every tool call is classified, then run through a permission ladder before it executes, and the…"
 ---
 
-<p class="rm-synced">Part of the Remit Coworker documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the Remit Coworker documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 Governance in Remit is architecture, not a setting. Every tool call is
 classified, then run through a permission ladder before it executes, and the
@@ -397,7 +397,7 @@ too.
 There are two chains, in two files. Decisions live in `coworker.db`'s
 `audit_events` table; the teams journal and board log live in `journal.db` and
 `teams.db`, chained per case and per space. All three seal their records with
-one primitive (`internal/hashchain`), the same canonical form the Python wrote.
+one primitive, the same canonical form the Python wrote.
 
 **Check it when you want to.** `GET /v1/audit/verify` recomputes the whole
 decision chain and answers `verified`, how many rows it checked, and how many

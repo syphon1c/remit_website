@@ -3,7 +3,7 @@ title: "Getting started"
 description: "Remit is a desktop app for macOS, Windows and Linux. Everything runs on your machine: the coworkers, the permission ladder that governs them, and the…"
 ---
 
-<p class="rm-synced">Part of the Remit Coworker documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the Remit Coworker documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 Remit is a desktop app for macOS, Windows and Linux. Everything runs on your machine: the
 coworkers, the permission ladder that governs them, and the journal that records what they
@@ -15,10 +15,14 @@ explicitly connect. There is no account to create.
 Download Remit from [remit-ai.app/download](https://api.remit-ai.app/download). The page
 lists the current version for each platform with its size and SHA-256 checksum.
 
-- **macOS**, Apple silicon or Intel: open the disk image and drag Remit to Applications.
-  The build is not yet notarized with Apple, so the first launch of a downloaded copy is
-  refused by Gatekeeper: open it once from **System Settings ▸ Privacy & Security ▸ Open
-  Anyway**. Updates the app installs for itself need none of this.
+- **macOS**, Apple silicon or Intel: open the disk image and drag Remit to Applications,
+  then open it. Since 0.4.1 the build is signed with an Apple Developer ID and notarized,
+  so Gatekeeper lets it through with no dialog to click past, and the notarization ticket
+  travels inside the app — a first launch works with no network.
+  The first time a coworker reaches something on your own network — a model in Ollama, a
+  gateway on another machine — macOS asks whether to allow it. Say yes, or find it later
+  under **System Settings ▸ Privacy & Security ▸ Local Network**; without it those
+  addresses simply look unreachable.
 - **Windows**: run the installer. It is not yet signed with a code-signing certificate, so
   SmartScreen warns; choose **More info ▸ Run anyway**.
 - **Linux**: the AppImage runs in place; the `.deb` installs on Debian and Ubuntu.

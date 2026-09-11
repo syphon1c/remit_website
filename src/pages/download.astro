@@ -24,10 +24,10 @@ const DL = 'https://api.remit-ai.app/download';
 		<div class="wrap">
 			<div class="section-head">
 				<p class="eyebrow">Installing</p>
-				<h2>Two things to know, stated plainly.</h2>
+				<h2>What to expect, stated plainly.</h2>
 			</div>
 			<div class="grid two">
-				<div class="feature"><h3>macOS asks you to allow it, for now</h3><p>The macOS build is signed but not yet notarized with an Apple Developer ID, so the first open of a downloaded copy is refused by Gatekeeper. Open it once from <strong>System Settings ▸ Privacy &amp; Security ▸ Open Anyway</strong>. Updates the app installs for itself need none of this, and notarization is on the list.</p></div>
+				<div class="feature"><h3>macOS just opens</h3><p>Signed with an Apple Developer ID and notarized by Apple, so Gatekeeper lets it through with nothing to click past, and the ticket travels inside the app &#8212; a first launch works with no network. The one thing macOS will ask, once, is whether Remit may reach your own network, the first time a coworker uses a model or service on it. Say yes, or find it later under <strong>System Settings &#9656; Privacy &amp; Security &#9656; Local Network</strong>.</p></div>
 				<div class="feature"><h3>Windows shows SmartScreen, for now</h3><p>The Windows installer is not yet signed with a code-signing certificate, so SmartScreen warns on install. Choose <strong>More info ▸ Run anyway</strong>. Check the SHA-256 against the download page first if you want to be sure of what you have.</p></div>
 				<div class="feature"><h3>Verify what you downloaded</h3><p>Every installer's SHA-256 is on the download page, and a <code>SHA256SUMS</code> file sits beside each release. On macOS or Linux: <code>shasum -a 256 &lt;file&gt;</code>. On Windows: <code>Get-FileHash &lt;file&gt;</code>.</p></div>
 				<div class="feature"><h3>Updates verify themselves</h3><p>Releases are signed with a key whose public half is compiled into the app. The app checks each update's signature against it before installing, swaps itself in place and relaunches. Under Remit Cloud, an organisation can hold a release for its fleet. <a href="/docs/coworker/updates/">How updates work</a>.</p></div>

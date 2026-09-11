@@ -3,7 +3,7 @@ title: "Threat model, from the attacker's side"
 description: "Five attackers, what each can do, what each cannot, and the property that keeps the second true. Written to be re-read whenever a change touches trust;…"
 ---
 
-<p class="rm-synced">Part of the Remit Cloud documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the Remit Cloud documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 Five attackers, what each can do, what each cannot, and the property that keeps the second
 true. Written to be re-read whenever a change touches trust; if a line here stops being
@@ -91,8 +91,7 @@ change away.
 is why release-time custody is a release blocker: HSM or KMS, offline, split as needed
 (decision 6). Until then the dev keys are dev keys and the runtime says so in its config.
 
-**Keeps it true:** custody, and rotation. `docs/key-custody.md` is the decision, per key:
-the updater key cannot be loaded by a server at all — `internal/signer` refuses it by name,
+**Keeps it true:** custody, and rotation. Custody is decided per key: the updater key cannot be loaded by a server at all — it is refused by name,
 so no configuration reaches it — and the two a server does hold are encrypted at rest or
 behind an external signer whose every signature is checked against the pinned public key
 before it is used.

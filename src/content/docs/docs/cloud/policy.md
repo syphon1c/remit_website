@@ -3,7 +3,7 @@ title: "Policy, for administrators"
 description: "A policy is a signed document your organisation issues to its runtimes. It constrains: it can narrow an allowlist, forbid a mode, cap a budget, block a…"
 ---
 
-<p class="rm-synced">Part of the Remit Cloud documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the Remit Cloud documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 A policy is a signed document your organisation issues to its runtimes. It **constrains**:
 it can narrow an allowlist, forbid a mode, cap a budget, block a connector, lock a knob. It
@@ -11,9 +11,6 @@ never grants. It cannot trust a workspace, connect a connector, install a cowork
 a machine more than the machine already permits. Nothing in a policy, and nothing in this
 service, lowers the protections built into Remit — those work signed out, offline and
 unlicensed, and a policy composes *with* them.
-
-The full specification, with the reasoning, is `.claude/tasks/specs/policy.md`. This page
-is the working reference.
 
 ## How composition works
 

@@ -3,7 +3,7 @@ title: "The administration console"
 description: "A browser surface at /console, served by remit-cloud itself. Registering an organisation, writing its policy, inviting its people, and reading its…"
 ---
 
-<p class="rm-synced">Part of the Remit Cloud documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the Remit Cloud documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 A browser surface at `/console`, served by `remit-cloud` itself. Registering an
 organisation, writing its policy, inviting its people, and reading its fleet and its
@@ -59,9 +59,8 @@ applied before the first paint.
 Generated from the server's own lattice (`GET /v1/admin/policy/lattice`), not from a copy
 of the key table in the page. A key added to the lattice appears in the editor — with its
 title, what it does, and what it does on the machine — with no change to the console, and
-the two can never disagree about a shape. Everything the page says about a key comes from
-`internal/policy`: the `Title` a person reads, the `Describe` that says what the rule is,
-and the `Effect` that says what a coworker does when it bites, written from the runtime's
+the two can never disagree about a shape. Everything the page says about a key comes from the server's own definition of the key: the title a person reads, the description that says what the rule is,
+and the effect that says what a coworker does when it bites, written from the runtime's
 own enforcement rather than from the spec.
 
 The page is organised around what an administrator arrives knowing — *what they want to

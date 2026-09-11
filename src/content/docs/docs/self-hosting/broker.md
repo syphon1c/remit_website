@@ -3,7 +3,7 @@ title: "The broker"
 description: "A self-hosted, on-premises stand-in for Remit Cloud, scoped to one job: sharing persona definitions across a company network."
 ---
 
-<p class="rm-synced">Part of the remit-broker documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the remit-broker documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 A self-hosted, on-premises stand-in for Remit Cloud, scoped to **one job**:
 sharing persona definitions across a company network.
@@ -28,8 +28,7 @@ Curating the gallery rather than deploying the broker?
 ## Quick start
 
 ```sh
-make build
-./bin/remit-broker            # :8443, ./personas, auth mode `none`, no TLS
+./remit-broker            # :8443, ./personas, auth mode `none`, no TLS
 curl -s localhost:8443/healthz
 ```
 
@@ -227,50 +226,10 @@ REMIT_BROKER_LISTEN=:9443 \
 REMIT_BROKER_AUTH_MODE=oidc \
 REMIT_BROKER_AUTH_OIDC_ISSUER=https://corp.okta.com/oauth2/default \
 REMIT_BROKER_GALLERY_DIR=/srv/personas \
-  ./bin/remit-broker
+  ./remit-broker
 ```
 
 ```
 remit-broker --config broker.toml [--log-level info] [--version]
 ```
-
-## Development
-
-```
-make build    # -> bin/remit-broker
-make test     # go test ./...
-make race     # with the race detector
-make lint     # gofmt gate + go vet + golangci-lint if installed
-make check    # lint + test (CI entry)
-make run      # local trial on the built-in defaults
-```
-
-### Layout
-
-```
-cmd/remit-broker/   the binary: config, signals, graceful shutdown
-internal/config/         TOML + env, defaults, validation
-internal/auth/           Authenticator interface, `none` and `oidc` modes, JWKS
-internal/directory/      who has signed in: one record per email, in memory
-internal/journal/        append-only hash-chained record of gallery changes
-internal/uploads/        the review queue: validation, write safety, ownership
-internal/verify/         one-time sign-in codes: minting, attempts, delivery
-internal/gallery/        manifest scan → cards, markdown, hashes
-internal/server/         routes, middleware, the loopback bounce
-personas/                three example manifests
-```
-
-### Dependencies
-
-Two, both load-bearing:
-
-- **`github.com/BurntSushi/toml`** — the config format the requirements call for.
-- **`gopkg.in/yaml.v3`** — persona frontmatter is YAML, and this is the exact
-  parser remit-ai uses on the same files. Hand-rolling a YAML subset here
-  would let the broker's card metadata quietly disagree with what the client's
-  parser sees in the same document.
-
-Everything else is standard library, including the JWT and JWKS handling
-(`crypto/rsa`, `crypto/sha256`, `math/big`) — a JWT verifier is small, and
-writing it beats auditing a dependency for the three algorithms this needs.
 

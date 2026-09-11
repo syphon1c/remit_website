@@ -3,7 +3,7 @@ title: "Running the server directly"
 description: "The desktop app is how Remit is used. It carries the server inside its bundle and starts it for you; you never see it. This page is for the other…"
 ---
 
-<p class="rm-synced">Part of the Remit Coworker documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the Remit Coworker documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 The desktop app is how Remit is used. It carries the server inside its bundle and starts
 it for you; you never see it. This page is for the other cases: a machine with no desktop

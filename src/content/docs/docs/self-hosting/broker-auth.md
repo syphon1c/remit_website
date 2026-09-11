@@ -3,7 +3,7 @@ title: "Broker authentication"
 description: "How this broker decides who is calling, and what that is worth."
 ---
 
-<p class="rm-synced">Part of the remit-broker documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the remit-broker documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 How this broker decides who is calling, and what that is worth.
 
@@ -44,9 +44,9 @@ behind a terminator. Keeping both on the same HTTPS origin is simpler.
 
 ## Auth modes
 
-The auth layer is an interface (`internal/auth.Authenticator`: `Mode`,
-`Authenticate`, `Routes`). Two implementations ship; a third — mTLS, a static
-shared token, an internal SSO shim — is a new file, not a refactor.
+Two authentication modes ship. A third — mTLS, a static shared token, an internal
+SSO shim — is an addition rather than a rewrite: the rest of the server does not
+know which mode it is running under.
 
 ### `none` (default) — the broker is its own issuer
 

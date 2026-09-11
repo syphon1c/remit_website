@@ -3,7 +3,7 @@ title: "Remit Cloud"
 description: "The hosted service behind Remit: one deployment, many organisations, each governing its own fleet of coworkers."
 ---
 
-<p class="rm-synced">Part of the Remit Cloud documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the Remit Cloud documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 The hosted service behind Remit: one deployment, many organisations, each governing its own
 fleet of coworkers.

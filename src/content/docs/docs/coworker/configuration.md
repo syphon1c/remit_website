@@ -3,7 +3,7 @@ title: "Configuration"
 description: "Most people never open this file: the app's Settings pages set everything a person changes day to day, and store it here. This page is for the rest — a…"
 ---
 
-<p class="rm-synced">Part of the Remit Coworker documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the Remit Coworker documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 Most people never open this file: the app's **Settings** pages set everything a person
 changes day to day, and store it here. This page is for the rest — a machine with no

@@ -3,17 +3,10 @@ title: "The local API"
 description: "The server exposes ~205 routes under /v1. This groups them by subsystem rather than listing each one — an exhaustive table would rot on the next…"
 ---
 
-<p class="rm-synced">Part of the Remit Coworker documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the Remit Coworker documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 The server exposes ~205 routes under `/v1`. This groups them by subsystem rather
-than listing each one — an exhaustive table would rot on the next change. For
-the authoritative list:
-
-```bash
-grep -rhoE '"(GET|POST|PUT|PATCH|DELETE) /v1/[^"]*"' internal/server/*.go --exclude='*_test.go' | sort -u
-```
-
-## Authentication
+than listing each one — an exhaustive table would rot on the next change. ## Authentication
 
 Every request needs the token from `~/.config/coworker/sidecar-<port>.token`,
 with four deliberate exceptions:
@@ -49,8 +42,7 @@ never authorises `/v1`.
 | `/ws/events` | server-wide events: sessions, inbox, connectors |
 | `/ws/session/{session_id}` | one conversation: streamed output, tool calls, approval cards, status |
 
-Frames are `{type, data}`. The event vocabulary lives in `internal/events`, and
-event names and payload keys are wire-compatible with the Python original.
+Frames are `{type, data}`. Event names and payload keys are wire-compatible with the Python original.
 
 Two frames on the session socket are Go additions, sent by the server when
 state the interface would otherwise poll for has moved. Both are additive: a
@@ -67,7 +59,7 @@ reconnect. Both loops pause while the window is hidden.
 
 ## Route groups
 
-The counts below are checked against the registered routes by a test (`internal/server/docs_test.go`), so a route added without a line here is a red suite rather than a table that quietly goes stale.
+The counts below are checked against the registered routes by a test, so a route added without a line here is a red suite rather than a table that quietly goes stale.
 
 Two additions worth naming because first-run setup depends on them:
 `POST /v1/settings/cloud/probe {base_url}` asks a gallery address what it is

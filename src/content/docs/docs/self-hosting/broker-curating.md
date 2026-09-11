@@ -3,7 +3,7 @@ title: "Curating a broker gallery"
 description: "For whoever writes and shares coworkers. Deployment, TLS and auth modes are in README.md; the mechanics of review are in docs/sharing.md."
 ---
 
-<p class="rm-synced">Part of the remit-broker documentation. Generated from the product's own docs; the text is the same one the people building Remit read.</p>
+<p class="rm-synced">Part of the remit-broker documentation. Generated from the product's own docs; material written for the people building Remit is left out.</p>
 
 For whoever writes and shares coworkers. Deployment, TLS and auth modes are in
 [README.md](/docs/self-hosting/broker/); the mechanics of review are in
