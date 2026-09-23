@@ -50,7 +50,9 @@ coworkers first, on the view that attackers already use AI and defenders should
 have the same leverage, governed.
 
 Pick one in the composer. The picker has a filter once the list outgrows
-scanning by eye.
+scanning by eye; type to narrow it, then ↑/↓ and Enter to pick. It lists the
+coworkers you start yourself. Team workers are not in it: a lead staffs them, and
+Settings ▸ Coworkers keeps them under **Team workers**.
 
 ![The coworker picker in the composer](/docs/images/coworker-picker.png)
 
@@ -167,12 +169,39 @@ posts fields, never YAML — the server renders the manifest and installs it
 through the same parser and the same consent path as any other install, so an
 authored coworker lands disabled until you approve what it can reach.
 
-Publishing to a shared gallery is a later phase.
+Or build one in conversation. The Coworker carries a skill for it,
+**build-a-coworker**: ask it to build you a coworker and it interviews you — the
+job, the deliverable, the least tools and connectors that do it, the mode — then
+writes the bundle into your folder as `coworkers/<id>/manifest.md` and tells you
+where. Installing stays yours: **Settings ▸ Coworkers ▸ Install a coworker ▸
+Local folder**, pointed at that folder, and the same consent card as any other
+install. There is deliberately no tool that installs a coworker: one that could
+would be widening its own reach.
 
 Before you enable one, **Read its instructions** on the consent card shows the
 prompt it runs on and any skills it brings. The list above it is what the
 coworker *may* do; this is what it is *told* to do. Worth a minute for anything
 that arrived from somebody else.
+
+## Conversations in the sidebar
+
+Every conversation is a row in the sidebar, titled by its first request until
+you name it. The row's menu (the ⋮ on hover) offers **Edit…**, **Pin**,
+**Archive** and **Delete**; the pencil beside the title at the top of an open
+conversation opens the same editor.
+
+**Edit…** is one place for the conversation's name, a colour label and an icon.
+The label is one of eight hues and means whatever you want it to — a client, a
+kind of work, "look at this later" — and the icon is one of the line glyphs the
+app already draws. A conversation with either wears it at the head of its row and
+beside its title; one with neither looks exactly as it did. Naming a conversation
+makes the name final: Remit stops suggesting titles for it. Picking a colour or an
+icon does not.
+
+**Archive** puts a conversation away, reversibly: it moves to the Archived list
+and comes back with **Unarchive**. **Delete** asks first, names the conversation,
+and says what goes with it — its messages and its scratch folder — because it
+cannot be undone.
 
 ## Approvals: the part worth understanding
 
@@ -185,8 +214,11 @@ Your options are usually *approve once*, *always allow this*, or *reject*.
 "Always allow this" is scoped to the session unless you make it a standing rule.
 A session grant is kept with the session — across restarts, until you revoke it
 or delete the session — and is listed in the rail under **Access ▸ Allowed in
-this session**, with *Revoke* beside each. It is never honoured in Auto-Approve,
-where the reviewer decides.
+this session**, with *Revoke* beside each. It is not honoured in Auto-Approve for
+the ordinary asks the reviewer decides — with one exception: an ask only a person
+may answer, such as reading another coworker's work, honours the grant in every
+mode, and the card offers it wherever the ask reaches you — in the conversation,
+or on the card a woken coworker parks in the Inbox while you are elsewhere.
 
 The **mode** control sets how much gets asked:
 
@@ -203,6 +235,22 @@ not modify its own settings, will not write outside a writable root, and will
 not grant itself authority that outlives the session. See
 [security](/docs/coworker/security/).
 
+**Trying the reviewer before trusting it.** Auto-approve hands routine cards to
+an LLM reviewer. Before you let it decide anything, turn on **Shadow evaluation**
+in Settings ▸ Security & trust: you keep answering every card as now, and the
+reviewer records what it would have done. Once you have decided, a quiet line
+appears under the step — *reviewer would have allowed*, *would have blocked*, or
+*wasn't sure*, with its reason in your terms. The conversation's **Reviewer**
+panel in the rail tallies this session; the same panel under the switch in
+Settings tallies every session, each verdict beside what you did with the same
+card. The number to watch is *would have allowed what you refused*: how often
+it would have let through something you stopped, the one line the panel marks.
+Where more than one model has judged, or more than one kind of card, a picker
+narrows the record to one of each — so you can compare reviewer models before
+pinning one under Settings ▸ Models. A second judge, if one is on, gets its own
+block under the reviewer's rather than a picker: the two are there to be read
+side by side. It never decides, and it costs one model call per card.
+
 ### When nobody answers
 
 An automation or a headless run parks a card the same way a live session does,
@@ -218,6 +266,13 @@ approval that means the one word — allow or deny — with the card's token; a
 sentence that merely contains "yes" or "no" ("yes, I saw it, but hold off") is
 not a decision, and the card stays open with a note asking for allow or deny. A
 question still takes a typed answer, because that is what a question is for.
+And a reply resolves a card only when the person replying may: on Slack an
+approval owner, on Telegram someone named on the allow-list by id. Allowing
+everyone into a Telegram chat lets them answer a question, not approve an action.
+An answer from someone the list does not name reaches the coworker as their
+words, not yours. It is not your consent, and it counts as something read from
+outside. Telegram shows no buttons, so its cards list their choices and carry
+their token. Reply with a choice and the token.
 
 ### Two floors you will meet in ordinary use
 
@@ -266,6 +321,23 @@ session and unremarkable for an inbox triage, so the default lives in
 Neither can be switched off from inside a conversation, and neither is cleared by
 "always allow" — those grants make an action *allowed*, which is exactly what
 these two catch.
+
+## The audit record
+
+**Audit**, in the account menu, is every connector and tool action your coworkers took and
+how each was approved — with the class the permission ladder turned on, who acted, in which
+folder, and what the reviewer decided where it was asked. Arguments are sanitised before they
+are stored; nothing here can be edited.
+
+It reads as a record rather than a scroll. Each event is one line — when, its class, the tool,
+what happened, which coworker — and opens on a click for the rest: the folder, the arguments,
+the resource, the reason. Events fold under the conversation they belong to, by title, with a
+count and the span of time they cover; the newest conversation is open and the others closed
+until you open them. Filter to one conversation and its events show flat. The filters above
+the list ask the server — conversation, connector, tool, risk class, and a day range — and
+the count line says how much of the record they match, *150 of 1,240 events*, with **Load
+older** bringing the next hundred and fifty under the ones you have. The search box narrows
+what is loaded as you type: a tool, a path, a word from a reason.
 
 ## Connectors
 
@@ -336,7 +408,21 @@ runs the read-only explorer subagents. *Automatic*, the default, is the cheapest
 curated model of the same family as the session's — the picker shows which — so
 it uses the same key and the same allowed list. Pin either to any model in the
 list; a pin reaches sessions already open. The summarizer can still be pinned on
-its own under Context optimization.
+its own under Context optimization. Beneath the reviewer, **Reviewer effort**: how
+hard the judge thinks, where its model takes a level — its own setting, never a
+session's ([security model](/docs/coworker/security/#the-reviewer)).
+
+**Reasoning effort.** Where a model takes a level, the model menu in the composer
+offers a slider under the list — from the model's default up to *Max*, naming the
+level as you move it — and the pill says which is set (*claude-opus-5 · LiteLLM ·
+high*). It is one scale for
+every provider: Remit maps it to what the model's own API calls it, and the menu
+shows no control for a model that has no such knob. The level is the session's,
+kept with it and restored with it; a new session starts at `reasoning_effort` in
+`config.toml`, or at the model's default. Like the model, it changes only while
+the session is idle, and changing it costs the provider's prompt cache one
+rebuild of the conversation so far — pick it before a long turn rather than
+during one.
 
 **A model the list does not know.** Add any id and it works: Remit infers what the
 family carries, and both pickers say so — a badge in Settings, a second line under
@@ -367,7 +453,7 @@ quit and reopen the app; Remit says so when it happens rather than passing the r
 public GPT-6 Astra declines cybersecurity prompts, for one. A declined request
 fails with a message saying so and what to do, rather than as an empty reply.
 For the Security coworkers, pick a model that will do defensive work: their
-recommended list names Claude Fable 5.1 and Opus 5 first.
+recommended list names Claude Fable 5.1 and Opus 5.5 first.
 
 Under an organisation's policy the pickers may show some models greyed, with
 "Not allowed by *Acme*'s policy" beside them. They stay in the list so you can
@@ -415,7 +501,9 @@ see.
 
 **Skills** are loadable capabilities a coworker can pick up mid-task. A coworker
 can also propose saving a finished skill, which routes through the normal
-approval card.
+approval card. The shipped coworkers carry their own — the Security coworkers
+the know-how for their scanners, the Coworker a skill for building coworkers —
+and the session's skill list marks those as the coworker's.
 
 **Automations** run a coworker on a schedule — a Monday digest, a nightly triage.
 They live in **Automations** in the sidebar. A coworker can propose one; the proposal
@@ -483,15 +571,22 @@ link says how many are new. The server keeps the last fifty.
 
 A run is not one turn. It can put itself to sleep and wake later (`sleep_until`),
 wait for a job it backgrounded to finish (`wake_on`), or wait for the next message
-on a channel (`wake_on_event`), and a coworker with a team role works the board and
-its team from a scheduled run exactly as it would from a conversation — filing
-items, staffing a team, steering a worker. What it cannot do from a run is create
-another automation.
+on a channel (`wake_on_event`). A coworker has one wake-up time at a time: setting
+`sleep_until` again replaces the last one rather than queueing another. A coworker
+with a team role works the board and its team from a scheduled run exactly as it
+would from a conversation — filing items, staffing a team, steering a worker. What
+it cannot do from a run is create another automation.
 
 Approvals and questions from unattended runs land in the **Inbox**, reached from the
-account menu at the foot of the sidebar; the badge on it counts what needs you. An
-automation clears ordinary local writes on its own; anything the ladder reserves
-for a person — a git hook, a CI file — waits there too.
+account menu at the foot of the sidebar; the badge on it counts what the Inbox
+lists. A question a coworker asks while you are in its conversation is answered
+there, and counts on that conversation's row instead. An automation clears
+ordinary local writes on its own; anything the ladder reserves for a person — a
+git hook, a CI file — waits there too.
+
+The Inbox's **Configure** tab also keeps the *Unrouted* list: messages nothing
+claimed and background turns that failed, so nothing vanishes silently. It is a
+record, not a queue — dismiss an entry once you have read it, or clear the list.
 
 ![The Inbox: what unattended runs need from you](/docs/images/inbox.png)
 
@@ -508,11 +603,64 @@ so a lead that wakes at night can still ask. Teammates reach each other with
 `post_chat` when team chat is on, and a lead can steer one worker directly with
 `steer_worker`; `team_options` lists who can be staffed.
 
+Two teams ship. You start the lead from the picker; it proposes the workers, and you
+approve the roster. Workers never appear in the picker, but Settings ▸ Coworkers lists
+them, so you can read what each one will run before a lead staffs it.
+
+| lead | its workers | what it delivers |
+|---|---|---|
+| **DevSecOps Lead** | AppSec, Secrets, Posture, Deps | a security engagement split into items, each finding backed by evidence in the journal, every fix re-checked by a worker who did not write it, and one report at the end |
+| **SWE Lead** | SWE, Test, Design | a piece of work split into items with checkable criteria, built by workers and verified by the Test Worker rather than by whoever built it |
+
+A lead coordinates and does not build: the SWE and DevSecOps leads have no shell and no
+git, on purpose. [Coworker teams](/docs/coworker/teams/) walks through running one, step by step.
+
+The board and the journal refuse a secret's value, whoever writes it. A coworker
+that tries is told to record the kind and where it lives instead; see
+[Secrets](/docs/coworker/security/#secrets).
+
+## The Grapevine
+
+Off by default. Switched on in **Settings ▸ General**, it gives every conversation
+two more switches: **Post finished work** and **Listen to the Grapevine**. A
+coworker whose manifest suggests them arrives with them ticked, and the panel
+shows that before you send anything; untick one there and it stays off from the
+first message.
+
+A coworker that posts publishes a headline when it finishes something another
+coworker could build on — what the task was, what it was for, and pointers to what
+came out. The work itself stays in the folder that produced it. A coworker that
+listens wakes when a post lands, and can act on it, ask for the work behind it, or
+say it is not for them.
+
+Asking for the work is an approval, one named file at a time, in the conversation
+or the **Inbox** — the Grapevine adds no new place to look. It asks in every mode,
+including the one where you have said to stop asking: that mode is about a
+coworker's own reach, not about reading another coworker's work.
+
+The **Grapevine** row in the account menu shows everything published, and — the
+line worth opening it for — what came of each post.
+
+A post written after the coworker read outside content wakes nobody and waits for
+you instead, and a post more than four handoffs from something you asked for wakes
+nobody at all. Both say so on the screen.
+
+Full detail: [the Grapevine](/docs/coworker/grapevine/).
+
 ## Without the desktop
 
 The app runs the local server for you. On a machine with no desktop, the same server
 runs on its own, and the terminal worker, the connector tool and the board CLI are
 there for people who live in a terminal: [Running the server directly](/docs/coworker/server/).
+
+The terminal worker shows the reviewer the way the app does: *reviewer wasn't
+sure* above a card, *auto-approved* under a step it cleared, *blocked by the
+reviewer* with the full reason under one it stopped, and, with shadow evaluation
+on, what it would have decided under each step you answered. `/effort low|medium|high|max|default`
+sets the session's reasoning effort, the terminal's form of the composer's slider. `/allow`
+lets the action it last blocked run once, exactly as proposed; `/reviewer` prints this
+session's tally. The comparison of its verdicts with your own decisions is in the
+app's Reviewer panel, since the terminal keeps no audit record of its own.
 
 ## Where your data lives
 

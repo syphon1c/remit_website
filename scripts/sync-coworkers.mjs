@@ -34,6 +34,7 @@ const unquote = (s) => (s || '').replace(/^"|"$/g, '');
 function entry(d, source) {
 	return {
 		id: d.id, name: d.name, source, icon: d.icon || 'diamond', group: d.group || null,
+		team: d.team || null, // "lead" | "worker": a worker is staffed by a lead, never started alone
 		tagline: unquote(d.tagline), description: unquote(d.description),
 		connectors: list(d.connectors).map((c) => connectorLabel[c] || c),
 		tools: list(d.tools).map((t) => TOOL_LABEL[t] || t),

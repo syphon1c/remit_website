@@ -333,3 +333,99 @@ told people Gatekeeper would refuse it.
 
 Checked: no page in the manual or the site still says "not notarized" or "Open Anyway".
 31 pages build, all links resolve.
+
+## Coworkers that pick up each other's work (2026-09-16)
+
+Owner: the runtime's `grapevine` branch merged — a coworker publishes a finished piece of
+work, and coworkers set to listen hear about it and act on what is useful. Call the
+capability out on the site without naming it; the manual carries the Grapevine in full.
+
+- [x] Runtime: two real captures from the screenshot harness — the screen (everything
+      published and what came of each post) and the hand-over card (*Hand over report.md from
+      Grapevine #12*) — so the site shows the product, not a mock-up; `docs/grapevine.md`
+      embeds the screen.
+- [x] `scripts/sync-docs.mjs`: map `docs/grapevine.md` → *The Grapevine*; map the examples
+      walkthrough → *Trying the Grapevine*, with the three manifests inlined from the
+      example files at sync time, because a reader has no repository to import them from.
+      Sidebar and manual landing updated.
+- [x] Home: a section after the coworkers — one coworker's result is another's start — with
+      the screen capture and the three rules (you hand the work over; a post is information,
+      not an instruction; a chain ends). FAQ "what can a coworker never do" gains the line.
+- [x] Product: a split under "everything else" with the hand-over card; the section heading
+      and the page description name the capability.
+- [x] Security: the sixth floor — another coworker's work crosses only through you — and the
+      outside-content floor's one-hop-further sentence.
+- [x] README ▸ facts: the numbers the copy depends on, and the naming decision.
+- [x] `npm run sync-docs && npm run check`; the new pages and sections looked at in the browser.
+      (Closed 2026-09-23 with the teams pass below, which ran both over this tree.)
+
+Done the same morning. The captures are real: the harness gained two steps and was re-run,
+which also refreshed twenty existing captures the interface had moved on from (the account
+menu now shows the Grapevine row it describes). The home section sits after the coworkers,
+so every section below it swapped shade to keep the alternation; the sixth floor card fills
+the security page's grid, which five had left ragged. The walkthrough's install step named a
+control the Coworkers tab does not have (*Import*); fixed at the source. The product page's
+description said forty-three connectors where the page says thirty-eight; fixed in passing.
+33 pages build, all links and anchors resolve, no console errors, no horizontal overflow at
+phone width.
+
+## Teams ship, secrets stay out of the record, and the manual shows how (2026-09-23)
+
+Owner: the runtime's C6 work shipped the DevSecOps and SWE teams, retired Ops, added a Deps
+Worker, reworked the picker, and made the board and journal refuse a secret's value
+(runtime `3c4a539`, `3cb6063`). "Important features to add to the website and the manual:
+highlight them, and how to in the manual."
+
+State found first. The 2026-09-16 Grapevine pass is complete in the tree but was never
+committed. A sync run on 2026-09-23 stopped at the runtime's `docs/api.md` line 163 (a
+package path added after the rules were written), having cleared the generated pages it had
+not yet rewritten. So the cloud, self-hosting and API pages read as deleted. They regenerate
+once the sync runs through.
+
+- [x] Runtime source: `api.md` line 163 in words; a new `docs/teams.md`, the how-to (the two
+      teams, running one step by step, the two cards, the board, while you are away, what the
+      workers are, secrets, scanners, models); `using-remit.md` points to it.
+- [x] Runtime captures: the harness serves a release build's coworker list and the Security
+      coworker's real detail, since the e2e fixture still has a retired coworker and one
+      generic detail. The picker step learns the short row names, and a `board` capture is
+      added (the mocks' security engagement, the blocked item open). All 23 steps ran.
+- [x] `sync-docs.mjs` maps `docs/teams.md` → *Coworker teams*; sidebar and manual landing
+      (six cards, the Grapevine given one so the grid is not ragged).
+- [x] `sync-coworkers` carries `team`. The cards show the three specialists, then "And two
+      teams" with each lead's card naming the workers it staffs.
+- [x] Home: the coworkers section names the teams, and two job pills. Product: "A team for the
+      whole job" with the board capture, and the gallery text in its own split; the board card
+      says it refuses a secret's value. Security: the Secrets card. Compare: fourteen built in.
+- [x] README ▸ facts: the counts, the teams, the secret rule, each with its source.
+- [x] `npm run sync-docs && npm run check`; the changed pages looked at in the browser.
+
+**Review.** Nothing is committed in either repository; the owner decides. The manual now syncs
+again: 23 pages, the cloud and self-hosting pages back, and the Grapevine pages and captures
+from 2026-09-16 carried along. 34 pages build and every link and anchor resolves. In the
+browser at 1280 wide: the Product page's specialist row, the two team cards, and the teams
+split beside the board capture; the manual's teams page with its contents; the landing's six
+cards even. At 375 wide, Home, Product and the teams page have no horizontal overflow. No
+console errors.
+
+The captures were refreshed wholesale, because the interface had moved on since 09-16. Two
+of them were checked against the code rather than trusted. The picker and Settings now show
+the release set: no Ops, workers in their own section. The Security detail lists the
+manifest's three models instead of the fixture's Opus 4.8. The board capture uses the blocked
+item: the item in review carries the attachment test's solid placeholder image, which reads
+as a fault, and hiding it would be editing a capture.
+
+The manual's teams page states the leads' and workers' doctrine (re-checking, the Coverage
+note) as what they are instructed to do, and the cards and the Inbox as what the code does.
+The FAQ's "what can a coworker never do" was left alone: the secret check works by shape, so
+"never" would overclaim.
+
+**Then (owner, same day): the Grapevine needs no feature spot now that teams ship; keep it in
+the manual.** Home loses its "one coworker's result is the next one's start" section, and the
+seven sections under it get their shading back as it was before 2026-09-16. The FAQ answer on
+how many coworkers you can run is back to its earlier wording. Product loses the hand-off split,
+"hand-offs between coworkers" in the everything-else heading, and the phrase in its
+description. The manual keeps both Grapevine pages and gains a landing card. The protections
+stay listed, because they hold whether or not anyone uses the feature: the Security page's
+sixth floor, the outside-content sentence about published results, and the FAQ's "read
+another coworker's work without you handing it over". README ▸ facts records the ruling. 34
+pages build, every link resolves, and the shading alternates from top to bottom.

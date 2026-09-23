@@ -27,13 +27,15 @@ without asking you:
 | `auto_allow` | would let a repo auto-approve its own tools |
 | `allowed_domains` | would let a repo widen network reach |
 | `external_budget` | would let a repo widen how much one of its turns can do |
+| `egress_hosts` | would let a repo widen how many places one of its turns can reach |
 | `tokens_per_hour` | would let a repo raise what its sessions may spend |
 | `browser_path` | would let a repo choose which binary runs with this machine's network position |
 | `approval_ttl` | would let a repo keep an unattended run parked longer than the machine allows |
 | `run_retry_after` | would let a repo decide how often a machine re-runs work unattended |
 | `stream_idle_timeout` | is applied to the whole process; a repo must not be able to switch the watchdog off for the server |
-| `reviewer_model` / `helper_model` | the reviewer is a judge; a repo must not be able to choose who judges it |
+| `reviewer_model` / `helper_model` / `reviewer_effort` | the reviewer is a judge; a repo must not be able to choose who judges it, nor how hard the judge thinks |
 | `auto_approve` / `auto_approve_shadow` | would let a repo relax the reviewer |
+| `grapevine` | would let a repo open a path that carries work between coworkers on this machine |
 | `cloud_auth_insecure` | would let a repo downgrade sign-in to plain HTTP |
 | `cloud_policy_pubkey` | would let a repo choose whose policy the machine trusts |
 | `cloud_gallery_pubkey` | would let a repo choose whose coworkers the machine trusts |
@@ -49,6 +51,7 @@ then they are advisory. See [security](/docs/coworker/security/#workspace-trust)
 | Key | Default | Meaning |
 |---|---|---|
 | `model` | `gpt-5.6-sol` | default model id, optionally `provider:model` |
+| `reasoning_effort` | *(the model's default)* | what a new session starts with, where its model takes a level: `low`, `medium`, `high` or `max`, one scale mapped to each provider's own. The model menu in the composer sets it per session from there; a level off the scale is ignored ([using Remit](/docs/coworker/using-remit/#models)) |
 | `mode` | `interactive` | starting permission mode |
 | `max_iterations` | `150` | tool-call ceiling for one turn. At the ceiling the coworker is asked for a summary with tools withheld; unattended with its plan still open it continues in a wake of its own, twice per brief ([using Remit](/docs/coworker/using-remit/#the-plan-and-what-done-means)) |
 | `model_proxy_url` | *(unset)* | route providers through LiteLLM or any OpenAI-compatible gateway |
@@ -60,6 +63,8 @@ then they are advisory. See [security](/docs/coworker/security/#workspace-trust)
 | `stream_idle_timeout` | `120s` | how long a model response may go quiet before the connection is dropped and the turn told the model stopped responding. `0` waits the whole ten-minute request timeout. Global-only |
 | `reviewer_model` | *(automatic)* | the model the Auto-Approve reviewer and the done-ness critic judge with. Automatic is the session model's helper tier, else the session model. **Settings ▸ Models** pins win over this. Global-only ([security model](/docs/coworker/security/#the-reviewer)) |
 | `helper_model` | *(automatic)* | the model for compaction summaries (unless `compaction_model` pins one), session titles and explorer subagents; the same automatic. Settings pins win. Global-only |
+| `reviewer_shadow_judge` | *(none)* | a judge that runs for the RECORD only, beside the one that decides: `"typesafe"`, or unset. With it set, a resolved `TYPESAFE_API_KEY` and shadow evaluation on, every card the reviewer judges or would judge is also sent to `api.typesafe.ai` and judged there; the verdict lands on an audit row and decides nothing. All three are required — see Environment variables below for what is sent. The switch on **Settings ▸ Security & trust ▸ A second judge** writes this same setting (and wins over the file); an organisation's `reviewer.allowed_judges` can take the judge away from both. Applies to sessions started after it changes. Global-only |
+| `reviewer_effort` | *(the model's default)* | how hard the reviewer and the done-when critic think, on the same scale as `reasoning_effort`. The judge's own setting: it never inherits a session's. **Settings ▸ Models** pins win over this. Global-only ([security model](/docs/coworker/security/#the-reviewer)) |
 
 ### Server
 
@@ -75,10 +80,12 @@ then they are advisory. See [security](/docs/coworker/security/#workspace-trust)
 | `allowed_commands` | *(empty)* | command prefixes that run without an approval prompt |
 | `auto_allow` | *(empty)* | tools auto-approved in `custom` mode |
 | `external_budget` | `50` | actions with effects beyond this machine one turn takes on its own before the rest reach you. The global default; a session can override it in its Access panel. Clamped to 1–500: the allowance can be raised, never removed ([security model](/docs/coworker/security/)) |
+| `egress_hosts` | `25` | distinct hosts one turn fetches from on its own before a fetch to any further host reaches you. Returning to a host already reached costs nothing; a host on `allowed_domains` still counts. Clamped to 1–500 on the allowance's terms; an organisation's `limits.egress_hosts` can lower it. Configuration only — no Settings field yet ([security model](/docs/coworker/security/#how-many-places)) |
 | `tokens_per_hour` | `0` (off) | the most a session — with its team, or an automation across its runs — may spend in a rolling hour before a new turn is refused: `tokens_in + tokens_out + cache_write` over the audit's model-call rows. `POST /v1/settings/tokens-per-hour` sets it from the interface; an organisation's `limits.tokens_per_hour` can lower it ([security model](/docs/coworker/security/#how-much)) |
 | `allowed_domains` | *(empty)* | hosts `web_fetch` may reach without asking — and the destinations exempt from the outside-content floor, since a host named here was chosen before any turn read anything ([outside content](/docs/coworker/outside-content/)) |
 | `auto_approve` | `false` | enable the LLM reviewer in auto-approve mode |
-| `auto_approve_shadow` | `false` | reviewer records what it *would* have decided while you still decide |
+| `auto_approve_shadow` | `false` | reviewer records what it *would* have decided while you still decide; the record, beside your own decisions, is the conversation's Reviewer panel and Settings ▸ Security & trust ([security](/docs/coworker/security/)) |
+| `grapevine` | `false` | the Grapevine: coworkers publish finished work and pick up each other's. Makes the two per-session switches available; turns nothing on by itself. `POST /v1/settings/grapevine` sets it from the interface; under Remit Cloud, `grapevine.allowed` set to off prevents it being switched on ([the Grapevine](/docs/coworker/grapevine/)) |
 
 `allowed_commands` ships **empty on purpose**. There is no generally safe
 executable: nominally read-only programs can read secrets outside the workspace,
@@ -121,6 +128,34 @@ itself is `POST /v1/settings/cloud/probe`; it saves nothing.
 
 Base-URL overrides, for proxies and self-hosted endpoints:
 `ANTHROPIC_BASE_URL`, `OPENAI_BASE_URL`, `GEMINI_BASE_URL`, `LITELLM_BASE_URL`.
+
+`TYPESAFE_API_KEY` is not a provider key — it cannot drive a session, and it
+appears in no model picker. It supplies a second **reviewer** that only ever
+measures, and on its own it does nothing at all: the judge is built only when
+the judge is switched on (`reviewer_shadow_judge = "typesafe"`, or the switch on
+its Settings card, which writes the same setting) *and* shadow evaluation is on.
+Three things, because one of them may already be set for another tool and none
+of them alone is a decision to send this machine's work off it.
+
+With all three on, every card the Auto-Approve reviewer judges — or would judge
+— is **also** sent to `api.typesafe.ai` and judged by TypeSafe's Jev model. What
+goes with it is what any reviewer sees: your verbatim request, your earlier
+messages in that session, the working folders and git remotes, and the proposed
+action with its arguments. Never file contents, page text or message bodies.
+The verdict lands on an audit row tagged `judge: "typesafe"` and nowhere else —
+it decides nothing, it is never shown beside a card, and its thresholds are
+uncalibrated by design until that record says what they should be. The key
+resolves from the environment, else from the stored `provider:typesafe` profile.
+
+If you do not want cards leaving the machine, leave the judge switched off;
+that is enough on its own, whatever the key says. A session already open keeps
+the judge it was built with until it ends.
+
+The key itself is entered on the same card, **Settings ▸ Security & trust ▸ A second
+judge**, beside the switch: saved into the `provider:typesafe` profile, tested
+against the endpoint with one real evaluation, and never echoed back out. A
+`TYPESAFE_API_KEY` in the process environment still wins over a saved key, and
+the card says so when it does.
 
 ### Remit itself
 

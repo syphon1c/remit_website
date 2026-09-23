@@ -4,12 +4,22 @@
 import coworkers from '../data/coworkers.json';
 interface Props { variant?: 'featured' | 'all' }
 const { variant = 'featured' } = Astro.props;
+type Coworker = (typeof coworkers)[number];
+// What a person starts: the specialists on their own, and the two team leads. A worker is
+// staffed by a lead and never started alone, so it is named on its lead's card rather than
+// carded itself. A lead staffs the workers of its own group: the DevSecOps Lead the security
+// workers, the SWE Lead the rest (README ▸ facts).
 const builtIn = coworkers.filter((c) => c.source === 'built-in');
+const specialists = builtIn.filter((c) => !c.team);
+const leads = builtIn.filter((c) => c.team === 'lead');
+const staffedBy = (lead: Coworker) => builtIn
+	.filter((w) => w.team === 'worker' && (w.group === 'security') === (lead.group === 'security'))
+	.map((w) => w.name.replace(/ Worker$/, ''));
 const gallery = coworkers.filter((c) => c.source === 'gallery');
-const worksWith = (c: (typeof coworkers)[number]) => [...c.connectors, ...c.tools.filter((t) => t !== 'a task list')].join(' · ');
+const worksWith = (c: Coworker) => [...c.connectors, ...c.tools.filter((t) => t !== 'a task list')].join(' · ');
 ---
 <div class="cw-grid">
-	{builtIn.map((c) => (
+	{specialists.map((c) => (
 		<article class="cw">
 			<div class="cw-head"><span class="cw-glyph" aria-hidden="true"></span><h3>{c.name.replace(/ Coworker$/, '')}</h3><span class="pill neutral">built in</span></div>
 			<p class="cw-tag">{c.tagline}</p>
@@ -18,6 +28,20 @@ const worksWith = (c: (typeof coworkers)[number]) => [...c.connectors, ...c.tool
 				<dt>Works with</dt><dd>{worksWith(c)}</dd>
 				{c.skills.length > 0 && <><dt>Skills</dt><dd>{c.skills.join(' · ')}</dd></>}
 				<dt>Checks in</dt><dd>before anything consequential, and always before anything leaves this machine after it has read outside content</dd>
+			</dl>
+		</article>
+	))}
+</div>
+<p class="cw-more"><strong>And two teams</strong>: a lead that plans the work onto a board, staffs the workers it needs, and checks what comes back on evidence.</p>
+<div class="cw-grid">
+	{leads.map((c) => (
+		<article class="cw">
+			<div class="cw-head"><span class="cw-glyph" aria-hidden="true"></span><h3>{c.name}</h3><span class="pill neutral">team</span></div>
+			<p class="cw-tag">{c.tagline}</p>
+			{variant === 'all' && <p class="cw-desc">{c.description}</p>}
+			<dl class="cw-facts">
+				<dt>Staffs</dt><dd>{staffedBy(c).join(' · ')}</dd>
+				<dt>Checks in</dt><dd>you approve its plan and its roster; each worker asks before anything consequential</dd>
 			</dl>
 		</article>
 	))}

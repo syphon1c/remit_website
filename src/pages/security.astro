@@ -6,7 +6,7 @@ import shotUnsure from '../assets/app/approval-unsure.webp';
 import shotTrust from '../assets/app/settings-trust-focus.webp';
 import DiagramLadder from '../components/DiagramLadder.astro';
 ---
-<Site title="Security" description="Governance in Remit is architecture, not a setting: five risk classes, a permission ladder with hard floors, the outside-content floor, a bound on off-machine actions, workspace trust, a reviewer that fails closed, and a hash-chained audit journal. Every protection works signed out, offline and unlicensed.">
+<Site title="Security" description="Governance in Remit is architecture, not a setting: five risk classes, a permission ladder with hard floors, the outside-content floor, a bound on off-machine actions, a hand-over floor between coworkers, workspace trust, a reviewer that fails closed, and a hash-chained audit journal. Every protection works signed out, offline and unlicensed.">
 	<section class="hero art">
 		<div class="wrap">
 			<div>
@@ -50,16 +50,17 @@ import DiagramLadder from '../components/DiagramLadder.astro';
 		<div class="wrap">
 			<div class="section-head">
 				<p class="eyebrow">Floors</p>
-				<h2>Five things no mode, click or tier can change.</h2>
+				<h2>Six things no mode, click or tier can change.</h2>
 			</div>
 			<div class="grid two">
 				<div class="floor"><h3>Remit will not modify its own settings</h3><p>A coworker cannot loosen the configuration it runs under, whatever it is asked.</p></div>
 				<div class="floor"><h3>It will not write outside a writable root</h3><p>Workspace trust decides where writes may land. A path outside it is refused, not asked about.</p></div>
 				<div class="floor"><h3>It will not grant itself authority that outlives the session</h3><p>"Always allow" is scoped to the session unless a person makes it a standing rule.</p></div>
-				<div class="floor"><h3>After reading outside content, off-machine actions reach a person</h3><p>In every mode, over the reviewer, over "always allow". The card names the read that caused it. Destinations you named in advance are exempt, because they cannot have been chosen by the read.</p></div>
+				<div class="floor"><h3>After reading outside content, off-machine actions reach a person</h3><p>In every mode, over the reviewer, over "always allow". The card names the read that caused it. Destinations you named in advance are exempt, because they cannot have been chosen by the read. A result published for other coworkers after such a read wakes none of them; it waits for you.</p></div>
 				<div class="floor"><h3>A turn's off-machine actions are bounded</h3><p>Fifty on its own by default, then the rest come to you with a note saying so. Configurable per session and per organisation; never switchable off.</p></div>
+				<div class="floor"><h3>Another coworker's work crosses only through you</h3><p>A coworker reading a file out of another coworker's folder reaches a person the first time, in every mode, and the reviewer may never clear it. After your first yes you can grant it for that coworker and that session; nothing a coworker does can grant it to itself.</p></div>
 			</div>
-			<p class="foot">Both of the last two are enforced where the decision is made and recorded on every audit row whether or not they fired. <a href="/docs/coworker/outside-content/">Outside content</a> explains how to measure them and back them out if they are wrong for you.</p>
+			<p class="foot">The outside-content floor and the bound are enforced where the decision is made and recorded on every audit row whether or not they fired. <a href="/docs/coworker/outside-content/">Outside content</a> explains how to measure them and back them out if they are wrong for you.</p>
 			<div class="split art rev">
 				<Shot src={shotTrust} alt="Settings, Security and trust: auto-approve, the actions a turn takes on its own, always-allowed destinations." caption="Where the two floors are tuned, never switched off." sizes="(max-width: 900px) 100vw, 62vw" />
 				<div>
@@ -82,7 +83,7 @@ import DiagramLadder from '../components/DiagramLadder.astro';
 				<div class="feature"><h3>Commands are not allowlisted by default</h3><p>The shell starts closed. You add the prefixes you accept, and adding one is you accepting what that command can reach, including its plugins and helpers.</p></div>
 				<div class="feature"><h3>The reviewer fails closed</h3><p>In auto-approve mode a second model judges each ask. Its verdict parses to "unsure" on doubt, and unsure reaches a person. Its provenance is on the audit row.</p></div>
 				<div class="feature"><h3>The address guard</h3><p>A model-chosen URL that resolves to this machine, a private range, carrier-grade NAT or link-local is refused, every hop, with the resolved address pinned so a name cannot change answer between the check and the connection.</p></div>
-				<div class="feature"><h3>Secrets</h3><p>Keys and tokens live in the local secret store, never in the transcript, never in the journal. The local server binds loopback and every request needs a token.</p></div>
+				<div class="feature"><h3>Secrets</h3><p>Keys and tokens live in the local secret store, never in the transcript, never in the journal. A secret a coworker finds in your code is recorded by its kind and where it lives: the board and the journal refuse its value, whoever writes it. The local server binds loopback and every request needs a token.</p></div>
 				<div class="feature"><h3>Audit</h3><p>Append-only, hash-chained, with the risk class, the decision, who made it and what it turned on. With Remit Cloud, chain anchors make a rewound or rewritten local journal detectable as a fork.</p></div>
 			</div>
 		</div>

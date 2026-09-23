@@ -1,10 +1,36 @@
 [
 	{
+		"id": "appsec-worker",
+		"name": "AppSec Worker",
+		"source": "built-in",
+		"icon": "code",
+		"group": "security",
+		"team": "worker",
+		"tagline": "Code security review under a team lead — scan, triage, fix",
+		"description": "An application-security coworker that works team-style — it takes assigned code-review items from a security lead, drives scanners (semgrep), triages findings in context, fixes what matters, and hands off through review with evidence.",
+		"connectors": [
+			"GitHub"
+		],
+		"tools": [
+			"your code",
+			"git",
+			"search",
+			"the shell",
+			"a task list"
+		],
+		"skills": [
+			"semgrep review",
+			"security fix pr"
+		],
+		"mode": "interactive"
+	},
+	{
 		"id": "cloud-posture",
 		"name": "Cloud Posture Coworker",
 		"source": "built-in",
 		"icon": "sliders",
 		"group": "security",
+		"team": null,
 		"tagline": "Review Terraform & cloud config — read-only, evidence first",
 		"description": "An infrastructure-security reviewer for teams without a cloud security team. Scans Terraform and cloud configuration with open-source tools (trivy, checkov), reads your live cloud posture strictly read-only, and fixes what matters in the IaC — never by clicking around a console.",
 		"connectors": [
@@ -29,6 +55,7 @@
 		"source": "built-in",
 		"icon": "audit",
 		"group": "security",
+		"team": null,
 		"tagline": "Vulnerable dependencies — audit, minimal upgrades, PRs",
 		"description": "A dependency auditor for teams without a security team. Runs open-source vulnerability scanners (osv-scanner, npm audit, pip-audit, trivy) across your lockfiles, separates exploitable from theoretical, and ships minimal, test-verified upgrade PRs.",
 		"connectors": [
@@ -48,11 +75,122 @@
 		"mode": "interactive"
 	},
 	{
+		"id": "deps-worker",
+		"name": "Deps Worker",
+		"source": "built-in",
+		"icon": "audit",
+		"group": "security",
+		"team": "worker",
+		"tagline": "Vulnerable dependencies under a team lead — audit, minimal upgrades",
+		"description": "A dependency-audit coworker that works team-style — it takes assigned items from a security lead, runs open-source vulnerability scanners across the lockfiles (osv-scanner, npm audit, pip-audit, trivy), separates reachable from theoretical, ships minimal test-verified upgrades, and hands off through review with evidence.",
+		"connectors": [
+			"GitHub"
+		],
+		"tools": [
+			"your code",
+			"git",
+			"search",
+			"the shell",
+			"a task list"
+		],
+		"skills": [
+			"dependency audit",
+			"safe upgrade pr"
+		],
+		"mode": "interactive"
+	},
+	{
+		"id": "design-worker",
+		"name": "Design Worker",
+		"source": "built-in",
+		"icon": "layout",
+		"group": null,
+		"team": "worker",
+		"tagline": "UI/UX implementation under a team lead",
+		"description": "A UI/UX-focused coworker that works team-style under a lead — layout, styling, interaction polish, and design-system consistency, handed off through review.",
+		"connectors": [],
+		"tools": [
+			"your code",
+			"git",
+			"search",
+			"the shell",
+			"a task list"
+		],
+		"skills": [],
+		"mode": "interactive"
+	},
+	{
+		"id": "devsecops-lead",
+		"name": "DevSecOps Lead",
+		"source": "built-in",
+		"icon": "shield",
+		"group": "security",
+		"team": "lead",
+		"tagline": "Leads a security review team — scopes, staffs, assigns, verifies evidence",
+		"description": "A security-lead coworker that decomposes a security engagement onto a board, staffs scanner-driving worker coworkers (code review, secrets, posture, dependencies), and verifies findings on evidence at review. It coordinates — it does not scan.",
+		"connectors": [],
+		"tools": [
+			"your code",
+			"search",
+			"a task list"
+		],
+		"skills": [],
+		"mode": "interactive"
+	},
+	{
+		"id": "posture-worker",
+		"name": "Posture Worker",
+		"source": "built-in",
+		"icon": "sliders",
+		"group": "security",
+		"team": "worker",
+		"tagline": "IaC & cloud posture under a team lead — read-only, evidence first",
+		"description": "An infrastructure-security coworker that works team-style — it takes assigned posture items from a security lead, scans Terraform and cloud configuration (trivy, checkov; cloud strictly read-only), fixes in the IaC, and hands off through review with evidence.",
+		"connectors": [
+			"GitHub"
+		],
+		"tools": [
+			"your code",
+			"git",
+			"search",
+			"the shell",
+			"a task list"
+		],
+		"skills": [
+			"iac scan",
+			"aws posture"
+		],
+		"mode": "interactive"
+	},
+	{
+		"id": "secrets-worker",
+		"name": "Secrets Worker",
+		"source": "built-in",
+		"icon": "search",
+		"group": "security",
+		"team": "worker",
+		"tagline": "Secret hunting under a team lead — working tree and full git history",
+		"description": "A secret-hunting coworker that works team-style — it takes assigned items from a security lead, sweeps working trees and full git history for leaked credentials (gitleaks + manual history reads), verifies what's live, and hands off through review with evidence.",
+		"connectors": [],
+		"tools": [
+			"your code",
+			"git",
+			"search",
+			"the shell",
+			"a task list"
+		],
+		"skills": [
+			"secret scan"
+		],
+		"mode": "interactive"
+	},
+	{
 		"id": "security",
 		"name": "Security Coworker",
 		"source": "built-in",
 		"icon": "shield",
 		"group": "security",
+		"team": null,
 		"tagline": "Find and fix security issues — scan, triage, PR",
 		"description": "A code-security reviewer for teams without a security team. Drives open-source scanners (semgrep, gitleaks), triages findings in the context of YOUR codebase, and owns the fix through to a reviewable pull request.",
 		"connectors": [
@@ -73,11 +211,70 @@
 		"mode": "interactive"
 	},
 	{
+		"id": "swe-lead",
+		"name": "SWE Lead",
+		"source": "built-in",
+		"icon": "users",
+		"group": null,
+		"team": "lead",
+		"tagline": "Leads a software team — plans, staffs, assigns, verifies",
+		"description": "A tech-lead coworker that decomposes work onto a board, staffs a team of worker coworkers, assigns items, and verifies results at review. It coordinates — it does not build.",
+		"connectors": [],
+		"tools": [
+			"your code",
+			"search",
+			"a task list"
+		],
+		"skills": [],
+		"mode": "interactive"
+	},
+	{
+		"id": "swe-worker",
+		"name": "SWE Worker",
+		"source": "built-in",
+		"icon": "code",
+		"group": null,
+		"team": "worker",
+		"tagline": "Implements work items under a team lead",
+		"description": "A software engineer coworker that works team-style — it takes assigned work items from a lead coworker, implements them against their acceptance criteria, and hands off through review.",
+		"connectors": [],
+		"tools": [
+			"your code",
+			"git",
+			"search",
+			"the shell",
+			"a task list"
+		],
+		"skills": [],
+		"mode": "interactive"
+	},
+	{
+		"id": "test-worker",
+		"name": "Test Worker",
+		"source": "built-in",
+		"icon": "check",
+		"group": null,
+		"team": "worker",
+		"tagline": "Verifies teammates' work against acceptance criteria",
+		"description": "A verification coworker for teams — it independently tests what a builder coworker handed to review, against the item's acceptance criteria, and delivers a pass/fail verdict with evidence. The builder never grades its own work.",
+		"connectors": [],
+		"tools": [
+			"your code",
+			"git",
+			"search",
+			"the shell",
+			"a task list"
+		],
+		"skills": [],
+		"mode": "interactive"
+	},
+	{
 		"id": "appsec-reviewer",
 		"name": "AppSec Reviewer",
 		"source": "gallery",
 		"icon": "shield",
 		"group": "security",
+		"team": null,
 		"tagline": "Reviews a change for what an attacker can reach, and hands back the fix",
 		"description": "A security reviewer for pull requests, branches and working-tree changes. Reads the change in the context of the code that calls it, proves each finding by tracing untrusted input to the flaw, ranks by what an attacker gets rather than by scanner severity, and hands back a patch and a test for anything it confirms.",
 		"connectors": [
@@ -107,6 +304,7 @@
 		"source": "gallery",
 		"icon": "table",
 		"group": null,
+		"team": null,
 		"tagline": "Answers a business question from the warehouse, with the query shown",
 		"description": "An analyst for business teams that works from the organisation's Databricks workspace. Asks Genie in plain language, shows the SQL that produced every number, pins metric definitions so next week's answer is computed the same way, and says plainly when the data cannot answer the question. Read-only, under Unity Catalog permissions.",
 		"connectors": [],
@@ -131,6 +329,7 @@
 		"source": "gallery",
 		"icon": "layout",
 		"group": null,
+		"team": null,
 		"tagline": "Compares what shipped to what was designed, and says exactly where they differ",
 		"description": "A design QA reviewer for the hand-off gap. Reads the Figma frame, screenshots the built page, and lists the differences in spacing, type, colour, states and copy. Runs an accessibility pass and a design-system drift audit on the same screen, and hands the findings back as a review note or Figma comments. It reviews; it does not change designs or code.",
 		"connectors": [
@@ -159,6 +358,7 @@
 		"source": "gallery",
 		"icon": "pencil",
 		"group": null,
+		"team": null,
 		"tagline": "Keeps the record of a live incident so the postmortem starts from evidence",
 		"description": "Sits alongside an incident and keeps the record — a timestamped, append-only timeline of what was observed, decided and tried, with the evidence attached — then drafts the status updates, the hand-off brief and the blameless postmortem from it. It reads and writes the record; it never operates the system.",
 		"connectors": [
@@ -188,6 +388,7 @@
 		"source": "gallery",
 		"icon": "search",
 		"group": null,
+		"team": null,
 		"tagline": "Answers \"how does this work here?\" from the docs we actually have, and says when they don't",
 		"description": "The coworker a new joiner asks instead of interrupting the team. Answers from the company's own handbook, runbooks, READMEs and design docs, cites the document and section every time, names the owner when the answer is not written down, and keeps a running list of the documentation that contradicted itself along the way.",
 		"connectors": [
@@ -218,6 +419,7 @@
 		"source": "gallery",
 		"icon": "audit",
 		"group": "security",
+		"team": null,
 		"tagline": "Turns what Wiz found into what to fix first, and who fixes it",
 		"description": "A cloud security analyst that works from your Wiz tenant. Ranks issues by whether an attacker can actually reach them, traces each one to the code and the team that owns it, and hands back the fix with the Wiz evidence attached. It writes to Wiz only when you hand it a security review to import.",
 		"connectors": [

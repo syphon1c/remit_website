@@ -21,9 +21,12 @@ const MAP = [
 	['runtime', 'docs/getting-started.md', 'coworker/getting-started'],
 	['runtime', 'docs/server.md', 'coworker/server', 'Running the server directly'],
 	['runtime', 'docs/using-remit.md', 'coworker/using-remit'],
+	['runtime', 'docs/teams.md', 'coworker/teams'],
 	['runtime', 'docs/configuration.md', 'coworker/configuration'],
 	['runtime', 'docs/security.md', 'coworker/security'],
 	['runtime', 'docs/outside-content.md', 'coworker/outside-content', 'Outside content'],
+	['runtime', 'docs/grapevine.md', 'coworker/grapevine'],
+	['runtime', 'examples/README.md', 'coworker/grapevine-trying', 'Trying the Grapevine'],
 	['runtime', 'docs/connectors-slack.md', 'coworker/connectors/slack', 'Connectors: Slack'],
 	['runtime', 'docs/how-updates-work.md', 'coworker/updates'],
 	['runtime', 'docs/api.md', 'developers/api', 'The local API'],
@@ -106,6 +109,29 @@ const TRANSFORM = {
 			'consults a page and then edits a file, the second makes every automation ask — which\n' +
 			'is why neither is the default. Each is guarded by tests that say what the condition\n' +
 			'is for, so changing one tells you exactly what you are giving up.\n'),
+	// The Grapevine's "Trying it" points at the examples folder of the repository. The
+	// walkthrough is a page of the manual, so the link says what it opens.
+	'runtime:docs/grapevine.md': (md) => md.replace(/\[`examples\/`\]\(\.\.\/examples\/README\.md\)/, '[Trying the Grapevine](../examples/README.md)'),
+	// The walkthrough: a reader has no repository to install the three coworkers from, so the
+	// manifests themselves are inlined from the example files, the install step says where to
+	// put them, and the section on why they sit in their own folder of the repository goes.
+	'runtime:examples/README.md': (md) => {
+		const dir = path.join(REPOS.runtime.dir, 'examples/grapevine-coworkers');
+		const manifests = ['notekeeper', 'checklister', 'digester'].map((id) => {
+			const src = fs.readFileSync(path.join(dir, `${id}.md`), 'utf8').trimEnd();
+			return `### ${src.match(/^name: (.*)$/m)[1]} — \`${id}.md\`\n\n\`\`\`md\n${src}\n\`\`\``;
+		}).join('\n\n');
+		const out = md
+			.replace(/^`grapevine-coworkers\/` — a deliberately small chain for testing/m, 'A deliberately small chain for trying')
+			.replace(/\*\*2\. Install the three\*\* — [\s\S]*?accept all three\./,
+				'**2. Install the three** — save each manifest at the end of this page as its own `.md`\n' +
+				'file, in a folder with nothing else in it (installing a folder reads every `.md` there as\n' +
+				'a coworker), then Settings ▸ Coworkers ▸ Install a coworker ▸ Local folder, pointed at\n' +
+				'that folder. Each one shows what it can do before it is added; accept all three.')
+			.replace(/^## Why the manifests sit in their own folder\n[\s\S]*?(?=^## )/m, '');
+		if (/grapevine-coworkers\/|Import,|## Why the manifests/.test(out)) throw new Error('examples/README.md: the walkthrough changed shape; update its transform');
+		return out.trimEnd() + '\n\n## The three manifests\n\nEach is a plain coworker manifest: front matter, then the prompt.\n\n' + manifests + '\n';
+	},
 	// How updates work: the reader's half. The sections on running the release pipeline,
 	// deploying the server and its credentials are operator material and stay internal.
 	'runtime:docs/how-updates-work.md': (md) => {
@@ -250,9 +276,11 @@ for (const [repo, src, slug, titleOverride] of MAP) {
 	const h1 = lines.findIndex((l) => /^# /.test(l));
 	const title = titleOverride ?? (h1 >= 0 ? plain(lines[h1].slice(2)) : slug);
 	const bodyLines = h1 >= 0 ? lines.slice(h1 + 1) : lines;
-	const description = firstParagraph(bodyLines);
 	let body = bodyLines.join('\n').replace(/^\s+/, '');
 	if (TRANSFORM[`${repo}:${src}`]) body = TRANSFORM[`${repo}:${src}`](body);
+	// After the transform, so a page whose opening was rewritten for the public copy describes
+	// itself with the public sentence.
+	const description = firstParagraph(body.split('\n'));
 	body = body.replace(/\]\(images\//g, '](/docs/images/');
 	body = rewriteLinks(body, repo, src);
 	// After the links: a reference to a repository file arrives here as a markdown link

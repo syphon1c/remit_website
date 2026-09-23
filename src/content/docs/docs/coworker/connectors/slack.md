@@ -92,7 +92,9 @@ resolve consequential Inbox prompts from inside Slack. Remit will not mirror an
 approval into a channel that has no owner — nobody should be able to
 rubber-stamp an action in a room where you never said who is trusted. This does
 not affect channel monitoring; leave it empty until you route approvals to
-Slack.
+Slack. Other platforms have no owner list: there the allow-list itself decides,
+and only someone named on it by id may approve from the chat, whatever
+*allow everyone* is set to ([security model](/docs/coworker/security/#who-may-answer-a-card-from-a-chat)).
 
 ## Making a coworker listen
 
@@ -103,7 +105,7 @@ name, by pasting its Copy-link URL, or as a raw `slack:C0123` address. A bare
 create a subscription that silently never matches.
 
 Every subscription in one place: **Inbox ▸ Configure**, which also holds the DM
-route and the Unrouted dead-letter list.
+route and the Unrouted dead-letter list. An Unrouted entry is a record, not a queue: dismiss it once read, or clear the list.
 
 Subscribing changes how the coworker is addressed:
 

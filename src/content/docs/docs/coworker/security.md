@@ -127,6 +127,57 @@ rather than blast radius. And deliberately no exemption for a pinned standing
 rule, unlike the floor below: a pinned target bounds *where* effects go and says
 nothing about how many, which is the only thing this measures.
 
+### How many places
+
+What the allowance leaves uncounted is breadth. Twenty fetches from one host is
+research; twenty **hosts** in one turn is the shape of exfiltration by fragments,
+or of a turn spraying whatever it read at whatever it can reach — and until this
+floor, a turn that had read nothing from outside could fetch from as many places
+as it liked and nothing ever asked.
+
+A turn reaches **25 distinct hosts** on its own. A fetch to the twenty-sixth
+reaches a person, and a notice says so. Returning to a host the turn has already
+touched costs nothing, however many times: the bound is on places, not calls,
+which is what keeps a long research turn clear of it. A call with no destination
+of its own — a web search, whose endpoint is the one you configured — is not a
+host.
+
+It behaves like the allowance in every other respect. It never blocks: you
+decide, and if you approve, the fetch runs and its host joins the turn's reach.
+It resets when a person speaks and **not** on a wake the coworker set for
+itself. It is `egress_hosts` in the global `config.toml`, clamped to 1–500 —
+raisable, never removable — and an organisation's `limits.egress_hosts` can only
+lower it. There is no Settings field for it yet.
+
+Two things it deliberately does not do. A host on the always-allowed list still
+counts: that list bounds *where* a turn may go without asking, and this bounds
+*how many* places it goes, and a turn spreading across twenty-five pinned hosts
+is still spreading. And subdomains are separate hosts — `a.example.com` and
+`b.example.com` are two — so a spray across the subdomains of one apex meets the
+bound sooner rather than later; the honest way to fold them is a public-suffix
+list, which is a dependency decision this does not make.
+
+When this floor and the outside-content floor below both apply, the card carries
+the content floor's reason, which is the more specific one and names a remedy.
+
+### What a restart does to a card
+
+Every floor above decides from what this turn has done — the allowance spent,
+the hosts reached, the content read, the files downloaded — and none of that
+survives a restart. The card a floor raised does. So a call that was parked on a
+card **answers to that card** when the session resumes: it is not re-judged, no
+floor is re-derived, and it goes to you with the card's own reason. If you had
+already answered, that answer is what happens; if you had not, you are asked
+once. A card is honoured only for the call it was raised for — the same tool,
+the same arguments — and never turns a refusal into a question: a session that
+now refuses the call refuses it whatever the card said.
+
+This closes two ways a Deny used to be lost. In bypass mode a card only a floor
+had raised evaporated on a restart, because the rebuilt session could not see
+why it had been raised and allowed the call on its own. And in Auto-approve a
+resumed card was put to the reviewer again before your stored answer was read,
+so a fresh allow ran the call over your Deny.
+
 ### Outside content
 
 Every audit row also carries `outside_content`: whether this **turn** had read
@@ -208,6 +259,22 @@ outside text was in play". On a `finished` row it is the state after the call
 ran, so a web fetch's own finished row is set by its own result. Rows written
 before 2026-09-01 have no value, for the same reason as the class above.
 
+### Outside content and the Grapevine
+
+The same rule, one hop further out. A coworker that publishes to the Grapevine
+after reading outside content produces a post that **wakes nobody** — it waits on
+the screen for a person instead. A post is one coworker's words arriving in
+another coworker's context with the power to make it act, which is the shape an
+injected instruction wants; and fetching such a post's output marks the fetching
+turn the same way, so the mark travels with the work rather than stopping at the
+approval card.
+
+There is a second bound beside it, for a failure that is not injection at all:
+every post remembers which coworkers it descends from, a coworker is never woken
+by a post its own work caused, and a post more than four handoffs from a human
+turn wakes nobody. Waking is immediate, so two coworkers listening to each other
+would otherwise talk at machine speed ([the Grapevine](/docs/coworker/grapevine/)).
+
 ## Modes
 
 | Mode | Behaviour |
@@ -243,9 +310,32 @@ hooks, CI configs — may be edited, but never by an auto-approve path. A person
 has to see it. That includes an automation's own approver, which otherwise
 clears ordinary local writes so an unattended run can proceed: a human-only ask
 parks in the Inbox for a person like anything else the run is not allowed.
+For a write tool the path is resolved and checked. For a shell command only the
+command's text is scanned for the same markers, which is a speed bump and not a
+boundary: `cd .git && cd hooks && cat > post-commit` spells none of them, and
+neither does a path built in a variable. It stops accidents and casual
+attempts; real containment is an OS sandbox, which Remit does not have yet.
 
 **5. Persistent authority.** Tools whose effect outlives the session reach a
 person, over the reviewer and over every allowlist.
+
+**5a. Another coworker's work.** `grapevine_fetch` — reading a file out of the
+folder another coworker did its work in — reaches a person the first time, in
+every mode including bypass, and is never cleared by the reviewer. A mode that
+stops the asking is about a coworker's own reach; it says nothing about whose
+data may move where, and the reviewer has no standing to answer that on your
+behalf. It is a named floor rather than a risk class because no class fits: the
+call is local and cheap, and still yours ([the Grapevine](/docs/coworker/grapevine/)).
+
+It is the one named floor that honours a **session grant**, and it honours one in
+every mode: on a human-only ask the person is the only judge, so their *Always
+allow for this session* skips nobody — the rule that an in-flow click may not
+skip the reviewer has no reviewer to skip here. The grant is per session, listed
+and revocable, and nothing a coworker does can write it. Every surface the ask
+can reach offers it — the live card and the parked Inbox card carry the same two
+facts, that only a person may answer and that the grant would be honoured — and
+a session started with its *Ask before reading another coworker's work* switch
+off holds it from its first turn.
 
 **6. Non-consequential tools** run.
 
@@ -262,6 +352,28 @@ to the reviewer instead. A standing rule is the exception in every mode
 including bypass, because it names an exact target a person chose in advance —
 which is also why the outside-content floor exempts it and the session grant
 beside it does not.
+
+### Who may answer a card from a chat
+
+A card mirrored to Slack or Telegram can be answered there, and "a person" has to
+mean the right person. On Slack that is an **approval owner**, a list per
+workspace that is separate from who may talk to the bot. Other platforms have no
+owner list, so there the explicit allow-list stands in for one: only someone
+whose id is on it can approve an action, grant a folder, approve a plan or
+install a tool from the chat. Allowing everyone lets anyone in the chat talk to
+the coworker and answer its questions, never approve what it does. A refused
+reply changes nothing, and it is not passed to the coworker as a message.
+
+An answer from someone the allow-list does not name is kept, and it carries none
+of your authority. The coworker gets the words it asked for, but they do not
+count as your consent for what was asked. They do not lift the reviewer's pause
+after repeated denials. The turn treats them the way it would treat that
+person's message: as content from outside this machine, so anything the
+coworker then does that leaves the machine reaches a person first.
+
+Telegram shows no buttons, so a card mirrored there carries its choices and its
+token as text. Reply with one of the choices and the token, for example
+`approve [ow:…]`. The same rules decide whose reply counts.
 
 ## What consent can and cannot tell you
 
@@ -364,11 +476,47 @@ matter:
   decided next to your actual decision, changing nothing. That is the honest way
   to find out whether you would trust it, and it costs one model call per card.
 
-Both are user-global only.
+Both are user-global only, and both reach sessions already open: the engine
+reads them at the card, not when it was built.
+
+**How hard the judge thinks.** The reviewer's reasoning effort is its own
+setting — `reviewer_effort`, or **Settings ▸ Models ▸ Reviewer effort** — on one
+scale (`low`, `medium`, `high`, `max`, or the model's default) that Remit maps to
+whatever the reviewer's model takes, and sends nothing where it takes none. It is
+global-only for the reason the reviewer model is, and the reviewer never inherits
+a session's effort: what the actor was asked to spend on the work says nothing
+about what the judge should spend on the verdict. The done-when critic, which
+judges on the reviewer model, judges at the reviewer's effort too. Read on every
+consult, so a change reaches sessions already open.
+
+**What shadow records, and on which cards.** A shadow verdict is taken only where
+the live path would have consulted the reviewer: an attended session, and a card
+the reviewer may clear — never a human-only card (a downloaded file, the
+outside-content and budget floors, a protected write), never an unattended run.
+Anything else would be a decision auto-approve could never take, counted as
+though it were one. The card the shadow judge sees is the card the live judge
+would see, mode included. The verdict is written for you and reaches you: as a
+line under the step once you have decided (*reviewer would have allowed:* …),
+in the conversation's **Reviewer** panel, and across every session under the
+switch in Settings — each shadow verdict beside what you did with the same card.
+The line that decides trust is *would have allowed what you refused*: the
+reviewer would have let through something you stopped, and it is the one line
+marked. Both readouts slice by the model that judged and by the class of card,
+so "how does this reviewer do on shell commands" is one pick away, which is
+what choosing a reviewer model needs; with a second judge on the record, each
+judge has a block of its own, read beside the other rather than instead of it.
+Nothing here ever decides.
+
+**What the row says.** A verdict row's `status` is the verdict — `allow`, `deny`,
+`unsure` — or `error` when the machinery produced none: a timeout, a provider
+error, the reviewer unavailable by policy. The engine treats an error as unsure
+(you decide); the record keeps the two apart, so a flaky provider cannot read as
+a hesitant reviewer. Shadow rows carry the same `risk_class` and
+`outside_content` stamps as every other tool-call row.
 
 **The reviewer is not the actor.** It judges with the *reviewer model*, not the
 session's model: by default the cheapest curated model of the same family (Haiku
-for Claude, Luna for GPT-5.6, Flash for Gemini), or whatever **Settings ▸ Models**
+for Claude, Luna for GPT-5.6 and GPT-6, Flash for Gemini), or whatever **Settings ▸ Models**
 pins. A model reviewing its own plan shares its blind spots; a second opinion is
 only a second opinion when it is a second model. The done-ness critic uses the
 same reviewer model. An organisation can require the separation with the policy
@@ -377,12 +525,240 @@ the reviewer is unavailable by policy — every verdict is *unsure*, so every ca
 reaches you, and the session says why once. Refused at the point of use, never
 satisfied by quietly picking something.
 
+**Which judge may see a card.** A second policy key, `reviewer.allowed_judges`,
+says which judge *backends* an organisation permits. It composes like every
+allow-set — by intersection, tightening only — and it has one rule the others do
+not: **a document that omits the local judge is refused.** An organisation can
+take away a judge that sends cards off the machine; it can never require one. A
+policy that made a protection depend on a third-party paid API would be a policy
+that fails a customer open the day that API is unreachable, unpaid or withdrawn,
+and the promise below — that every protection works signed out, offline and
+unlicensed — would stop being true. The restriction is read per card, not once
+per session, so revoking a judge takes effect on the next action rather than on
+the next restart.
+
+**A note for organisations with `reviewer.separate` locked.** That lock asks that
+the reviewer not be the acting model. A judge that is not a chat model at all
+satisfies it by construction, and for one release it suppressed such a judge
+anyway — not because the lock was about it, but because there was no other way
+for an organisation to say whether cards could leave the machine. There is now,
+so the lock means what it says again.
+
+**Read the next sentence before the one after it.** That suppression was never
+fleet-wide: it followed the lock's own test, which fires only where the resolved
+reviewer model *is* the acting model — the failure the lock exists to catch. On a
+machine that satisfies the lock properly, with a distinct reviewer model, the
+typed judge was never suppressed. So if your machines have a TypeSafe key,
+`reviewer_shadow_judge = "typesafe"` and shadow evaluation on, **cards have been
+reaching `api.typesafe.ai` since that judge shipped** — the upgrade changes only
+the machines where the lock was actually biting, which are the machines that were
+already failing it. If this is news, the period to look at starts before the
+upgrade and not at it.
+
+Either way the remedy is the same key: `reviewer.allowed_judges: ["model"]`. Those
+three local switches are the machine owner's and were never yours to set; this
+key is.
+
 **What the reviewer is told.** Beside the request, your earlier words and the one
 action, the card now carries the facts the engine decides floors on: the action's
 risk class, the session's mode, and whether the turn has read content written off
 this machine. The reviewer is never shown that content — that is what stops it
 being talked into a verdict — so this is how it learns the action may have been
 suggested by it. Every verdict row names the model that judged.
+
+**The known world.** The reviewer is also told where you were already working:
+the session's folders and the git remotes, frozen when the session started. The
+freeze is deliberate — compared against live state, a coworker that adds a
+remote would make its own destination look familiar. A folder is different: a
+coworker cannot add one, it can only ask, and only your answer to that card adds
+it. So a folder you grant mid-session joins the block on the next card, marked
+*granted by you*, and leaves it if you take the folder away; the frozen part
+stays as captured. Remotes added mid-session stay unknown, because that is the
+case the freeze exists for.
+
+**Your answers count, and they keep.** When a coworker asks you a question and
+you answer, the reviewer is shown your answer beside the question — the
+question marked as the coworker's own words, so the answer is weighed as
+consent for exactly what was asked, not for everything. Those answers are kept
+with the session, like its plan and its grants, so a restart or an idle
+eviction does not make the judge forget what you agreed to and start asking
+again.
+
+### A second judge, off the machine
+
+Remit can ask a second judge about the same cards: TypeSafe's **Jev**, a model
+that answers typed questions — a probability, a choice from a fixed list, a level
+on a rubric — rather than writing a reply. It is off by default, and **in this
+build it decides nothing.** What it does is write a row beside the one the
+deciding judge wrote, so the two can be compared before anyone is asked to trust
+it. It cannot be made to decide by any setting: the only way to build a reviewer
+over this judge hands back a type with no way to be consulted live, so making it
+decide is a change to the code, not to a switch.
+
+**Nothing leaves the machine unless three separate things are true.** A
+`TYPESAFE_API_KEY` resolves, *and* the judge is switched on
+(`reviewer_shadow_judge = "typesafe"`), *and* shadow evaluation is on. All three
+live on one card, **Settings ▸ Security & trust ▸ A second judge**: the key — a
+test that passes saves it, the contract every provider key field keeps — one
+switch, and where it stands, at a glance in the title row (*Not set up*, *Key
+saved*, *Running · last verdict 7m ago*) and in a sentence. The switch writes the
+same setting the config line does and turns shadow evaluation on with it, and it
+applies to
+sessions started after it — a session already open keeps the judge it was built
+with. None of the three is enough alone, which is deliberate: a key may already
+be on the machine for another tool, and turning on shadow evaluation is a
+decision about measuring the reviewer, not a decision to send this machine's
+work to a third party. An organisation can remove the choice entirely with
+`reviewer.allowed_judges`; the card then says so and the switch is refused at
+the endpoint, not saved and ignored.
+
+**One caution about that.** The key is read once, when a session is built, and the
+environment is read before the stored secret. So the switch on with no key is not
+inert — it is armed. The day a `TYPESAFE_API_KEY` appears in the process
+environment, for whatever reason, the next session builds the judge and cards
+begin leaving, with no prompt and no log line. If you are not using this, switch
+the judge off rather than relying on the key's absence. The same fact runs the
+other way: clearing the key does not stop a session already open, which keeps
+the judge it was built with until it ends. Only the policy key is immediate.
+
+**What is sent.** One HTTPS request per card to `api.typesafe.ai` — up to three,
+since a rate-limited or overloaded send is retried with the same body. It carries
+the six questions with their instructions and rubrics, the pinned model name, and
+a state object of ten named fields: the current user message (clipped at 2000
+characters), earlier user messages in this session (200 each, with no limit on
+how many), the session's folders and git remotes, the proposed action's tool name
+and arguments, and five computed facts — whether the file was made by the agent,
+the risk class, the session's mode, whether the turn has read outside content, and
+whether the destination is a host you already work with (true, false, or null when
+the action names no destination it can read). There is no session id and no copy
+of the system prompt.
+
+**It is not anonymous.** The request is authenticated with your TypeSafe key, so
+the vendor can attribute every card to that account. And the state names you
+without meaning to: folder paths are sent as captured, which on most machines
+includes your home directory and username, and a git remote URL names your host,
+your organisation and your repository — the same strings on every card, in every
+session.
+
+**The arguments are sent in full, and that is the part to weigh.** They are not
+clipped, summarised or redacted. The judge is asked whether text inside them is
+addressed to *it* — the one adversarial question on the card — and that cannot be
+answered on redacted arguments. So if a coworker has read a web page or a file and
+now proposes to write it somewhere or post it, that text is in the arguments and
+it goes. It also means a file that carries such text, copied verbatim because you
+asked for a copy, reads to the judge exactly like the attack it came from: the
+judge sees the arguments and nothing else, and it cannot tell a copy from an
+instruction. Such a copy is refused by the typed judge's manipulation rung, and
+that is deliberate — a blocked copy is the fail-closed answer for a rare shape,
+and you can make the copy yourself or in a mode that asks.
+
+**"The current user message" is a message you wrote, and it used to be looser
+than that.** The field is the session's last user-role turn — and `role: "user"`
+is the conversation's shape, not a claim about authorship. Remit writes user-role
+turns that no person typed: a message delivered by a connected Slack, Teams,
+Discord or mail account, a teammate's board post, a Grapevine post from another
+coworker, a self-wake the agent scheduled for itself, and the runtime's own
+prose when it nudges the model about an unfinished plan or a step limit. Each of
+those used to be able to become the standard your action was judged against, so
+the judge was asked "is this within what the user asked for" about words you
+never said — and, with a typed judge configured, sent them to
+`api.typesafe.ai`. They are all marked now and none of them is taken as your
+request or as your earlier words.
+
+The cost is stated rather than hidden: when a turn is driven entirely by one of
+them, there is no request to judge against, and a card with no request **reaches
+you** instead of being decided. That is the direction the engine errs in, and it
+means a busy connected session asks more often, not less.
+
+One turn is still unmarked, by decision rather than by oversight: an automation
+opens with the instructions you stored when you created it, wrapped in a line
+telling the coworker to carry them out now. The instructions are your words,
+written earlier, and they arrive in the same message as the wrapper, so marking
+the turn would throw your brief away with the framing. A scheduled run never
+reaches the reviewer anyway — nobody is attending it. **A manual Run now does**:
+it opens an ordinary session you are watching, so with auto-approve on, that
+whole opening is the request the judge is handed, framing included, and it goes
+to `api.typesafe.ai` with the card.
+
+**What is never sent is a tool's result.** No page text, file contents or message
+body reaches the card *as a result* — the card has eight fields and none of them
+is that channel, held by a test over the field list rather than by a filter. Read
+the shape of that guarantee carefully, because the paragraphs above are its
+limit: content the coworker has already read can still arrive inside an action it
+proposes, and that is where a stranger's words reach the judge now that they no
+longer arrive as the request.
+
+**On your own journal, which redacts less than you may assume.** Remit's
+hash-chained audit journal redacts a top-level `content`, `body` or `html`
+argument, and a top-level name containing *token*, *secret*, *password* or
+*api_key*. That walk is one level deep. A secret nested inside an object — an
+`Authorization` header under `headers`, a password under `json` — is stored in
+the clear, clipped at 500 characters. This is a property of the journal itself and
+is not about this judge; it is here because a reader weighing what leaves the
+machine should not be told the local record is stricter than it is.
+
+**A git remote URL is sent as `git remote -v` prints it.** If yours embeds a
+credential, the credential goes. The reviewer that has always run is told the same
+remotes, so this is not new — but it is not equivalent either, because the two
+judges are not always both consulted. It is recorded as a defect to fix at the
+capture point, so that neither path can carry it.
+
+**Where it goes, and what happens there.** The endpoint is fixed at
+`https://api.typesafe.ai`; nothing in configuration or policy can point it
+somewhere else. In particular **`model_proxy_url` does not apply to it** — an
+organisation that has pinned every model call to its own gateway has not pinned
+this one, and its only lever is `reviewer.allowed_judges`, which is all or
+nothing. `HTTPS_PROXY` and `NO_PROXY` are honoured, since the client uses Go's
+default transport; TLS is verified against the system roots, with no pinning.
+**This document does not tell you what TypeSafe does with a card** — retention,
+logging, training, jurisdiction, deletion — because Remit does not know and should
+not imply otherwise. If you are weighing the disclosure above, weigh it against
+their terms, not against silence here.
+
+**With no key, nothing about your protection changes.** No client is built and no
+judge exists — not a judge that fails, a judge that is absent. The five risk
+classes and the permission ladder are in packages that do not import the reviewer
+or TypeSafe at all, directly or transitively, and cannot reach either. The floors
+and the rule that an unresolved card reaches a person live in the engine, which
+does know about judges — what makes them independent is not the package boundary
+but the order: a floor marks a card as human-only before a verdict is read, and
+the branch that could act on one requires that mark to be absent. There is no
+licence check, no entitlement check and no sign-in check on any of it: signed out,
+offline and unlicensed, every protection in this document works exactly as it does
+with a key. The lattice enforces that positively rather than merely not violating
+it — a policy document that tried to make Jev the only permitted judge is refused,
+so governance can never be made to depend on a third-party API.
+
+**When that API is unreachable, nothing changes either, and not for a comforting
+reason.** The verdict is an error, the row records `error` rather than `unsure` so
+a flaky endpoint cannot later read as a hesitant judge — and then it is discarded,
+because this judge decides nothing. An outage does not send anything to a person
+who would not have been asked anyway. Do not read a second judge as a second net:
+it is not attached to anything yet.
+
+**It cannot remove a floor, and today it cannot remove a click either.** The floors
+mark a card as human-only, and the typed judge is never asked about such a card.
+There is no configuration in this build that makes Jev the deciding judge: it is
+held in a type with no `Review` method, so wiring it to the live path does not
+compile. Its thresholds are unmeasured placeholders, recorded as such in the
+source, and nothing has ever been denied by them.
+
+**No journal, no call.** The judge runs only where its row can be written. A
+session with no audit sink — the terminal binary writes none — does not send the
+card at all, because a card that leaves with nothing recording that it left is the
+one outcome this path exists to avoid.
+
+**On `reviewer.separate`.** That lock requires the reviewer not to be the acting
+model, and it is a string comparison between two chat models. It is not
+*satisfied* by a typed judge — it is not *applied* to one. Where the lock bites,
+the chat judge is unavailable and every card reaches you, while a typed shadow
+judge, if you have configured one, keeps recording. If that is not what you want,
+`reviewer.allowed_judges: ["model"]` is the key that says so.
+
+**A gap, named rather than left to be discovered.** Setting
+`reviewer_shadow_judge = "typesafe"` with no key produces no judge, no row, no
+warning and no log line. The field and the Test button that would say so are not
+built yet.
 
 ## Audit
 
@@ -411,6 +787,17 @@ transition and comment a team made — is `GET /v1/board/verify?space=` under th
 board's own per-actor token, or `remit-board board verify` from the command
 line, which exits non-zero on a break so a script can act on it.
 
+**Adding a column later.** Every sealed row records which list of fields sealed
+it, and the verifier resolves that list per row. A column added to the seal
+therefore takes effect on new rows without changing any older row’s digest; with
+one list for the whole table, the day a column was added would be the day every
+historical row stopped verifying. Rows written before this carry no version and
+are read as the original list — nothing is backfilled, for the reason
+`risk_class` gives above. A row naming a list this build does not know answers
+`verified: false` and names the row, and is never checked against an older list
+instead: a database written by a NEWER build reads as unverifiable rather than
+as forged, because the two are the same bytes and saying which would be a guess.
+
 **What it costs.** Every model response leaves a row of its own
 (`stage: model_call`) with its tokens, model, provider and which call it was —
 the turn, compaction, or the title; the reviewer's calls stay on its verdict
@@ -430,7 +817,7 @@ finishes. Off by default: this is a cost control, not a floor, and an audit
 store that cannot be read fails open here, logged.
 
 
-An unattended prompt that nobody answers before its `approval_ttl` resolves as **expired**, recorded on its own `approval_resolved` row with `status: expired` — distinct from a person's deny, because nobody decided. Every approver treats it as a decline.
+An unattended prompt that nobody answers before its `approval_ttl` resolves as **expired**, recorded on its own `approval_resolved` row with `status: expired` — distinct from a person's deny, because nobody decided. Every approver treats it as a decline. A card open when the person presses Stop resolves the same way, as `status: interrupted`, and one whose answering request went away — a client that hung up, a shutdown — as `status: abandoned`. In all three the action does not run, and in none of them does the record call that a refusal: a journal that is append-only and hash-chained must not carry a decision against somebody who never made one.
 
 ## Network posture
 
@@ -461,6 +848,25 @@ something that terminates TLS and authenticates users before you do that.
 API keys and connector credentials live in `~/.config/coworker/secrets.json`
 with owner-only permissions. They are never written to the journal, and never
 sent to a model.
+
+**A secret a coworker finds is refused on the board and in the journal.** Every
+security coworker is told to record a secret by its kind and where it lives, never
+its value. On the first live team run a worker wrote a planted key and password
+into a board comment and its case journal anyway (2026-09-23). Both are hash-chained
+records, so a value written there stays there. Now the store refuses the write,
+whoever makes it: a coworker, a lead, an outside worker through `remit-board`, or
+you. That covers every board item, transition and comment, every journal entry
+(its body, entities and refs), team chat, and a lead's steer to a worker. The
+refusal names the kind and says to record the location instead; it never repeats
+the value.
+
+Detection is by shape: a known provider token format, or a literal next to a word
+such as key, secret, token or password that mixes letters and digits and is not a
+reference like `os.getenv(…)`, a path, a URL or a hash. A value with no such shape,
+such as a bare password in a sentence that never says what it is, still passes. So
+this narrows the gap rather than closing it. Reading a file that holds a secret is
+not blocked, because a reviewer has to read the code it fixes, and an exact-text
+edit quotes the line it replaces.
 
 The name and email from setup are **not** secrets and are deliberately kept out
 of that file — they sit in `prefs.json` in plain text. They are self-asserted,
@@ -513,7 +919,8 @@ directory. Every enforcement point reads that set live:
   permitted one below it), auto-allow, allowed commands, both caps, model and proxy
   allowlists, loopback-only.
 - Settings the interface keeps in prefs — the allowed-domains list, the external budget,
-  auto-approve — meet the policy at their accessors, so a preference cannot widen past it.
+  auto-approve, the Grapevine switch — meet the policy at their accessors, so a preference
+  cannot widen past it.
 - The state-directory stores meet it where they are written or loaded: the override lock
   in the risk classifier, unattended, connectors and their tools, MCP servers and tools,
   skills by source and content hash, coworkers by source and manifest hash, workspace

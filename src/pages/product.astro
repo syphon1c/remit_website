@@ -10,9 +10,10 @@ import shotConnectors from '../assets/app/connectors-focus.webp';
 import shotModels from '../assets/app/settings-models-focus.webp';
 import shotAutomations from '../assets/app/automations-focus.webp';
 import shotCoworkers from '../assets/app/settings-coworkers-focus.webp';
+import shotBoard from '../assets/app/board.webp';
 import DiagramModels from '../components/DiagramModels.astro';
 ---
-<Site title="Product" description="What Remit does: coworkers that deliver finished work, approvals you can understand, forty-three connectors and MCP, any model provider, legible memory, skills, automations, a team board, and one binary that runs it all on your machine.">
+<Site title="Product" description="What Remit does: coworkers that deliver finished work, two coworker teams that plan, staff and check their own work, approvals you can understand, thirty-eight connectors and MCP, any model provider, legible memory, skills, automations, a team board, and one binary that runs it all on your machine.">
 	<section class="hero art">
 		<div class="wrap">
 			<div>
@@ -31,17 +32,25 @@ import DiagramModels from '../components/DiagramModels.astro';
 			<div class="section-head">
 				<p class="eyebrow">Coworkers</p>
 				<h2>A coworker is a role you staff onto a job.</h2>
-				<p>Each is a plain manifest: a name, a prompt, the tools it may use, the connectors it may reach, its default mode, and sometimes skills. The security specialists ship in the app; the gallery adds more, reviewed by a person before publication; and you can write your own.</p>
+				<p>Each is a plain manifest: a name, a prompt, the tools it may use, the connectors it may reach, its default mode, and sometimes skills. The security specialists and two teams ship in the app; the gallery adds more, reviewed by a person before publication; and you can write your own.</p>
 			</div>
 			<Coworkers variant="all" />
 			<div class="split art">
 				<div>
-					<h3>Leads and workers, over the board</h3>
-					<p>In the source today: leads that plan, staff and verify, and workers that claim items off a work-item board, act inside the remit granted, and answer for what they did in the same hash-chained journal.</p>
+					<h3>A team for the whole job</h3>
+					<p>Hand the DevSecOps Lead a repository and it runs the engagement: it scopes the code, files the work as items with criteria a verifier can pass or fail, and staffs the AppSec, Secrets, Posture and Deps workers it needs. The SWE Lead does the same for software work, with builders, a designer and a tester. You approve the plan and the roster, and each worker still asks before anything consequential.</p>
+					<p>A lead never builds, and nobody grades their own work: a fix is re-checked by a worker who did not write it, and a finding without evidence goes back. The evidence lands in a hash-chained journal, and the report at the end says what was checked by hand and what could not be checked at all. Start a lead from an automation and its cards wait in your inbox.</p>
+					<a class="more" href="/docs/coworker/teams/">Running a team, in the manual</a>
+				</div>
+				<Shot src={shotBoard} alt="The board, expanded: a security engagement's items by state, each with who holds it, and a blocked item open beside them saying it needs the staging tfvars." caption="A team's board: every item, who holds it, and what it is waiting for." sizes="(max-width: 900px) 100vw, 62vw" />
+			</div>
+			<div class="split art rev">
+				<Shot src={shotCoworkers} alt="Settings, Coworkers: the coworkers on this machine with their groups and switches." caption="Settings ▸ Coworkers." sizes="(max-width: 900px) 100vw, 62vw" />
+				<div>
+					<h3>Yours, and your team's</h3>
 					<p>Point a machine at your team's gallery and it says whose gallery it found and how many coworkers it holds before anything is saved. Install with a click; updates arrive with a hold your administrator controls.</p>
 					<a class="more" href="/docs/cloud/gallery-curating/">Writing and sharing a coworker</a>
 				</div>
-				<Shot src={shotCoworkers} alt="Settings, Coworkers: the coworkers on this machine with their groups and switches." caption="Settings ▸ Coworkers." sizes="(max-width: 900px) 100vw, 62vw" />
 			</div>
 		</div>
 	</section>
@@ -135,7 +144,7 @@ import DiagramModels from '../components/DiagramModels.astro';
 				<div class="feature"><h3>Memory that stays legible</h3><p>Scoped by who it is about — you, a project, one coworker, one team — listed in plain language so you can read what a coworker remembers, with an injection ceiling so memory cannot quietly eat your context window.</p></div>
 				<div class="feature"><h3>Skills</h3><p>Loadable capabilities a coworker picks up mid-task. A finished skill can be proposed for saving; the proposal goes through the approval card like any other write.</p></div>
 				<div class="feature"><h3>Automations and the inbox</h3><p>Run a coworker on a schedule: a Monday digest, a nightly triage. Approvals from unattended runs can be routed to your inbox, unless your organisation's policy says they may not.</p></div>
-				<div class="feature"><h3>The board</h3><p>A work-item board with a hash-chained journal. Coworkers claim items off it and answer for them. It also runs as an MCP server, so a coworker can work the board as a tool.</p></div>
+				<div class="feature"><h3>The board</h3><p>A work-item board with a hash-chained journal. Coworkers claim items off it and answer for them, and it refuses a secret's value whoever writes it. It also runs as an MCP server, so a coworker can work the board as a tool.</p></div>
 				<div class="feature"><h3>Three surfaces, one runtime</h3><p>The desktop app for macOS, Windows and Linux; the same interface from a browser against the local server; and a terminal worker for people who live in one.</p></div>
 				<div class="feature"><h3>Updates you can verify</h3><p>Releases are signed with a key whose public half is compiled into the app. The app verifies before it installs. Your organisation can hold a release for its whole fleet with one switch.</p></div>
 			</div>

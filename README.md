@@ -119,8 +119,30 @@ the same things in that platform's format.
   sends nothing (`internal/cloud/telemetry.go` in the runtime).
 - Connector count: the catalogue in the runtime's `docs/connector-catalogue.json` — 43 entries,
   38 `available`; the site says thirty-eight and names the five marked "soon".
-- Coworkers: built-ins with `ships: false` are absent from release builds, so the cards show
-  the three that ship plus the six in the Remit Cloud gallery (`personas/` in the cloud repo).
+- Coworkers: built-ins with `ships: false` are absent from release builds. Since the runtime's
+  C6 (2026-09-23, `3c4a539`) a release build lists **fourteen**: Coworker and Code (core
+  surfaces with no manifest), the three security specialists, the DevSecOps Lead and the SWE
+  Lead, and the seven workers they staff. Seven are started by a person and seven are staffed
+  by a lead. Compare says fourteen. The cards show the five with a manifest that a person
+  starts: the specialists, and the two leads, each naming its workers. A lead's card lists the
+  workers of its own `group`: security for the DevSecOps Lead (AppSec, Deps, Posture,
+  Secrets), none for the SWE Lead (Design, SWE, Test). That is exactly the lanes each lead's
+  prompt staffs; if a worker is added to either group, check the lead's prompt before trusting
+  its card. Plus the six in the Remit Cloud gallery (`personas/` in the cloud repo). The DevOps
+  Lead, its three workers and the Triage Lead are still `ships: false`, and Ops was retired.
+- **Teams** (runtime `docs/teams.md`, mapped to *Coworker teams*): the two cards a person
+  answers are *Approve the proposed work items?* and *Create this team?*, and headless both
+  wait in the Inbox (runtime `manager_prompts.go`). The leads have no shell and no git. A fix
+  is re-checked by a worker who did not write it, and the report ends with a Coverage note.
+  Those last two are the leads' and workers' instructions, not code. The board capture is the
+  harness's mocked security engagement (`board`), and the captures serve a release build's
+  coworker list, not the e2e fixture's.
+- **A secret's value is refused by the board and the journal**, whoever writes it, and by team
+  chat and a lead's steer (runtime `3cb6063`). It is detected by shape: provider token formats,
+  or a literal beside a credential word that is not a reference. So the copy says "refuses a
+  secret's value", never "can never hold a secret"; the manual's Security ▸ Secrets gives the
+  limits. Checked against the first live run: 4 of 4 leaked writes caught, 0 of 88 clean ones
+  refused.
 - The download buttons read `GET https://api.remit-ai.app/download.json` (cloud commit
   "GET /download.json"); without it, or without script, they open the download page.
 - The comparison names Claude Cowork on structural, public properties only, dated September
@@ -136,6 +158,26 @@ the same things in that platform's format.
   The macOS card also names the one prompt that remains, local network access, because a
   coworker reaching Ollama on the LAN is the common case and a denial looks like an
   unreachable host rather than a permission.
+- **Coworkers pick up each other's work** since the runtime's Grapevine (merged 2026-09-16,
+  runtime `docs/grapevine.md`). **No feature spot on the marketing pages** (owner, 2026-09-23,
+  once the coworker teams shipped): the Home section and the Product split it had were
+  removed. The manual carries it as *The Grapevine* plus a walkthrough, with a card on the
+  manual's landing. Its protections stay where protections are listed, because they hold
+  whether or not anyone uses it: the Security page's sixth floor ("another coworker's work
+  crosses only through you"), the outside-content floor's sentence about published results,
+  and the FAQ line "read another coworker's work without you handing it over". The numbers
+  the copy depends on: off by default, one switch in Settings then two per session; a post is a
+  headline with pointers, never the work; the hand-over is one named file per card, in every
+  mode, human-only, and honours a per-coworker session grant after the first yes; a post
+  written after reading outside content wakes nobody; a coworker is never woken by a post its
+  own work caused, and a post more than four hand-offs from a human turn wakes nobody. The
+  captures `grapevine-focus` and `approval-grapevine` come from the same harness as the rest.
+  The walkthrough page inlines the three example manifests at sync time, because the examples
+  live in the repository and a reader has no repository. Under Remit Cloud one key,
+  `grapevine.allowed`, unset by default, prevents it being switched on (owner, 2026-09-16).
+- **Policy keys: 27** (the runtime's `docs/policy-keys.json`, 2026-09-16). The controls grid on
+  the Cloud page lists every one; it said twenty-three and listed twenty-three until the three
+  keys of 2026-09-08 and the Grapevine's were added.
 - **Nothing internal reaches a public page.** Remit is closed source, so a package path, a
   source or test file, a build or test command, a commit to revert or an internal planning
   artefact is both a disclosure and an instruction the reader cannot follow.

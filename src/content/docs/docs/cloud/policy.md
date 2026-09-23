@@ -41,9 +41,12 @@ policy already allows.
 | `overrides.lock` | lock | a person may tighten a tool's risk class, never relax one |
 | `unattended.allowed` | permit (`false` is tighter) | whether approvals may be routed to the Inbox |
 | `standing.allowances.allowed` | permit (`false` is tighter) | whether a person may teach a coworker something it may always do |
+| `grapevine.allowed` | permit (`false` is tighter) | whether people may switch on the Grapevine, where coworkers publish finished work for others to pick up |
 | `reviewer.separate` | lock | the model that judges an approval must not be the model doing the work |
+| `reviewer.allowed_judges` | allow set of `model`, `typesafe`; must include `model` | which judges may review an approval; `typesafe` sends cards off the machine and only records in this release; the local `model` judge can never be taken away |
 | `limits.max_iterations` | cap | steps per turn |
 | `limits.external_budget` | cap | actions with effects beyond the machine per turn |
+| `limits.egress_hosts` | cap | distinct hosts one turn may fetch from on its own; returning to one already reached is free, a host on the always-allowed list still counts |
 | `limits.tokens_per_hour` | cap | tokens one session may spend in a rolling hour; the one cap that also switches a control on |
 | `model.allowed.only` | allow set of `provider/model` | models a coworker may use |
 | `model.proxy_urls.only` | allow set of URLs | where model traffic may go |
@@ -93,6 +96,23 @@ without asking; it cannot conjure a tool `connectors.tools.disabled` switched of
 past that allowance the turn comes back to a person whatever it has been taught. Owner
 ruling, 2026-09-08.
 
+### The Grapevine
+
+`grapevine.allowed` is the other switch of this shape, and it is **unset unless you set
+it**. The Grapevine is one shared place on a machine where a coworker publishes a finished
+piece of work — a headline with pointers, never the work — and coworkers a person has set
+to listen pick up what is useful. It is off on every machine until the person switches it
+on in Settings, and by default that is where the decision sits.
+
+Set to off, it prevents the Grapevine being enabled: the switch in Settings is disabled and
+says who decided, and turning it on is refused with the key named. A machine that already
+had it on stops carrying work between coworkers while the rule stands and forgets nothing —
+what was published stays, and the person's own setting returns if you remove the rule.
+That is the whole key. There is no list of who may post or listen and no allowlist of what
+may cross, because every file that moves between coworkers still asks the person on that
+machine, and a post written after reading outside content wakes nobody regardless. The
+feature itself is described in the Remit Coworker manual under *The Grapevine*.
+
 ## Issuing
 
 ```
@@ -129,7 +149,9 @@ machines will refuse a rule you are adding and that the rest of the document goe
 A machine from before the heartbeat carried that list is counted as "cannot tell". Watch
 for `policy_refused` on the Record page after issuing all the same. The keys added on
 2026-09-08 — `standing.allowances.allowed`, `reviewer.separate` and `limits.tokens_per_hour`
-— need an endpoint from 2026-09 or later. Every version
+— need an endpoint from 2026-09 or later; `grapevine.allowed` (2026-09-16) needs **0.5.0 or
+newer**, so roll 0.5.0 to the fleet before you set it. 0.4.0 and 0.4.1 both report their key
+list, so the card names those machines rather than counting them as "cannot tell". Every version
 is signed with the org's policy key and recorded on the policy chain with the operator's
 name. `GET /v1/admin/policy/versions` lists them.
 
